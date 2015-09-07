@@ -1,6 +1,6 @@
 {
   "name": "jshiki",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight expression parsing and execution library for Node.js",
   "keywords": [
     "expression",
