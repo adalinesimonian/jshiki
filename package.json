@@ -1,0 +1,27 @@
+{
+  "name": "jshiki",
+  "version": "0.0.1",
+  "description": "Lightweight expression parsing and execution library for Node.js",
+  "keywords": [
+    "expression",
+    "AST",
+    "esprima",
+    "parser",
+    "scope",
+    "runtime"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vsimonian/jshiki.git"
+  },
+  "author": "Vartan Simonian",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^5.2.1"
+  },
+  "dependencies": {}
+}
