@@ -40,7 +40,7 @@ jshiki supports:
 - Function calls
 - Member access
 
-jshiki lets you pass in a predefined scope object, so that expressions do not
+jshiki lets you pass in a predefined scope object, because expressions do not
 have access to globals. For example:
 
 ```javascript
