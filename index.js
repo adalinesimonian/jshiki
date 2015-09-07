@@ -1,21 +1,9 @@
-/* global process */
+var Expression = require('./expression')
 
-var jshiki = require('./parser')
+function parseExpression (str, options) {
+  return new Expression(str, options)
+}
 
-console.log()
-
-var r = jshiki.parse('" Hello! ".trim() + " My name\'s " + name', {
-  scope: {
-    name: 'Azumi'
-  }
-})
-console.log(r)
-r = r.eval()
-
-console.log()
-console.log()
-console.log('Final result')
-console.log()
-console.log(JSON.stringify(r, null, 2))
-console.log()
-process.exit()
+module.exports = {
+  parse: parseExpression
+}
