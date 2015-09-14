@@ -41,10 +41,7 @@ ASTDelegate.prototype = {
   },
 
   createCallExpression: function (expression, args) {
-    return () => {
-      var parsedArgs = args.map(function (arg) { return arg() })
-      return expression().apply(expression.scope, parsedArgs)
-    }
+    return () => expression().apply(expression.scope, args.map(arg => arg()))
   },
 
   createLiteral: function (token) {
