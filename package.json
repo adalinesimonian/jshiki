@@ -12,7 +12,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "eslint ."
+    "test": "eslint . && mocha test/unit test/functional",
+    "test-watch": "mocha --watch test/unit test/functional"
   },
   "engines": {
     "node": ">=4.0"
@@ -24,9 +25,13 @@
   "author": "Vartan Simonian",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^3.2.0",
     "eslint": "^1.4.1",
     "eslint-config-standard": "^4.3.2",
-    "eslint-plugin-standard": "^1.3.0"
+    "eslint-plugin-standard": "^1.3.0",
+    "mocha": "^2.3.2",
+    "sinon": "^1.16.1",
+    "sinon-chai": "^2.8.0"
   },
   "dependencies": {}
 }
