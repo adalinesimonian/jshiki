@@ -81,7 +81,6 @@ ASTDelegate.prototype = {
   },
 
   createAsExpression: function (expression, scopeIdentifier) {
-    console.log(expression, scopeIdentifier)
     this.expression = expression
     this.scopeIdentifier = scopeIdentifier
   },
