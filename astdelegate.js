@@ -14,9 +14,7 @@ ASTDelegate.prototype = {
       throw Error('Disallowed operator: ' + op)
     }
 
-    return function () {
-      return operators.unary[op](arg())
-    }
+    return () => operators.unary[op](arg())
   },
 
   createBinaryExpression: function (op, left, right) {
@@ -24,47 +22,37 @@ ASTDelegate.prototype = {
       throw Error('Disallowed operator: ' + op)
     }
 
-    return function () {
-      return operators.binary[op](left(), right())
-    }
+    return () => operators.binary[op](left(), right())
   },
 
   createConditionalExpression: function (test, consequent, alternate) {
-    return function () {
-      return test() ? consequent() : alternate()
-    }
+    return () => test() ? consequent() : alternate()
   },
 
   createIdentifier: function (name) {
     var self = this
-    return function (options) {
-      return (options && options.child) ? name : self.scope[name]
-    }
+    return options => (options && options.child) ? name : self.scope[name]
   },
 
   createMemberExpression: function (accessor, object, property) {
-    var exp = function () {
-      return object()[property({ child: true })]
-    }
+    var exp = () => object()[property({ child: true })]
     exp.scope = object()
     return exp
   },
 
   createCallExpression: function (expression, args) {
-    return function () {
+    return () => {
       var parsedArgs = args.map(function (arg) { return arg() })
       return expression().apply(expression.scope, parsedArgs)
     }
   },
 
   createLiteral: function (token) {
-    return function () {
-      return token.value
-    }
+    return () => token.value
   },
 
   createArrayExpression: function (elements) {
-    return function () {
+    return () => {
       var array = []
       for (var i = 0; i < elements.length; i++) {
         array.push(elements[i]())
@@ -74,16 +62,14 @@ ASTDelegate.prototype = {
   },
 
   createProperty: function (kind, key, value) {
-    return function () {
-      return {
-        key: key({ child: true }),
-        value: value()
-      }
-    }
+    return () => ({
+      key: key({ child: true }),
+      value: value()
+    })
   },
 
   createObjectExpression: function (properties) {
-    return function () {
+    return () => {
       var object = {}
       for (var i = 0; i < properties.length; i++) {
         object[properties[i]().key] = properties[i]().value
