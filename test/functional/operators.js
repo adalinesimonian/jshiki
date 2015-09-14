@@ -56,11 +56,11 @@ describe('Operators', () => {
     })
 
     describe('- (Subtraction)', () => {
-      it('should subtract integers using -', () => {
+      it('should subtract integers', () => {
         expect(jeval('5 - 3')).to.equal(5 - 3)
       })
 
-      it('should subtract floating-point numbers using -', () => {
+      it('should subtract floating-point numbers', () => {
         expect(jeval('5.5 - 3.2')).to.equal(5.5 - 3.2)
       })
     })
