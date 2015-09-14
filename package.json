@@ -14,6 +14,9 @@
   "scripts": {
     "test": "standard"
   },
+  "engines": {
+    "node": ">=4.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/vsimonian/jshiki.git"
