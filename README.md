@@ -1,4 +1,4 @@
-## jshiki
+# j式 | jshiki
 
 [![Build Status](https://travis-ci.org/vsimonian/jshiki.svg?branch=master)](
 https://travis-ci.org/vsimonian/jshiki)
