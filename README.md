@@ -1,5 +1,8 @@
 ## jshiki
 
+[![Build Status](https://travis-ci.org/vsimonian/jshiki.svg?branch=master)](
+https://travis-ci.org/vsimonian/jshiki)
+
 Lightweight expression parsing and execution library for Node.js
 
 ## Basic Usage
