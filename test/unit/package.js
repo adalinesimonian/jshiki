@@ -1,15 +1,15 @@
 /* global describe, it, before, after */
 
-var chai = require('chai')
-var expect = chai.expect
-var sinon = require('sinon')
+const chai = require('chai')
+const expect = chai.expect
+const sinon = require('sinon')
 
 chai.use(require('sinon-chai'))
 
-var pkg = require('../../package.json')
-var index = require('../../index')
-var Expression = require('../../expression')
-var esprima = require('../../lib/esprima')
+const pkg = require('../../package.json')
+const index = require('../../index')
+const Expression = require('../../expression')
+const esprima = require('../../lib/esprima')
 
 describe('Package', () => {
   it('should point to index.js', () => {

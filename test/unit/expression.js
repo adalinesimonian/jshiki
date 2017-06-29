@@ -1,14 +1,14 @@
 /* global describe, it, before, after */
 
-var chai = require('chai')
-var expect = chai.expect
-var sinon = require('sinon')
+const chai = require('chai')
+const expect = chai.expect
+const sinon = require('sinon')
 
 chai.use(require('sinon-chai'))
 
-var ASTDelegate = require('../../astdelegate')
-var Expression = require('../../expression')
-var esprima = require('../../lib/esprima')
+const ASTDelegate = require('../../astdelegate')
+const Expression = require('../../expression')
+const esprima = require('../../lib/esprima')
 
 describe('Expression', () => {
   it('should export a constructor', () => {
@@ -46,7 +46,7 @@ describe('Expression', () => {
   describe('eval', () => {
     it('should evaluate the delegate\'s expression', () => {
       var func = sinon.spy(() => '1')
-      sinon.stub(esprima, 'parse', (str, delegate) => {
+      sinon.stub(esprima, 'parse').callsFake((str, delegate) => {
         delegate.expression = func
       })
 

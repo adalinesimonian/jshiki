@@ -1,4 +1,4 @@
-var Expression = require('./expression')
+const Expression = require('./expression')
 
 function parseExpression (str, options) {
   return new Expression(str, options)

@@ -1,11 +1,11 @@
 /* global describe, it */
 
-var chai = require('chai')
-var expect = chai.expect
+const chai = require('chai')
+const expect = chai.expect
 
-var jshiki = require('../../index')
+const jshiki = require('../../index')
 
-var jeval = (expression, scope) =>
+const jeval = (expression, scope) =>
   jshiki.parse(expression, { scope: scope }).eval()
 
 describe('Operators', () => {

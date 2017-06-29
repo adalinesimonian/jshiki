@@ -1,13 +1,13 @@
 /* global describe, it, before, after */
 
-var chai = require('chai')
-var expect = chai.expect
-var sinon = require('sinon')
+const chai = require('chai')
+const expect = chai.expect
+const sinon = require('sinon')
 
 chai.use(require('sinon-chai'))
 
-var operators = require('../../operators')
-var ASTDelegate = require('../../astdelegate')
+const operators = require('../../operators')
+const ASTDelegate = require('../../astdelegate')
 
 describe('AST Delegate', () => {
   it('should export a constructor', () => {
@@ -95,25 +95,25 @@ describe('AST Delegate', () => {
         () => true, () => 5, () => 3
       )
       expect(expression).to.be.a('function')
-      expect(expression()).to.equal(true ? 5 : 3)
+      expect(expression()).to.equal(5) // true ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
         () => false, () => 5, () => 3
       )
       expect(expression).to.be.a('function')
-      expect(expression()).to.equal(false ? 5 : 3)
+      expect(expression()).to.equal(3) // false ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
         () => '1', () => 5, () => 3
       )
       expect(expression).to.be.a('function')
-      expect(expression()).to.equal(true ? 5 : 3)
+      expect(expression()).to.equal(5) // true ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
         () => '', () => 5, () => 3
       )
       expect(expression).to.be.a('function')
-      expect(expression()).to.equal(false ? 5 : 3)
+      expect(expression()).to.equal(3) // false ? 5 : 3
     })
   })
 

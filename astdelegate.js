@@ -1,54 +1,54 @@
-var operators = require('./operators')
+const operators = require('./operators')
 
-function ASTDelegate (options) {
-  options = options || {}
-  this.scope = options.scope || {}
-  this.expression = null
-  this.scopeIdentifier = undefined
-  this.indexIdentifier = undefined
-}
+class ASTDelegate {
+  constructor (options) {
+    options = options || {}
+    this.scope = options.scope || {}
+    this.expression = null
+    this.scopeIdentifier = undefined
+    this.indexIdentifier = undefined
+  }
 
-ASTDelegate.prototype = {
-  createUnaryExpression: function (op, arg) {
+  createUnaryExpression (op, arg) {
     if (!operators.unary[op]) {
       throw Error('Disallowed operator: ' + op)
     }
 
     return () => operators.unary[op](arg())
-  },
+  }
 
-  createBinaryExpression: function (op, left, right) {
+  createBinaryExpression (op, left, right) {
     if (!operators.binary[op]) {
       throw Error('Disallowed operator: ' + op)
     }
 
     return () => operators.binary[op](left(), right())
-  },
+  }
 
-  createConditionalExpression: function (test, consequent, alternate) {
+  createConditionalExpression (test, consequent, alternate) {
     return () => test() ? consequent() : alternate()
-  },
+  }
 
-  createIdentifier: function (name) {
+  createIdentifier (name) {
     var self = this
     return options => (options && options.child) ? name : self.scope[name]
-  },
+  }
 
-  createMemberExpression: function (accessor, object, property) {
+  createMemberExpression (accessor, object, property) {
     var exp = () => object()[property({ child: true })]
     exp.scope = object()
     return exp
-  },
+  }
 
-  createCallExpression: function (expression, args) {
+  createCallExpression (expression, args) {
     return () => expression().apply(expression.scope, args.map(arg => arg()))
-  },
+  }
 
-  createLiteral: function (token) {
+  createLiteral (token) {
     return () => token.value
-  },
+  }
 
-  createArrayExpression: function (elements) {
+  createArrayExpression (elements) {
     return () => {
       var array = []
       for (var i = 0; i < elements.length; i++) {
@@ -56,16 +56,16 @@ ASTDelegate.prototype = {
       }
       return array
     }
-  },
+  }
 
-  createProperty: function (kind, key, value) {
+  createProperty (kind, key, value) {
     return () => ({
       key: key({ child: true }),
       value: value()
     })
-  },
+  }
 
-  createObjectExpression: function (properties) {
+  createObjectExpression (properties) {
     return () => {
       var object = {}
       for (var i = 0; i < properties.length; i++) {
@@ -73,33 +73,32 @@ ASTDelegate.prototype = {
       }
       return object
     }
-  },
+  }
 
-  createFilter: function (name, args) {
+  createFilter (name, args) {
     // TODO (Should filters be supported?)
     throw new Error('Filters are not supported')
-  },
+  }
 
-  createAsExpression: function (expression, scopeIdentifier) {
+  createAsExpression (expression, scopeIdentifier) {
     this.expression = expression
     this.scopeIdentifier = scopeIdentifier
-  },
+  }
 
-  createInExpression: function (scopeIdentifier, indexIdentifier, expression) {
+  createInExpression (scopeIdentifier, indexIdentifier, expression) {
     this.expression = expression
     this.scopeIdentifier = scopeIdentifier
     this.indexIdentifier = indexIdentifier
-  },
+  }
 
-  createTopLevel: function (expression) {
+  createTopLevel (expression) {
     this.expression = expression
-  },
+  }
 
-  createThisExpression: function (expression) {
+  createThisExpression (expression) {
     // TODO
     throw new Error('`this` is not supported')
   }
-
 }
 
 module.exports = ASTDelegate

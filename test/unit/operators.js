@@ -1,8 +1,8 @@
 /* global describe, it */
 
-var expect = require('chai').expect
+const expect = require('chai').expect
 
-var operators = require('../../operators')
+const operators = require('../../operators')
 
 describe('Operators', () => {
   it('should export a set of unary operators', () => {

@@ -1,18 +1,20 @@
-var esprima = require('./lib/esprima')
-var ASTDelegate = require('./astdelegate')
+const esprima = require('./lib/esprima')
+const ASTDelegate = require('./astdelegate')
 
-function Expression (str, options) {
-  options = options || {}
+class Expression {
+  constructor (str, options) {
+    options = options || {}
 
-  var delegate = new ASTDelegate(options)
-  try {
-    esprima.parse(str, delegate)
-  } catch (err) {
-    delegate = err
-  }
+    var delegate = new ASTDelegate(options)
+    try {
+      esprima.parse(str, delegate)
+    } catch (err) {
+      delegate = err
+    }
 
-  this.eval = function () {
-    return evaluate(delegate)
+    this.eval = function () {
+      return evaluate(delegate)
+    }
   }
 }
 

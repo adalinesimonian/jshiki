@@ -12,16 +12,16 @@ $ npm install --save jshiki
 ```
 
 ```javascript
-var jshiki = require('jshiki')
+const jshiki = require('jshiki')
 
 var expression = jshiki.parse('5 + (12 / 3)')
 var result = expression.eval() // 9
 
-expression = jshiki.parse('" Hello! ".trim() + " My name\'s " + name', {
-  scope: {
-    name: 'Azumi'
-  }
-})
+var expressionText = '" Hello! ".trim() + " My name\'s " + name'
+var scope = {
+  name: 'Azumi'
+}
+expression = jshiki.parse(expressionText, { scope })
 result = expression.eval() // "Hello! My name's Azumi"
 ```
 
