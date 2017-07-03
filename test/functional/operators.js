@@ -38,6 +38,13 @@ describe('Operators', () => {
         expect(jeval('!!0')).to.equal(!!0)
       })
     })
+
+    describe('~ (Bitwise NOT)', () => {
+      it('should invert numbers', () => {
+        expect(jeval('~5')).to.equal(~5)
+        expect(jeval('~-15')).to.equal(~-15)
+      })
+    })
   })
 
   describe('Binary Operators', () => {
@@ -68,6 +75,16 @@ describe('Operators', () => {
     describe('* (Multiplication)', () => {
       it('should multiply integers', () => {
         expect(jeval('5 * 3')).to.equal(5 * 3)
+      })
+
+      it('should multiply floating-point numbers', () => {
+        expect(jeval('5.4 * 3.6')).to.equal(5.4 * 3.6)
+      })
+    })
+
+    describe('** (Exponential)', () => {
+      it('should raise first operand to power of second operand', () => {
+        expect(jeval('5 ** 3')).to.equal(5 ** 3)
       })
 
       it('should multiply floating-point numbers', () => {
@@ -334,6 +351,42 @@ describe('Operators', () => {
         expect(jeval("undefined || 'x'")).to.equal(undefined || 'x')
         expect(jeval("'x' || null")).to.equal('x' || null)
         expect(jeval("'x' || undefined")).to.equal('x' || undefined)
+      })
+    })
+
+    describe('& (Bitwise AND)', () => {
+      it('should bitwise AND integers', () => {
+        expect(jeval('5 & 3')).to.equal(5 & 3)
+      })
+    })
+
+    describe('| (Bitwise OR)', () => {
+      it('should bitwise OR integers', () => {
+        expect(jeval('5 | 3')).to.equal(5 | 3)
+      })
+    })
+
+    describe('^ (Bitwise XOR)', () => {
+      it('should bitwise XOR integers', () => {
+        expect(jeval('5 ^ 3')).to.equal(5 ^ 3)
+      })
+    })
+
+    describe('<< (Bitwise Left Shift)', () => {
+      it('should shift integer to the left', () => {
+        expect(jeval('5 < 1')).to.equal(5 < 1)
+      })
+    })
+
+    describe('>> (Bitwise Right Shift)', () => {
+      it('should shift integer to the right', () => {
+        expect(jeval('5 > 1')).to.equal(5 > 1)
+      })
+    })
+
+    describe('>>> (Bitwise Unsigned Right Shift)', () => {
+      it('should unsigned shift integer to the right', () => {
+        expect(jeval('5 >>> 1')).to.equal(5 >>> 1)
       })
     })
 

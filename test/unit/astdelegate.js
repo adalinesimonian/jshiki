@@ -84,7 +84,7 @@ describe('AST Delegate', () => {
 
     it('should throw an error for disallowed binary operators', () => {
       expect(() => {
-        new ASTDelegate().createBinaryExpression('|', () => 5, () => 3)
+        new ASTDelegate().createBinaryExpression('@', () => 5, () => 3)
       }).to.throw()
     })
   })
