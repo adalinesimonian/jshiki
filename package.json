@@ -22,9 +22,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vsimonian/jshiki.git"
+    "url": "https://github.com/adalinesimonian/jshiki.git"
   },
-  "author": "Vartan Christopher Simonian",
+  "author": "Adaline Valentina Simonian",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.0.1",

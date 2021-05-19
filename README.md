@@ -1,7 +1,7 @@
 # j式 | jshiki
 
-[![Build Status](https://travis-ci.org/vsimonian/jshiki.svg?branch=master)](
-https://travis-ci.org/vsimonian/jshiki)
+[![Build Status](https://travis-ci.org/adalinesimonian/jshiki.svg?branch=master)](
+https://travis-ci.org/adalinesimonian/jshiki)
 
 Lightweight expression parsing and execution library for Node.js
 
