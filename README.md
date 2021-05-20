@@ -81,9 +81,9 @@ result = expression.eval() // throws Error: Unexpected token =
 
 MIT.
 
-Portions of the code were adapted from the [Polymer Expressions]
-[polymer-expressions] and [esprima][esprima] libraries, which both have their
-own 3-clause BSD licenses. Copies are provided in the `lib` directory.
+Portions of the code were adapted from the [Polymer Expressions][polymer-expressions]
+and [esprima][esprima] libraries, which both have their own 3-clause BSD
+licenses. Copies are provided in the `lib` directory.
 
 [polymer-expressions]: https://github.com/Polymer/polymer-expressions
 [esprima]: https://github.com/jquery/esprima
