@@ -14,7 +14,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "eslint . && mocha test/unit test/functional",
+    "lint": "eslint .",
+    "test": "mocha test/unit test/functional",
     "test-watch": "mocha --watch test/unit test/functional"
   },
   "engines": {
