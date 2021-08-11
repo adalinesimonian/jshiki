@@ -1,9 +1,11 @@
-/* global describe, it, global */
+/* global describe, it */
 
 const chai = require('chai')
 const expect = chai.expect
 
 const jshiki = require('../../index')
+
+var globalVar = '1' // eslint-disable-line no-unused-vars
 
 const jeval = (expression, scope) =>
   jshiki.parse(expression, { scope: scope }).eval()
@@ -18,8 +20,7 @@ describe('Scope', () => {
   })
 
   it('should not be able to access global variables', () => {
-    global.y = '1'
-    expect(jeval('y')).to.equal(undefined)
+    expect(jeval('globalVar')).to.equal(undefined)
   })
 
   it('should not be able to access unscoped variables', () => {
