@@ -30,21 +30,25 @@ describe('Expression', () => {
       new Expression('x', { scope: { x: '1' } })
       /* eslint-enable no-new */
 
-      expect(esprima.parse).to.have.been.calledWith('x', sinon.match.instanceOf(
-        ASTDelegate
-      ))
-      expect(esprima.parse).to.have.been.calledWith('x', sinon.match({
-        scope: { x: '1' }
-      }))
+      expect(esprima.parse).to.have.been.calledWith(
+        'x',
+        sinon.match.instanceOf(ASTDelegate)
+      )
+      expect(esprima.parse).to.have.been.calledWith(
+        'x',
+        sinon.match({
+          scope: { x: '1' },
+        })
+      )
     })
 
-    it('should set the instance\'s eval function', () => {
+    it("should set the instance's eval function", () => {
       expect(new Expression('x').eval).to.be.a('function')
     })
   })
 
   describe('eval', () => {
-    it('should evaluate the delegate\'s expression', () => {
+    it("should evaluate the delegate's expression", () => {
       var func = sinon.spy(() => '1')
       sinon.stub(esprima, 'parse').callsFake((str, delegate) => {
         delegate.expression = func

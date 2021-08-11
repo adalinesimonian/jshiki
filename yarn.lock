@@ -797,6 +797,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "eslint-config-prettier@npm:8.3.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
+  languageName: node
+  linkType: hard
+
 "eslint-config-standard@npm:^16.0.3":
   version: 16.0.3
   resolution: "eslint-config-standard@npm:16.0.3"
@@ -1692,6 +1703,7 @@ fsevents@~2.3.2:
   dependencies:
     chai: ^4.3.4
     eslint: ^7.32.0
+    eslint-config-prettier: ^8.3.0
     eslint-config-standard: ^16.0.3
     eslint-plugin-chai-friendly: ^0.7.2
     eslint-plugin-import: ^2.24.0
@@ -1699,6 +1711,7 @@ fsevents@~2.3.2:
     eslint-plugin-promise: ^5.1.0
     eslint-plugin-standard: ^5.0.0
     mocha: ^9.0.3
+    prettier: ^2.3.2
     sinon: ^11.1.2
     sinon-chai: ^3.7.0
   languageName: unknown
@@ -2345,6 +2358,15 @@ fsevents@~2.3.2:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: cd192ec0d0a8e4c6da3bb80e4f62afe336df3f76271ac6deb0e6a36187133b6073a19e9727a1ff108cd8b9982e4768850d413baa71214dd80c7979617dca827a
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "prettier@npm:2.3.2"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 17ce5784ac67621c292df58e2da60b2ee150c2d6aebea22a6ad9e52fcd6a5e66c349d0a8436ea3bd8ff9d778920a5f68000d7625b74f43558718a49755aa5259
   languageName: node
   linkType: hard
 

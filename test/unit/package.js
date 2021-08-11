@@ -28,9 +28,12 @@ describe('Package', () => {
     it('should parse expressions using the given options', () => {
       index.parse('x', { scope: { x: '1' } })
 
-      expect(esprima.parse).to.have.been.calledWith('x', sinon.match({
-        scope: { x: '1' }
-      }))
+      expect(esprima.parse).to.have.been.calledWith(
+        'x',
+        sinon.match({
+          scope: { x: '1' },
+        })
+      )
     })
 
     it('should return an expression', () => {

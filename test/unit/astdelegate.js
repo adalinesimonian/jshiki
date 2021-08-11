@@ -23,8 +23,8 @@ describe('AST Delegate', () => {
     it('should set scope from options', () => {
       var options = {
         scope: {
-          x: '1'
-        }
+          x: '1',
+        },
       }
       var delegate = new ASTDelegate(options)
 
@@ -73,7 +73,9 @@ describe('AST Delegate', () => {
 
     it('should wrap expressions with binary operators', () => {
       var expression = new ASTDelegate().createBinaryExpression(
-        '+', () => 5, () => 3
+        '+',
+        () => 5,
+        () => 3
       )
       expect(expression).to.be.a('function')
 
@@ -84,7 +86,11 @@ describe('AST Delegate', () => {
 
     it('should throw an error for disallowed binary operators', () => {
       expect(() => {
-        new ASTDelegate().createBinaryExpression('@', () => 5, () => 3)
+        new ASTDelegate().createBinaryExpression(
+          '@',
+          () => 5,
+          () => 3
+        )
       }).to.throw()
     })
   })
@@ -92,25 +98,33 @@ describe('AST Delegate', () => {
   describe('createConditionalExpression', () => {
     it('should wrap expressions with conditional operators', () => {
       var expression = new ASTDelegate().createConditionalExpression(
-        () => true, () => 5, () => 3
+        () => true,
+        () => 5,
+        () => 3
       )
       expect(expression).to.be.a('function')
       expect(expression()).to.equal(5) // true ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
-        () => false, () => 5, () => 3
+        () => false,
+        () => 5,
+        () => 3
       )
       expect(expression).to.be.a('function')
       expect(expression()).to.equal(3) // false ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
-        () => '1', () => 5, () => 3
+        () => '1',
+        () => 5,
+        () => 3
       )
       expect(expression).to.be.a('function')
       expect(expression()).to.equal(5) // true ? 5 : 3
 
       expression = new ASTDelegate().createConditionalExpression(
-        () => '', () => 5, () => 3
+        () => '',
+        () => 5,
+        () => 3
       )
       expect(expression).to.be.a('function')
       expect(expression()).to.equal(3) // false ? 5 : 3
@@ -121,8 +135,8 @@ describe('AST Delegate', () => {
     it('should wrap identifiers', () => {
       var identifier = new ASTDelegate({
         scope: {
-          identifier: 'value'
-        }
+          identifier: 'value',
+        },
       }).createIdentifier('identifier')
 
       expect(identifier).to.be.a('function')
@@ -132,8 +146,8 @@ describe('AST Delegate', () => {
     it('should wrap child identifiers', () => {
       var identifier = new ASTDelegate({
         scope: {
-          identifier: 'value'
-        }
+          identifier: 'value',
+        },
       }).createIdentifier('identifier')
 
       expect(identifier).to.be.a('function')
@@ -145,7 +159,9 @@ describe('AST Delegate', () => {
     it('should wrap expressions accessing an object member', () => {
       var property = sinon.spy(() => 'x')
       var expression = new ASTDelegate().createMemberExpression(
-        () => '.', () => ({ x: '1' }), property
+        () => '.',
+        () => ({ x: '1' }),
+        property
       )
 
       expect(expression).to.be.a('function')
@@ -157,11 +173,15 @@ describe('AST Delegate', () => {
 
   describe('createCallExpression', () => {
     it('should wrap expressions accessing an object member', () => {
-      var parent = () => function (x, y) { return x + y + this.z }
+      var parent = () =>
+        function (x, y) {
+          return x + y + this.z
+        }
       parent.scope = { z: 1 }
-      var expression = new ASTDelegate().createCallExpression(
-        parent, [() => 5, () => 3]
-      )
+      var expression = new ASTDelegate().createCallExpression(parent, [
+        () => 5,
+        () => 3,
+      ])
 
       expect(expression).to.be.a('function')
       expect(expression()).to.equal(5 + 3 + 1)
@@ -180,7 +200,9 @@ describe('AST Delegate', () => {
   describe('createArrayExpression', () => {
     it('should wrap arrays', () => {
       var array = new ASTDelegate().createArrayExpression([
-        () => '1', () => '2', () => '3'
+        () => '1',
+        () => '2',
+        () => '3',
       ])
 
       expect(array).to.be.a('function')
@@ -195,7 +217,7 @@ describe('AST Delegate', () => {
       expect(property).to.be.a('function')
       expect(property()).to.eql({
         key: 'x',
-        value: '1'
+        value: '1',
       })
     })
   })
@@ -205,7 +227,7 @@ describe('AST Delegate', () => {
       var object = new ASTDelegate().createObjectExpression([
         () => ({ key: 'x', value: '1' }),
         () => ({ key: 'y', value: '2' }),
-        () => ({ key: 'z', value: '3' })
+        () => ({ key: 'z', value: '3' }),
       ])
 
       expect(object).to.be.a('function')
@@ -245,7 +267,7 @@ describe('AST Delegate', () => {
     it('should set the expression and scope and index identifiers', () => {
       var expression = () => 'x'
       var indexIdentifier = () => 1
-      var scopeIdentifier = () => (['1', '2', '3'])
+      var scopeIdentifier = () => ['1', '2', '3']
       var delegate = new ASTDelegate()
       delegate.createInExpression(scopeIdentifier, indexIdentifier, expression)
 

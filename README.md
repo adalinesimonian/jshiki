@@ -1,7 +1,6 @@
-# j式 | jshiki
+# j 式 | jshiki
 
-[![Build Status](https://travis-ci.org/adalinesimonian/jshiki.svg?branch=master)](
-https://travis-ci.org/adalinesimonian/jshiki)
+[![Build Status](https://travis-ci.org/adalinesimonian/jshiki.svg?branch=master)](https://travis-ci.org/adalinesimonian/jshiki)
 
 Lightweight expression parsing and execution library for Node.js
 
@@ -19,7 +18,7 @@ var result = expression.eval() // 9
 
 var expressionText = '" Hello! ".trim() + " My name\'s " + name'
 var scope = {
-  name: 'Azumi'
+  name: 'Azumi',
 }
 expression = jshiki.parse(expressionText, { scope })
 result = expression.eval() // "Hello! My name's Azumi"
@@ -50,15 +49,11 @@ have access to globals. For example:
 expression = jshiki.parse('func(1234)', {
   scope: {
     func: function (num) {
-      var comparison = num > 1000 ?
-      'greater than' :
-      (num === 1000 ?
-        'equal to' :
-        'smaller than'
-      )
+      var comparison =
+        num > 1000 ? 'greater than' : num === 1000 ? 'equal to' : 'smaller than'
       return num + ' is ' + comparison + ' 1000'
-    }
-  }
+    },
+  },
 })
 result = expression.eval() // "1234 is greater than 1000"
 ```
@@ -70,9 +65,9 @@ outside data. For example:
 expression = jshiki.parse('property.key = "Haha, I overwrote your stuff!"', {
   scope: {
     property: {
-      key: "value"
-    }
-  }
+      key: 'value',
+    },
+  },
 })
 result = expression.eval() // throws Error: Unexpected token =
 ```

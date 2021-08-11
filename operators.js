@@ -2,7 +2,7 @@ exports.unary = {
   '+': v => +v,
   '-': v => -v,
   '!': v => !v,
-  '~': v => ~v
+  '~': v => ~v,
 }
 
 exports.binary = {
@@ -29,5 +29,5 @@ exports.binary = {
   '&': (l, r) => l & r,
   '<<': (l, r) => l << r,
   '>>': (l, r) => l >> r,
-  '>>>': (l, r) => l >>> r
+  '>>>': (l, r) => l >>> r,
 }

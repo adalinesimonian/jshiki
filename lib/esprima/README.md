@@ -1,15 +1,15 @@
 This is a modified version of the esprima library. The only changes are the removal of support for the full ECMAScript syntax. What remains is a very limited subset, which is:
 
- - Simple literal values (`true`, `false`, `null`, `undefined`, non-escaped strings & decimal numbers)
- - `this` keyword
- - Block statements
- - Expression statements
- - Ascii-only Identifiers
- - Labeled statements
- - Logical expressions
- - Member expressions (including computed)
- - Object/Array initializers
- - Non-side-effect unary & binary expressions
+- Simple literal values (`true`, `false`, `null`, `undefined`, non-escaped strings & decimal numbers)
+- `this` keyword
+- Block statements
+- Expression statements
+- Ascii-only Identifiers
+- Labeled statements
+- Logical expressions
+- Member expressions (including computed)
+- Object/Array initializers
+- Non-side-effect unary & binary expressions
 
 ORIGINAL README:
 
@@ -24,7 +24,7 @@ with the help of [many contributors](https://github.com/ariya/esprima/contributo
 
 - Full support for ECMAScript 5.1 ([ECMA-262](http://www.ecma-international.org/publications/standards/Ecma-262.htm))
 - Sensible [syntax tree format](http://esprima.org/doc/index.html#ast) compatible with Mozilla
-[Parser AST](https://developer.mozilla.org/en/SpiderMonkey/Parser_API)
+  [Parser AST](https://developer.mozilla.org/en/SpiderMonkey/Parser_API)
 - Optional tracking of syntax node location (index-based and line-column)
 - Heavily tested (> 600 [unit tests](http://esprima.org/test/) with solid statement and branch coverage)
 - Experimental support for ES6/Harmony (module, class, destructuring, ...)

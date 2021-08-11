@@ -2,7 +2,7 @@ const esprima = require('./lib/esprima')
 const ASTDelegate = require('./astdelegate')
 
 class Expression {
-  constructor (str, options) {
+  constructor(str, options) {
     options = options || {}
 
     var delegate = new ASTDelegate(options)
@@ -18,7 +18,7 @@ class Expression {
   }
 }
 
-function evaluate (delegate) {
+function evaluate(delegate) {
   if (delegate instanceof Error) {
     throw delegate
   }

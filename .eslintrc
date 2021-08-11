@@ -1,8 +1,6 @@
 {
-  "extends": "standard",
-  "plugins": [
-    "chai-friendly"
-  ],
+  "extends": ["standard", "prettier"],
+  "plugins": ["chai-friendly"],
   "rules": {
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2,

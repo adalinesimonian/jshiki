@@ -157,9 +157,7 @@ describe('Operators', () => {
       })
 
       it('should compare objects', () => {
-        expect(jeval("{ x: '1' } == { x: '1' }")).to.equal(
-          false
-        )
+        expect(jeval("{ x: '1' } == { x: '1' }")).to.equal(false)
       })
 
       it('should compare null and undefined', () => {
@@ -180,9 +178,7 @@ describe('Operators', () => {
       })
 
       it('should compare objects', () => {
-        expect(jeval("{ x: '1' } != { x: '1' }")).to.equal(
-          true
-        )
+        expect(jeval("{ x: '1' } != { x: '1' }")).to.equal(true)
       })
 
       it('should compare null and undefined', () => {
@@ -204,9 +200,7 @@ describe('Operators', () => {
       })
 
       it('should compare objects', () => {
-        expect(jeval("{ x: '1' } === { x: '1' }")).to.equal(
-          false
-        )
+        expect(jeval("{ x: '1' } === { x: '1' }")).to.equal(false)
       })
 
       it('should compare null and undefined', () => {
@@ -227,9 +221,7 @@ describe('Operators', () => {
       })
 
       it('should compare objects', () => {
-        expect(jeval("{ x: '1' } !== { x: '1' }")).to.equal(
-          true
-        )
+        expect(jeval("{ x: '1' } !== { x: '1' }")).to.equal(true)
       })
 
       it('should compare null and undefined', () => {
@@ -346,12 +338,8 @@ describe('Operators', () => {
 
   describe('Ordering', () => {
     it('should follow the order of operations', () => {
-      expect(jeval('24 / 6 * 2 + 4 / 2')).to.equal(
-        10
-      )
-      expect(jeval('(24 / (6 * 2) + 4) / 2')).to.equal(
-        3
-      )
+      expect(jeval('24 / 6 * 2 + 4 / 2')).to.equal(10)
+      expect(jeval('(24 / (6 * 2) + 4) / 2')).to.equal(3)
     })
   })
 })
