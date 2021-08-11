@@ -245,7 +245,7 @@ describe('AST Delegate', () => {
     it('should set the expression and scope and index identifiers', () => {
       var expression = () => 'x'
       var indexIdentifier = () => 1
-      var scopeIdentifier = () => ([ '1', '2', '3' ])
+      var scopeIdentifier = () => (['1', '2', '3'])
       var delegate = new ASTDelegate()
       delegate.createInExpression(scopeIdentifier, indexIdentifier, expression)
 
@@ -254,7 +254,7 @@ describe('AST Delegate', () => {
       expect(delegate.indexIdentifier).to.equal(indexIdentifier)
       expect(delegate.indexIdentifier()).to.equal(1)
       expect(delegate.scopeIdentifier).to.equal(scopeIdentifier)
-      expect(delegate.scopeIdentifier()).to.eql([ '1', '2', '3' ])
+      expect(delegate.scopeIdentifier()).to.eql(['1', '2', '3'])
     })
 
     it('should not evaluate the expression', () => {
