@@ -6,7 +6,6 @@
   "rules": {
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2,
-    "no-var": "off",
-    "no-self-compare": "off"
+    "no-var": "off"
   }
 }

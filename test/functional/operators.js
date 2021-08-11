@@ -170,7 +170,7 @@ describe('Operators', () => {
 
       it('should compare objects', () => {
         expect(jeval("{ x: '1' } == { x: '1' }")).to.equal(
-          { x: '1' } == { x: '1' }
+          false
         )
       })
 
@@ -199,7 +199,7 @@ describe('Operators', () => {
 
       it('should compare objects', () => {
         expect(jeval("{ x: '1' } != { x: '1' }")).to.equal(
-          { x: '1' } != { x: '1' }
+          true
         )
       })
 
@@ -253,7 +253,7 @@ describe('Operators', () => {
 
       it('should compare objects', () => {
         expect(jeval("{ x: '1' } !== { x: '1' }")).to.equal(
-          { x: '1' } !== { x: '1' }
+          true
         )
       })
 
