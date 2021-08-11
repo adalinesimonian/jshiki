@@ -19,7 +19,7 @@
     "test-watch": "mocha --watch test/unit test/functional"
   },
   "engines": {
-    "node": ">=8.0"
+    "node": ">=12.0"
   },
   "repository": {
     "type": "git",
