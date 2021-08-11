@@ -8,7 +8,6 @@
     "chai-friendly/no-unused-expressions": 2,
     "no-var": "off",
     "no-self-compare": "off",
-    "array-bracket-spacing": "off",
-    "indent": "off"
+    "array-bracket-spacing": "off"
   }
 }
