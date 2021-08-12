@@ -1,41 +1,33 @@
-/* global describe, it */
-
-const chai = require('chai')
-const expect = chai.expect
-
-const jshiki = require('../../index')
-
-const jeval = (expression, scope) =>
-  jshiki.parse(expression, { scope: scope }).eval()
+import { evaluate } from '../../src'
 
 describe('Literals', () => {
   describe('Numeric Literals', () => {
     it('should parse integers', () => {
-      expect(jeval('5')).to.equal(5)
+      expect(evaluate('5')).toBe(5)
     })
 
     it('should parse floating-point numbers', () => {
-      expect(jeval('5.3')).to.equal(5.3)
+      expect(evaluate('5.3')).toBe(5.3)
     })
   })
 
   describe('String Literals', () => {
     it('should parse single-quoted strings', () => {
-      expect(jeval("'x'")).to.equal('x')
+      expect(evaluate("'x'")).toBe('x')
     })
 
     it('should parse double-quoted strings', () => {
-      expect(jeval('"x"')).to.equal('x')
+      expect(evaluate('"x"')).toBe('x')
     })
   })
 
   describe('Object Literals', () => {
     it('should parse empty object literals', () => {
-      expect(jeval('{}')).to.eql({})
+      expect(evaluate('{}')).toEqual({})
     })
 
     it('should parse object literals', () => {
-      expect(jeval("{ x: 1, y: '2', z: '3' }")).to.eql({
+      expect(evaluate("{ x: 1, y: '2', z: '3' }")).toEqual({
         x: 1,
         y: '2',
         z: '3',
@@ -43,7 +35,7 @@ describe('Literals', () => {
     })
 
     it('should parse nested object literals', () => {
-      expect(jeval("{ x: 1, y: { a: '2' }, z: '3' }")).to.eql({
+      expect(evaluate("{ x: 1, y: { a: '2' }, z: '3' }")).toEqual({
         x: 1,
         y: { a: '2' },
         z: '3',
@@ -53,19 +45,19 @@ describe('Literals', () => {
 
   describe('Array Literals', () => {
     it('should parse empty array literals', () => {
-      expect(jeval('[]')).to.eql([])
+      expect(evaluate('[]')).toEqual([])
     })
 
     it('should parse numeric array literals', () => {
-      expect(jeval('[1, 2, 3]')).to.eql([1, 2, 3])
+      expect(evaluate('[1, 2, 3]')).toEqual([1, 2, 3])
     })
 
     it('should parse string array literals', () => {
-      expect(jeval("['1', '2', '3']")).to.eql(['1', '2', '3'])
+      expect(evaluate("['1', '2', '3']")).toEqual(['1', '2', '3'])
     })
 
     it('should parse object array literals', () => {
-      expect(jeval("[{ x: '1' }, { y: '2' }, { z: '3' }]")).to.eql([
+      expect(evaluate("[{ x: '1' }, { y: '2' }, { z: '3' }]")).toEqual([
         { x: '1' },
         { y: '2' },
         { z: '3' },
@@ -73,7 +65,7 @@ describe('Literals', () => {
     })
 
     it('should parse nested array literals', () => {
-      expect(jeval('[[1, 2], [3, 4], [5, 6]]')).to.eql([
+      expect(evaluate('[[1, 2], [3, 4], [5, 6]]')).toEqual([
         [1, 2],
         [3, 4],
         [5, 6],
@@ -81,7 +73,7 @@ describe('Literals', () => {
     })
 
     it('should parse mixed-type array literals', () => {
-      expect(jeval("[1, { y: '2' }, '3', [4, 5]]")).to.eql([
+      expect(evaluate("[1, { y: '2' }, '3', [4, 5]]")).toEqual([
         1,
         { y: '2' },
         '3',

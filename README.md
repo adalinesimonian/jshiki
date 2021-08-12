@@ -13,15 +13,17 @@ $ npm install --save jshiki
 ```javascript
 const jshiki = require('jshiki')
 
-var expression = jshiki.parse('5 + (12 / 3)')
-var result = expression.eval() // 9
+let result = jshiki.evaluate('5 + (12 / 3)') // result => 9
+// or
+let expression = jshiki.parse('5 + (12 / 3)')
+result = expression() // result => 9
 
-var expressionText = '" Hello! ".trim() + " My name\'s " + name'
-var scope = {
+const expressionText = '" Hello! ".trim() + " My name\'s " + name'
+const scope = {
   name: 'Azumi',
 }
-expression = jshiki.parse(expressionText, { scope })
-result = expression.eval() // "Hello! My name's Azumi"
+result = jshiki.evaluate(expressionText, { scope })
+// result => "Hello! My name's Azumi"
 ```
 
 ## Why

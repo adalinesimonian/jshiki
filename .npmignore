@@ -1,0 +1,14 @@
+.yarn
+node_modules
+src
+test
+jest.config.js
+.editorconfig
+.eslintrc
+.prettierignore
+.prettierrc
+.travis.yml
+.yarnrc.yml
+jsconfig.json
+tsconfig.json
+yarn.lock

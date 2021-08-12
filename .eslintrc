@@ -1,9 +1,12 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": ["standard", "prettier"],
-  "plugins": ["chai-friendly"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2,
-    "no-var": "off"
+    "no-var": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/explicit-module-boundary-types": ["error"]
   }
 }
