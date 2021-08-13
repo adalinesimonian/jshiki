@@ -23,8 +23,11 @@
     "lint": "run-s \"lint:*\"",
     "lint:eslint": "eslint --ext .js,.ts .",
     "lint:prettier": "prettier --check .",
+    "lint:types": "tsc --noEmit",
     "prepack": "run-s clean build",
     "test": "jest",
+    "test:functional": "jest test/functional",
+    "test:unit": "jest test/unit",
     "test:watch": "jest --watch"
   },
   "engines": {
