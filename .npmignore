@@ -6,6 +6,7 @@ test
 jest.config.js
 .editorconfig
 .eslintrc
+.eslintignore
 .prettierignore
 .prettierrc
 .travis.yml
