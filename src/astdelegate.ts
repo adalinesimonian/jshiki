@@ -50,14 +50,14 @@ export default class ASTDelegate implements Delegate {
 
   createIdentifier(identifier: string | boolean | null): IdentifierExpression {
     return typeof identifier === 'string'
-      ? (options?: { child?: any }) =>
+      ? (options?: { child?: boolean }) =>
           options?.child ? identifier : this.scope[identifier]
       : () => identifier
   }
 
   createMemberExpression(
     _accessor: '.' | '[',
-    object: () => any,
+    object: Expression,
     property: IdentifierExpression
   ): ScopedExpression {
     const exp: ScopedExpression = () => object()[property({ child: true })]
