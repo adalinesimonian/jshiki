@@ -1,5 +1,4 @@
 import ASTDelegate from '../../src/astdelegate'
-import { TokenType } from '../../src/lib/esprima/types'
 import operators from '../../src/operators'
 
 describe('AST Delegate', () => {
@@ -39,7 +38,11 @@ describe('AST Delegate', () => {
     })
 
     it('should wrap expressions with unary operators', () => {
-      const expression = new ASTDelegate().createUnaryExpression('+', () => 5)
+      const delegate = new ASTDelegate()
+      const expression = delegate.createUnaryExpression(
+        '+',
+        delegate.createLiteral({ value: 5 })
+      )
       expect(typeof expression).toBe('function')
 
       expression()
@@ -49,7 +52,11 @@ describe('AST Delegate', () => {
 
     it('should throw an error for disallowed unary operators', () => {
       expect(() => {
-        new ASTDelegate().createUnaryExpression('&&', () => true)
+        const delegate = new ASTDelegate()
+        delegate.createUnaryExpression(
+          '&&',
+          delegate.createLiteral({ value: true })
+        )
       }).toThrowErrorMatchingSnapshot()
     })
   })
@@ -66,10 +73,11 @@ describe('AST Delegate', () => {
     })
 
     it('should wrap expressions with binary operators', () => {
-      const expression = new ASTDelegate().createBinaryExpression(
+      const delegate = new ASTDelegate()
+      const expression = delegate.createBinaryExpression(
         '+',
-        () => 5,
-        () => 3
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 })
       )
       expect(typeof expression).toBe('function')
 
@@ -81,10 +89,11 @@ describe('AST Delegate', () => {
 
     it('should throw an error for disallowed binary operators', () => {
       expect(() => {
-        new ASTDelegate().createBinaryExpression(
+        const delegate = new ASTDelegate()
+        delegate.createBinaryExpression(
           '@',
-          () => 5,
-          () => 3
+          delegate.createLiteral({ value: 5 }),
+          delegate.createLiteral({ value: 3 })
         )
       }).toThrowErrorMatchingSnapshot()
     })
@@ -92,34 +101,35 @@ describe('AST Delegate', () => {
 
   describe('createConditionalExpression', () => {
     it('should wrap expressions with conditional operators', () => {
-      let expression = new ASTDelegate().createConditionalExpression(
-        () => true,
-        () => 5,
-        () => 3
+      const delegate = new ASTDelegate()
+      let expression = delegate.createConditionalExpression(
+        delegate.createLiteral({ value: true }),
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 })
       )
       expect(typeof expression).toBe('function')
       expect(expression()).toBe(5) // true ? 5 : 3
 
-      expression = new ASTDelegate().createConditionalExpression(
-        () => false,
-        () => 5,
-        () => 3
+      expression = delegate.createConditionalExpression(
+        delegate.createLiteral({ value: false }),
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 })
       )
       expect(typeof expression).toBe('function')
       expect(expression()).toBe(3) // false ? 5 : 3
 
-      expression = new ASTDelegate().createConditionalExpression(
-        () => '1',
-        () => 5,
-        () => 3
+      expression = delegate.createConditionalExpression(
+        delegate.createLiteral({ value: '1' }),
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 })
       )
       expect(typeof expression).toBe('function')
       expect(expression()).toBe(5) // true ? 5 : 3
 
-      expression = new ASTDelegate().createConditionalExpression(
-        () => '',
-        () => 5,
-        () => 3
+      expression = delegate.createConditionalExpression(
+        delegate.createLiteral({ value: '' }),
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 })
       )
       expect(typeof expression).toBe('function')
       expect(expression()).toBe(3) // false ? 5 : 3
@@ -135,50 +145,50 @@ describe('AST Delegate', () => {
       }).createIdentifier('identifier')
 
       expect(typeof identifier).toBe('function')
-      expect(identifier()).toBe('value')
-    })
-
-    it('should wrap child identifiers', () => {
-      const identifier = new ASTDelegate({
-        scope: {
-          identifier: 'value',
-        },
-      }).createIdentifier('identifier')
-
-      expect(typeof identifier).toBe('function')
-      expect(identifier({ child: true })).toBe('identifier')
+      expect(identifier()).toBe('identifier')
     })
   })
 
   describe('createMemberExpression', () => {
     it('should wrap expressions accessing an object member', () => {
-      const property = jest.fn<string, [options?: { child?: boolean }]>(
-        () => 'x'
-      )
-      const expression = new ASTDelegate().createMemberExpression(
+      const delegate = new ASTDelegate()
+      const propIdentifier = delegate.createIdentifier('x')
+      const property = Object.assign(jest.fn(propIdentifier), propIdentifier)
+      const expression = delegate.createMemberExpression(
         '.',
-        () => ({ x: '1' }),
+        delegate.createObjectExpression([
+          delegate.createProperty(
+            'init',
+            delegate.createIdentifier('x'),
+            delegate.createLiteral({ value: '1' })
+          ),
+        ]),
         property
       )
 
       expect(typeof expression).toBe('function')
-      expect(expression.scope).toEqual({ x: '1' })
+      expect(expression.object()).toEqual({ x: '1' })
       expect(expression()).toBe('1')
       expect(property).toHaveBeenCalledTimes(1)
-      expect(property.mock.calls[0][0]).toEqual({ child: true })
     })
   })
 
   describe('createCallExpression', () => {
     it('should wrap expressions accessing an object member', () => {
-      const parent = () =>
-        function (this: any, x: number, y: number) {
-          return x + y + this.z
-        }
-      parent.scope = { z: 1 }
-      const expression = new ASTDelegate().createCallExpression(parent, [
-        () => 5,
-        () => 3,
+      const delegate = new ASTDelegate({
+        scope: {
+          func: Object.assign(
+            function (this: any, x: number, y: number) {
+              return x + y + this.z
+            },
+            { z: 1 }
+          ),
+        },
+      })
+      const func = delegate.createIdentifier('func')
+      const expression = delegate.createCallExpression(func, [
+        delegate.createLiteral({ value: 5 }),
+        delegate.createLiteral({ value: 3 }),
       ])
 
       expect(typeof expression).toBe('function')
@@ -188,11 +198,7 @@ describe('AST Delegate', () => {
 
   describe('createLiteral', () => {
     it('should wrap literals', () => {
-      const literal = new ASTDelegate().createLiteral({
-        type: TokenType.StringLiteral,
-        value: '1',
-        range: [0, 3],
-      })
+      const literal = new ASTDelegate().createLiteral({ value: '1' })
 
       expect(typeof literal).toBe('function')
       expect(literal()).toBe('1')
@@ -201,10 +207,11 @@ describe('AST Delegate', () => {
 
   describe('createArrayExpression', () => {
     it('should wrap arrays', () => {
-      const array = new ASTDelegate().createArrayExpression([
-        () => '1',
-        () => '2',
-        () => '3',
+      const delegate = new ASTDelegate()
+      const array = delegate.createArrayExpression([
+        delegate.createLiteral({ value: '1' }),
+        delegate.createLiteral({ value: '2' }),
+        delegate.createLiteral({ value: '3' }),
       ])
 
       expect(typeof array).toBe('function')
@@ -214,8 +221,10 @@ describe('AST Delegate', () => {
 
   describe('createProperty', () => {
     it('should wrap object properties', () => {
-      const key = () => 'x'
-      const property = new ASTDelegate().createProperty('init', key, () => '1')
+      const delegate = new ASTDelegate()
+      const key = delegate.createIdentifier('x')
+      const value = delegate.createLiteral({ value: '1' })
+      const property = delegate.createProperty('init', key, value)
 
       expect(typeof property).toBe('function')
       expect(property()).toEqual({
@@ -227,10 +236,23 @@ describe('AST Delegate', () => {
 
   describe('createObjectExpressions', () => {
     it('should wrap object literals', () => {
-      const object = new ASTDelegate().createObjectExpression([
-        () => ({ key: 'x', value: '1' }),
-        () => ({ key: 'y', value: '2' }),
-        () => ({ key: 'z', value: '3' }),
+      const delegate = new ASTDelegate()
+      const object = delegate.createObjectExpression([
+        delegate.createProperty(
+          'init',
+          delegate.createIdentifier('x'),
+          delegate.createLiteral({ value: '1' })
+        ),
+        delegate.createProperty(
+          'init',
+          delegate.createIdentifier('y'),
+          delegate.createLiteral({ value: '2' })
+        ),
+        delegate.createProperty(
+          'init',
+          delegate.createIdentifier('z'),
+          delegate.createLiteral({ value: '3' })
+        ),
       ])
 
       expect(typeof object).toBe('function')
@@ -240,16 +262,18 @@ describe('AST Delegate', () => {
 
   describe('createTopLevel', () => {
     it('should return an expression', () => {
-      const expression = () => '1'
       const delegate = new ASTDelegate()
+      const expression = delegate.createLiteral({ value: '1' })
       const topLevelExpr = delegate.createTopLevel(expression)
 
-      expect(topLevelExpr).toBe(expression)
+      expect(typeof topLevelExpr).toBe('function')
       expect(topLevelExpr()).toBe('1')
     })
 
     it('should not evaluate the expression', () => {
-      const expression = jest.fn()
+      const delegate = new ASTDelegate()
+      const literal = delegate.createLiteral({ value: '1' })
+      const expression = Object.assign(jest.fn(literal), literal)
       new ASTDelegate().createTopLevel(expression)
       expect(expression).toHaveBeenCalledTimes(0)
     })

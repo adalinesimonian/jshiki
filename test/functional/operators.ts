@@ -70,7 +70,7 @@ describe('Operators', () => {
       })
 
       it('should multiply floating-point numbers', () => {
-        expect(evaluate('5.4 * 3.6')).toBe(19.44)
+        expect(evaluate('5.4 * 3.6')).toBeCloseTo(19.44)
       })
     })
 
@@ -80,19 +80,19 @@ describe('Operators', () => {
       })
 
       it('should exponentiate floating-point numbers', () => {
-        expect(evaluate('2.1 ** 3.5')).toBe(2.1 ** 3.5)
+        expect(evaluate('2.1 ** 3.5')).toBeCloseTo(2.1 ** 3.5)
       })
     })
 
     describe('/ (Division)', () => {
       it('should divide integers', () => {
         expect(evaluate('8 / 4')).toBe(2)
-        expect(evaluate('5 / 3')).toBe(5 / 3)
+        expect(evaluate('5 / 3')).toBeCloseTo(5 / 3)
       })
 
       it('should divide floating-point numbers', () => {
-        expect(evaluate('8.2 / 4.2')).toBe(8.2 / 4.2)
-        expect(evaluate('5.5 / 3.5')).toBe(5.5 / 3.5)
+        expect(evaluate('8.2 / 4.2')).toBeCloseTo(8.2 / 4.2)
+        expect(evaluate('5.5 / 3.5')).toBeCloseTo(5.5 / 3.5)
       })
     })
 
