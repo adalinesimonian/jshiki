@@ -83,9 +83,9 @@ describe('Operators', () => {
       expect(operators.binary['=='](5, 5)).toBe(true)
       expect(operators.binary['==']('1', '1')).toBe(true)
       expect(operators.binary['==']('1', '2')).toBe(false)
-      var a = { x: '1' }
-      var b = { x: '1' }
-      var c = a
+      const a = { x: '1' }
+      const b = { x: '1' }
+      const c = a
       expect(operators.binary['=='](a, b)).toBe(false)
       expect(operators.binary['=='](a, c)).toBe(true)
       expect(operators.binary['=='](undefined, null)).toBe(true)
@@ -100,9 +100,9 @@ describe('Operators', () => {
       expect(operators.binary['!='](5, 5)).toBe(false)
       expect(operators.binary['!=']('1', '1')).toBe(false)
       expect(operators.binary['!=']('1', '2')).toBe(true)
-      var a = { x: '1' }
-      var b = { x: '1' }
-      var c = a
+      const a = { x: '1' }
+      const b = { x: '1' }
+      const c = a
       expect(operators.binary['!='](a, b)).toBe(true)
       expect(operators.binary['!='](a, c)).toBe(false)
       expect(operators.binary['!='](undefined, null)).toBe(false)
@@ -116,9 +116,9 @@ describe('Operators', () => {
       expect(operators.binary['==='](5, 5)).toBe(true)
       expect(operators.binary['===']('1', '1')).toBe(true)
       expect(operators.binary['===']('1', '2')).toBe(false)
-      var a = { x: '1' }
-      var b = { x: '1' }
-      var c = a
+      const a = { x: '1' }
+      const b = { x: '1' }
+      const c = a
       expect(operators.binary['==='](a, b)).toBe(false)
       expect(operators.binary['==='](a, c)).toBe(true)
       expect(operators.binary['==='](undefined, null)).toBe(false)
@@ -131,9 +131,9 @@ describe('Operators', () => {
       expect(operators.binary['!=='](5, 5)).toBe(false)
       expect(operators.binary['!==']('1', '1')).toBe(false)
       expect(operators.binary['!==']('1', '2')).toBe(true)
-      var a = { x: '1' }
-      var b = { x: '1' }
-      var c = a
+      const a = { x: '1' }
+      const b = { x: '1' }
+      const c = a
       expect(operators.binary['!=='](a, b)).toBe(true)
       expect(operators.binary['!=='](a, c)).toBe(false)
       expect(operators.binary['!=='](undefined, null)).toBe(true)

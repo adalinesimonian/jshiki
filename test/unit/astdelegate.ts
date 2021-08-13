@@ -39,7 +39,7 @@ describe('AST Delegate', () => {
     })
 
     it('should wrap expressions with unary operators', () => {
-      var expression = new ASTDelegate().createUnaryExpression('+', () => 5)
+      const expression = new ASTDelegate().createUnaryExpression('+', () => 5)
       expect(typeof expression).toBe('function')
 
       expression()
@@ -66,7 +66,7 @@ describe('AST Delegate', () => {
     })
 
     it('should wrap expressions with binary operators', () => {
-      var expression = new ASTDelegate().createBinaryExpression(
+      const expression = new ASTDelegate().createBinaryExpression(
         '+',
         () => 5,
         () => 3
@@ -188,7 +188,7 @@ describe('AST Delegate', () => {
 
   describe('createLiteral', () => {
     it('should wrap literals', () => {
-      var literal = new ASTDelegate().createLiteral({
+      const literal = new ASTDelegate().createLiteral({
         type: TokenType.StringLiteral,
         value: '1',
         range: [0, 3],

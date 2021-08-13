@@ -372,8 +372,6 @@ class Parser {
   }
 
   advance(): Token {
-    var ch
-
     this.skipWhitespace()
 
     if (this.index >= this.length) {
@@ -383,7 +381,7 @@ class Parser {
       }
     }
 
-    ch = this.source.charCodeAt(this.index)
+    const ch = this.source.charCodeAt(this.index)
 
     // Very common: ( and ) and
     if (ch === 40 || ch === 41 || ch === 58) {
@@ -814,15 +812,13 @@ class Parser {
   // 11.12 Conditional Operator
 
   parseConditionalExpression(): Expression {
-    var expr, consequent, alternate
-
-    expr = this.parseBinaryExpression()
+    let expr = this.parseBinaryExpression()
 
     if (this.matchPunctuator('?')) {
       this.lex()
-      consequent = this.parseConditionalExpression()
+      const consequent = this.parseConditionalExpression()
       this.expectPunctuator(':')
-      alternate = this.parseConditionalExpression()
+      const alternate = this.parseConditionalExpression()
 
       expr = this.delegate.createConditionalExpression(
         expr,

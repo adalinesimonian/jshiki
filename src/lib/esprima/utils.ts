@@ -75,7 +75,7 @@ export function isKeyword(id: string): boolean {
 // 11.11 Binary Logical Operators
 
 export function binaryPrecedence(token: Token): number {
-  var prec = 0
+  let prec = 0
 
   if (token.type !== TokenType.Punctuator && token.type !== TokenType.Keyword) {
     return 0
