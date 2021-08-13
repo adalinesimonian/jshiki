@@ -8,6 +8,10 @@ type ScopedExpression = Expression & {
 type IdentifierExpression = (options?: { child?: boolean }) => any
 
 export interface ASTDelegateOptions {
+  /**
+   * The scope to use when evaluating the expression. The expression will be
+   * limited to accessing the properties of the scope.
+   */
   scope?: Record<any, any>
 }
 
