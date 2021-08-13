@@ -53,11 +53,14 @@ jshiki lets you pass in a predefined scope object, because expressions do not ha
 result = jshiki.evaluate('func(1234)', {
   scope: {
     func(num) {
-      const comparison = num > 1000
-        ? 'greater than'
-        : num === 1000
-          ? 'equal to'
-          : 'smaller than'
+      let comparison
+      if (num > 1000) {
+        comparison = 'greater than'
+      } else if (num === 1000) {
+        comparison = 'equal to'
+      } else {
+        comparison = 'less than'
+      }
       return `num is ${comparison} 1000`
     },
   },
