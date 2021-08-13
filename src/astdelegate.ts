@@ -27,8 +27,6 @@ export interface ASTDelegateOptions {
 
 export default class ASTDelegate implements Delegate {
   scope: any
-  allowAccess?: string[][]
-  blockAccess?: string[][]
 
   constructor({ scope }: ASTDelegateOptions = {}) {
     this.scope = scope || {}
