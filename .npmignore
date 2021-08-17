@@ -4,6 +4,7 @@
 node_modules
 src
 test
+coverage
 jest.config.js
 .editorconfig
 .eslintrc

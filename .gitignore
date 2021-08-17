@@ -1,5 +1,6 @@
 .settings
 dist
+coverage
 package.tgz
 node_modules
 .yarn/*
