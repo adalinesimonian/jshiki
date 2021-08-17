@@ -90,7 +90,7 @@ export type LiteralExpression = ExpressionBase & {
 
 export type IdentifierExpression = ExpressionBase & {
   type: Syntax.Identifier
-  identifier: string | boolean | null
+  identifier: string
 }
 
 export type PropertyExpression = ExpressionBase & {
@@ -165,7 +165,7 @@ export interface Delegate {
   createLiteral(
     value: Extract<Token, { value: string | number | boolean | null }>
   ): LiteralExpression
-  createIdentifier(identifier: string | boolean | null): IdentifierExpression
+  createIdentifier(identifier: string): IdentifierExpression
   createProperty(
     kind: 'init',
     key: Expression,

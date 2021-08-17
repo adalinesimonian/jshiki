@@ -24,4 +24,8 @@ describe('Member Access', () => {
   it('should be able to invoke array methods', () => {
     expect(evaluate("[1, 2, 3].join(', ')")).toBe('1, 2, 3')
   })
+
+  it('should be able to invoke methods returned by a method', () => {
+    expect(evaluate('method()()', { scope: { method: () => 5 } })).toBe(5)
+  })
 })

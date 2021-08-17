@@ -1,6 +1,24 @@
 import { evaluate } from '../../src'
 
 describe('Literals', () => {
+  it('should evaluate null', () => {
+    expect(evaluate('null')).toBe(null)
+  })
+
+  it('should evaluate undefined', () => {
+    expect(evaluate('undefined')).toBe(undefined)
+  })
+
+  describe('Boolean Literals', () => {
+    it('should evaluate true', () => {
+      expect(evaluate('true')).toBe(true)
+    })
+
+    it('should evaluate false', () => {
+      expect(evaluate('false')).toBe(false)
+    })
+  })
+
   describe('Numeric Literals', () => {
     it('should parse integers', () => {
       expect(evaluate('5')).toBe(5)

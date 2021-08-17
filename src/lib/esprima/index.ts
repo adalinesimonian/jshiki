@@ -659,7 +659,7 @@ class Parser {
       throw new UnexpectedTokenError(token)
     }
 
-    return this.delegate.createIdentifier(token.value)
+    return this.delegate.createIdentifier(`${token.value}`)
   }
 
   parseNonComputedMember() {

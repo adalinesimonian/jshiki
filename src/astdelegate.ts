@@ -44,20 +44,12 @@ export default class ASTDelegate implements Delegate {
   ruleTree?: RuleTree
   explicitAllow: boolean
 
-  constructor({ scope, rules, explicitAllow }: ASTDelegateOptions = {}) {
+  constructor({ scope = {}, rules, explicitAllow }: ASTDelegateOptions = {}) {
     this.ruleTree = rules ? new RuleTree(rules) : undefined
     this.explicitAllow = Boolean(explicitAllow)
     this.scope = this.ruleTree
-      ? getRuleProxy(scope || {}, this.ruleTree, explicitAllow)
-      : scope || {}
-  }
-
-  #evaluateIdentifier(expression: IdentifierExpression): any {
-    const { identifier } = expression
-    if (typeof identifier === 'string') {
-      return this.scope[identifier]
-    }
-    return identifier
+      ? getRuleProxy(scope, this.ruleTree, explicitAllow)
+      : scope
   }
 
   createUnaryExpression(op: string, arg: Expression): UnaryExpression {
@@ -85,12 +77,10 @@ export default class ASTDelegate implements Delegate {
     }
 
     const leftExpr =
-      left.type === Syntax.Identifier
-        ? () => this.#evaluateIdentifier(left)
-        : left
+      left.type === Syntax.Identifier ? () => this.scope[left.identifier] : left
     const rightExpr =
       right.type === Syntax.Identifier
-        ? () => this.#evaluateIdentifier(right)
+        ? () => this.scope[right.identifier]
         : right
 
     return Object.assign(
@@ -121,7 +111,7 @@ export default class ASTDelegate implements Delegate {
     })
   }
 
-  createIdentifier(identifier: string | boolean | null): IdentifierExpression {
+  createIdentifier(identifier: string): IdentifierExpression {
     return Object.assign(() => identifier, {
       type: Syntax.Identifier as const,
       identifier: identifier,
@@ -135,7 +125,7 @@ export default class ASTDelegate implements Delegate {
   ): MemberExpression {
     const objectEvaluator =
       object.type === Syntax.Identifier
-        ? () => this.#evaluateIdentifier(object)
+        ? () => this.scope[object.identifier]
         : object
 
     return Object.assign(() => objectEvaluator()[property()], {
@@ -151,7 +141,7 @@ export default class ASTDelegate implements Delegate {
       () => {
         let func, self
         if (callee.type === Syntax.Identifier) {
-          self = this.#evaluateIdentifier(callee)
+          self = this.scope[callee.identifier]
           func = self
         } else if (callee.type === Syntax.MemberExpression) {
           self = callee.object()
@@ -231,7 +221,7 @@ export default class ASTDelegate implements Delegate {
   createTopLevel(expression: Expression): TopLevelExpression {
     let evaluator
     if (expression.type === Syntax.Identifier) {
-      const identifier = this.#evaluateIdentifier(expression)
+      const identifier = this.scope[expression.identifier]
       evaluator = () => identifier
     } else {
       evaluator = expression
