@@ -1,5 +1,4 @@
 .settings
-.vscode
 dist
 package.tgz
 node_modules

@@ -1,5 +1,6 @@
 .github
 .yarn
+.vscode
 node_modules
 src
 test
