@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.1.0](https://github.com/adalinesimonian/jshiki/tree/v2.1.0) (2021-08-17)
+
+### Additions
+
+- New options `rules` and `explicitAllow`, which facilitate rules-based access control for scope members. Documentation available [in the README](#README.md#rules).
+- Documentation added to API.
+
+### Development changes
+
+- More robust, less hacky evaluation of expressions internally.
+- AST information retained on expressions.
+
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v2.0.0...v2.1.0)
+
 ## [v2.0.0](https://github.com/adalinesimonian/jshiki/tree/v2.0.0) (2021-08-12)
 
 ### BREAKING CHANGES
