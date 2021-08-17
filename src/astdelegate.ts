@@ -16,6 +16,8 @@ import {
   UnaryExpression,
 } from './lib/esprima/types'
 import operators from './operators'
+import RuleTree, { AccessRule } from './rule-tree'
+import getRuleProxy from './rule-proxy'
 
 export interface ASTDelegateOptions {
   /**
@@ -23,13 +25,31 @@ export interface ASTDelegateOptions {
    * limited to accessing the properties of the scope.
    */
   scope?: Record<any, any>
+  /**
+   * Access rules to use when determining what properties can be accessed by the
+   * expression. The rules are evaluated in order.
+   */
+  rules?: AccessRule[]
+  /**
+   * If true, only properties with a matching allow rule can be accessed by the
+   * expression. If false, all properties can be accessed unless they have a
+   * block rule. Defaults to false.
+   * @default false
+   */
+  explicitAllow?: boolean
 }
 
 export default class ASTDelegate implements Delegate {
   scope: any
+  ruleTree?: RuleTree
+  explicitAllow: boolean
 
-  constructor({ scope }: ASTDelegateOptions = {}) {
-    this.scope = scope || {}
+  constructor({ scope, rules, explicitAllow }: ASTDelegateOptions = {}) {
+    this.ruleTree = rules ? new RuleTree(rules) : undefined
+    this.explicitAllow = Boolean(explicitAllow)
+    this.scope = this.ruleTree
+      ? getRuleProxy(scope || {}, this.ruleTree, explicitAllow)
+      : scope || {}
   }
 
   #evaluateIdentifier(expression: IdentifierExpression): any {
@@ -111,7 +131,7 @@ export default class ASTDelegate implements Delegate {
   createMemberExpression(
     accessor: '.' | '[',
     object: Expression,
-    property: IdentifierExpression
+    property: Expression
   ): MemberExpression {
     const objectEvaluator =
       object.type === Syntax.Identifier

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filtered Member Access with explicit allow set to false should not be able to access properties w/ matching block rule 1`] = `"Cannot read property 'c' of undefined"`;
+
+exports[`Filtered Member Access with explicit allow set to false should not be able to access properties w/ matching block rule 2`] = `"Cannot read property 'c' of undefined"`;
+
+exports[`Filtered Member Access with explicit allow set to true should not be able to access properties w/ matching block rule 1`] = `"Cannot read property 'c' of undefined"`;
+
+exports[`Filtered Member Access with explicit allow set to true should not be able to access properties w/ matching block rule 2`] = `"Cannot read property 'c' of undefined"`;
+
+exports[`Filtered Member Access with explicit allow set to true should not be able to access properties w/o matching rule 1`] = `"Cannot read property 'bar' of undefined"`;
+
+exports[`Filtered Member Access with explicit allow set to true should not be able to access properties w/o matching rule 2`] = `"Cannot read property 'bar' of undefined"`;
