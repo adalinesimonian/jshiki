@@ -4,7 +4,7 @@
 
 ### Additions
 
-- New options `rules` and `explicitAllow`, which facilitate rules-based access control for scope members. Documentation available [in the README](#README.md#rules).
+- New options `rules` and `explicitAllow`, which facilitate rules-based access control for scope members. Documentation available [in the README](README.md#rules).
 - Documentation added to API.
 
 ### Development changes
