@@ -25,8 +25,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Run Unit Tests
-        run: yarn test:unit --maxWorkers=2
+      - name: Run Tests
+        run: yarn test --maxWorkers=2 --coverage
 
-      - name: Run Functional Tests
-        run: yarn test:functional --maxWorkers=2
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
