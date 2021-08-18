@@ -37,7 +37,11 @@
     "type": "git",
     "url": "https://github.com/adalinesimonian/jshiki.git"
   },
-  "author": "Adaline Valentina Simonian",
+  "author": {
+    "name": "Adaline Valentina Simonian",
+    "email": "adalinesimonian@gmail.com",
+    "url": "https://github.com/adalinesimonian"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^27.0.1",
