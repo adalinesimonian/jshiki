@@ -78,7 +78,6 @@ describe('Operators', () => {
 
     it('should export ==', () => {
       expect(operators.binary).toHaveProperty('==')
-      /* eslint-disable eqeqeq */
       expect(operators.binary['=='](8, 4)).toBe(false)
       expect(operators.binary['=='](5, 5)).toBe(true)
       expect(operators.binary['==']('1', '1')).toBe(true)
@@ -90,12 +89,10 @@ describe('Operators', () => {
       expect(operators.binary['=='](a, c)).toBe(true)
       expect(operators.binary['=='](undefined, null)).toBe(true)
       expect(operators.binary['=='](null, undefined)).toBe(true)
-      /* eslint-enable eqeqeq */
     })
 
     it('should export !=', () => {
       expect(operators.binary).toHaveProperty('!=')
-      /* eslint-disable eqeqeq */
       expect(operators.binary['!='](8, 4)).toBe(true)
       expect(operators.binary['!='](5, 5)).toBe(false)
       expect(operators.binary['!=']('1', '1')).toBe(false)
@@ -107,7 +104,6 @@ describe('Operators', () => {
       expect(operators.binary['!='](a, c)).toBe(false)
       expect(operators.binary['!='](undefined, null)).toBe(false)
       expect(operators.binary['!='](null, undefined)).toBe(false)
-      /* eslint-enable eqeqeq */
     })
 
     it('should export ===', () => {

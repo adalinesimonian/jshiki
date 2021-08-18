@@ -135,7 +135,6 @@ describe('Operators', () => {
       })
     })
 
-    /* eslint-disable eqeqeq */
     describe('== (Equality)', () => {
       it('should compare numbers', () => {
         expect(evaluate('8 == 4')).toBe(false)
@@ -177,7 +176,6 @@ describe('Operators', () => {
         expect(evaluate('undefined != null')).toBe(false)
       })
     })
-    /* eslint-enable eqeqeq */
 
     describe('=== (Identity)', () => {
       it('should compare numbers', () => {
