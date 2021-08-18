@@ -1,6 +1,6 @@
 # j 式 | jshiki
 
-[![Build Status](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml/badge.svg?branch=main)](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml)
+[![Build Status](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml/badge.svg?branch=main)](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml) [![codecov](https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA)](https://codecov.io/gh/adalinesimonian/jshiki)
 
 Lightweight expression parsing and execution library for Node.js
 
