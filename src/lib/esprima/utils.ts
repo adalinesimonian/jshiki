@@ -117,9 +117,9 @@ export function binaryPrecedence(token: Token): number {
       prec = 7
       break
 
-    case 'in':
-      prec = 7
-      break
+    // case 'in':
+    //   prec = 7
+    //   break
 
     case '<<':
     case '>>':
