@@ -30,6 +30,8 @@
 - Test coverage is now 100%.
 - Node 12.x has been dropped from the test matrix.
 
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v2.1.0...v3.0.0)
+
 ## [v2.1.0](https://github.com/adalinesimonian/jshiki/tree/v2.1.0) (2021-08-17)
 
 ### Additions
