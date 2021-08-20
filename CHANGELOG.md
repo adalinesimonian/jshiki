@@ -1,5 +1,35 @@
 # Change Log
 
+## [v3.0.0](https://github.com/adalinesimonian/jshiki/tree/v3.0.0) (2021-08-20)
+
+### BREAKING CHANGES
+
+- `parse()` now returns an expression that expects the scope to be passed as an argument. This allows reusing the same expression in different contexts without having to parse the expression or rules again. For example:
+  ```js
+  const expression = jshiki.parse('`Hello ${name}!`')
+  const result = expression({ name: 'Azumi' })
+  // result => 'Hello Azumi!'
+  ```
+- ES2020 syntax is now supported, and support for Node 12.x has been dropped.
+- `NaN` and `Infinity` identifiers are now supported.
+- Unicode escape sequences `\x` and `\u` are now supported.
+- The bundled, custom version of [esprima][esprima] has been entirely removed and replaced with an external dependency on [acorn][acorn], a fast, lightweight Javascript parser. The corresponding licences for [Polymer Expressions][polymer-expressions] and [esprima][esprima] have been removed from the project as the code to which they pertain is no longer part of the project.
+
+### Fixes
+
+- Fixed a bug where holes in sparse arrays were being evaluated as `null`.
+- Fixed a bug where `undefined` could evaluate to a value other than `undefined` if a property named `undefined` was defined on the scope object.
+- Fixed a bug where calling a function returned by a function would not evaluate and instead return the function.
+- Fixed a bug where computed property accessors were not being evaluated (`obj[prop]` was being evaluated as `obj['prop']` instead of `obj[prop]`).
+- Fixed a bug where a function member of a scope object that returned `this` would result in a `TypeError` being thrown.
+- Fixed a bug where a function member of a scope object could not access properties on `this`.
+- Fixed a bug where logical operators (`&&`, `||`) would evaluate both operands before evaluating the result.
+
+### Development changes
+
+- Test coverage is now 100%.
+- Node 12.x has been dropped from the test matrix.
+
 ## [v2.1.0](https://github.com/adalinesimonian/jshiki/tree/v2.1.0) (2021-08-17)
 
 ### Additions
@@ -67,3 +97,6 @@
 [jest]: https://jestjs.io
 [typescript]: https://www.typescriptlang.org
 [github-actions]: https://github.com/features/actions
+[acorn]: https://github.com/acornjs/acorn
+[polymer-expressions]: https://github.com/googlearchive/polymer-expressions
+[esprima]: https://github.com/jquery/esprima

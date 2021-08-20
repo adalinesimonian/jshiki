@@ -1,6 +1,6 @@
 # j 式 | jshiki
 
-[![Build Status](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml/badge.svg?branch=main)](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml) [![codecov](https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA)](https://codecov.io/gh/adalinesimonian/jshiki)
+[![Build Status](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml/badge.svg?branch=main)](https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml) [![codecov](https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA)](https://codecov.io/gh/adalinesimonian/jshiki) [![NPM version](https://img.shields.io/npm/v/jshiki.svg)](https://www.npmjs.com/package/jshiki)
 
 Lightweight expression parsing and execution library for Node.js
 
@@ -21,27 +21,35 @@ $ npm install jshiki
 ```js
 const jshiki = require('jshiki')
 
-let result = jshiki.evaluate('5 + (12 / 3)') // result => 9
+let result = jshiki.evaluate('a + (12 / 3)') // result => 9
 // or
-let expression = jshiki.parse('5 + (12 / 3)')
+let expression = jshiki.parse('a + (12 / 3)')
 result = expression() // result => 9
 
-const expressionText = '" Hello! ".trim() + " My name\'s " + name'
-const scope = {
-  name: 'Azumi',
-}
-result = jshiki.evaluate(expressionText, { scope })
+const expressionSource = '`${" Hello! ".trim()} My name\'s ${name}`'
+expression = jshiki.parse(expressionSource)
+result = expression({ name: 'Azumi' })
+// result => "Hello! My name's Azumi"
+
+// or
+result = jshiki.evaluate(expressionSource, {
+  scope: { name: 'Azumi' },
+})
 // result => "Hello! My name's Azumi"
 ```
 
 ## Overview
 
-jshiki provides a safe and simple way to evaluate expressions, without worrying about external data being overwritten or accessed in unexpected ways. Additionally, jshiki does not have any dependencies, and only includes a highly stripped-down version of [esprima][esprima] that only supports a subset of JS.
+jshiki provides a safe and simple way to evaluate expressions, without worrying about external data being overwritten or accessed in unexpected ways. Additionally, jshiki only has one lightweight dependency, [acorn][acorn], which is used to parse the expression.
 
 jshiki supports:
 
-- Numeric literals
+- Booleans
+- `undefined`, `null`
+- Numeric literals (including BigInts, `NaN`, and `Infinity`)
 - String literals
+- Template literals
+- Regex literals
 - Array literals
 - Object literals
 - Function calls
@@ -49,24 +57,24 @@ jshiki supports:
 
 ## Limited access to external data
 
-jshiki allows providing expressions access to variables by providing a `scope` object, where each property acts as a global variable available to the expression For example:
+jshiki allows providing expressions access to variables by providing a scope object, where each property acts as a global variable available to the expression. For example:
 
 ```js
-result = jshiki.evaluate('func(1234)', {
-  scope: {
-    func(num) {
-      let comparison
-      if (num > 1000) {
-        comparison = 'greater than'
-      } else if (num === 1000) {
-        comparison = 'equal to'
-      } else {
-        comparison = 'less than'
-      }
-      return `num is ${comparison} 1000`
-    },
+expression = jshiki.parse('func(1234)')
+result = expression({
+  func(num) {
+    let comparison
+    if (num > 1000) {
+      comparison = 'greater than'
+    } else if (num === 1000) {
+      comparison = 'equal to'
+    } else {
+      comparison = 'less than'
+    }
+    return `${num} is ${comparison} 1000`
   },
-}) // result => "1234 is greater than 1000"
+})
+// result => "1234 is greater than 1000"
 ```
 
 jshiki also lets you define rules which determine whether or not a particular variable is accessible to an expression. You can configure jshiki to require an explicit `allow` rule to exist before allowing access, or you can opt to allow access to all variables unless a `block` rule applies, the latter being the default.
@@ -104,7 +112,7 @@ result = jshiki.evaluate('user.passwordHash', options)
 // result => undefined
 ```
 
-jshiki does not interpret assignment, which keeps expressions from overwriting external data. For example:
+jshiki does not allow assignment, which keeps expressions from overwriting external data. For example:
 
 ```js
 result = jshiki.evaluate('property.key = "Haha, I overwrote your stuff!"', {
@@ -113,7 +121,7 @@ result = jshiki.evaluate('property.key = "Haha, I overwrote your stuff!"', {
       key: 'value',
     },
   },
-}) // throws Error: Unexpected token =
+}) // throws Error: Unsupported node type: AssignmentExpression
 ```
 
 ### Caveats
@@ -137,11 +145,13 @@ jshiki supports defining rules that determine whether or not a variable is acces
 For example, the following rules will allow access to `user.name` and `user.postalCode`, but will block access to `user.passwordHash`:
 
 ```js
-const rules = [
-  { allow: 'user.name' },
-  { allow: ['user', 'postalCode'] },
-  { block: 'user.passwordHash' },
-]
+const options = {
+  rules: [
+    { allow: 'user.name' },
+    { allow: ['user', 'postalCode'] },
+    { block: 'user.passwordHash' },
+  ],
+}
 ```
 
 ### Explicit allow
@@ -150,7 +160,6 @@ By default, jshiki will allow access to all variables unless a `block` rule appl
 
 ```js
 const options = {
-  scope: { user },
   explicitAllow: true,
   rules: [{ allow: 'user.name' }],
 }
@@ -192,9 +201,6 @@ const rules = [{ allow: 'user.*' }, { block: 'user.passwordHash' }]
 
 ## Licence
 
-MIT.
+[MIT](LICENCE)
 
-Portions of the code were adapted from the [Polymer Expressions][polymer-expressions] and [esprima][esprima] libraries, which both have their own 3-clause BSD licenses. Copies are provided in the `src/lib` directory.
-
-[polymer-expressions]: https://github.com/Polymer/polymer-expressions
-[esprima]: https://github.com/jquery/esprima
+[acorn]: https://github.com/acornjs/acorn

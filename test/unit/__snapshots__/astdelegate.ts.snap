@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`AST Delegate createBinaryExpression should throw an error for disallowed binary operators 1`] = `"Disallowed operator: @"`;
-
-exports[`AST Delegate createThisExpression should throw an error 1`] = `"\`this\` is not supported"`;
-
-exports[`AST Delegate createUnaryExpression should throw an error for disallowed unary operators 1`] = `"Disallowed operator: &&"`;
