@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Invalid/Illegal syntax should throw when the expression contains an invalid punctuator 1`] = `"Unexpected character '@' (1:7)"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`delete\` 1`] = `"Deleting local variable in strict mode (1:7)"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`in\` 1`] = `"Unsupported binary operator: in"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`instanceof\` 1`] = `"Unsupported binary operator: instanceof"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`new\` 1`] = `"Unsupported node type: NewExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`this\` 1`] = `"Unsupported node type: ThisExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`typeof\` 1`] = `"Unsupported unary operator: typeof"`;
+
+exports[`Invalid/Illegal syntax should throw when using \`void\` 1`] = `"Unsupported unary operator: void"`;
+
+exports[`Invalid/Illegal syntax should throw when using a class 1`] = `"Unsupported node type: ClassExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using a function 1`] = `"Unsupported node type: FunctionExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using a generator function 1`] = `"Unsupported node type: FunctionExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using a sequence expression 1`] = `"Unsupported node type: SequenceExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using an arrow function 1`] = `"Unsupported node type: ArrowFunctionExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using an async arrow function 1`] = `"Unsupported node type: ArrowFunctionExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using an async function 1`] = `"Unsupported node type: FunctionExpression"`;
+
+exports[`Invalid/Illegal syntax should throw when using an async generator function 1`] = `"Unsupported node type: FunctionExpression"`;
