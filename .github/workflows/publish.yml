@@ -26,7 +26,7 @@ jobs:
           echo "MAJOR_TAG_VERSION=${MAJOR_TAG_VERSION:1}.x" >> $GITHUB_ENV
 
       - name: Ensure new version is mentioned in change log
-        run: grep --regexp "\[${RELEASE_TAG_VERSION}\]" CHANGELOG.md
+        run: grep --regexp "\[v${RELEASE_TAG_VERSION}\]" CHANGELOG.md
 
       - name: Install dependencies
         run: yarn install --immutable
