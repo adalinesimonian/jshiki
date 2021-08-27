@@ -20,7 +20,7 @@ jobs:
 
       - name: Set release version env variables
         run: |
-          export RELEASE_TAG_VERSION=${{ github.event.release.tag_name }}
+          export RELEASE_TAG_VERSION="$(echo "${{ github.event.release.tag_name }}" | grep -oP '^[^\s]+')"
           echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION:1}" >> $GITHUB_ENV
           export MAJOR_TAG_VERSION="$(echo ${RELEASE_TAG_VERSION} | grep -oP '^[^.]+')"
           echo "MAJOR_TAG_VERSION=${MAJOR_TAG_VERSION:1}.x" >> $GITHUB_ENV
