@@ -84,12 +84,8 @@ jobs:
           VERSION: ${{ env.RELEASE_TAG_VERSION }}
           ALIAS: latest
 
-      - name: Deploy all docs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: '.'
-          keep_files: true
+      - name: Deploy docs
+        run: git push origin gh-pages
 
       - name: Publish to registry
         run: yarn npm publish
