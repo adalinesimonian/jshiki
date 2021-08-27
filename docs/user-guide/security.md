@@ -42,7 +42,7 @@ So, how do we use jshiki while avoiding common pitfalls? We can take a few steps
 
 - **Restrict creating expressions to only those that need to be able to do so.**
 
-    If there is no need for a certain users to write expressions, there is no reason why they should have access to create them. The fewer people have access to creating expressions, the less likely you are to encounter an attack.
+    If there is no need for certain users to write expressions, there is no reason why they should have access to create them. The fewer people have access to creating expressions, the less likely you are to encounter an attack.
 
     > If, for example, you have a site that uses expressions for business rules, and you want to allow users to create expressions, you should assign the ability to edit expressions only to those users who need to edit business rules.
 
