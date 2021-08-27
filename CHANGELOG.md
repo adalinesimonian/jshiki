@@ -1,5 +1,24 @@
 # Change Log
 
+## [v3.1.0](https://github.com/adalinesimonian/jshiki/tree/v3.1.0) (2021-08-27)
+
+### Additions
+
+- The following types are now exported in the package entry point:
+  - `JshikiParseOptions`
+  - `JshikiEvaluateOptions`
+  - `JshikiExpression`
+  - `AccessPath`
+  - `AccessRule`
+  - `AllowAccessRule`
+  - `BlockAccessRule`
+
+### Development Changes
+
+- [Documentation] site added using [mkdocs] and [mkdocs-material].
+
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v3.0.0...v3.1.0)
+
 ## [v3.0.0](https://github.com/adalinesimonian/jshiki/tree/v3.0.0) (2021-08-20)
 
 ### BREAKING CHANGES
@@ -102,3 +121,6 @@
 [acorn]: https://github.com/acornjs/acorn
 [polymer-expressions]: https://github.com/googlearchive/polymer-expressions
 [esprima]: https://github.com/jquery/esprima
+[mkdocs]: https://www.mkdocs.org/
+[mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
+[documentation]: https://adalinesimonian.github.io/jshiki/
