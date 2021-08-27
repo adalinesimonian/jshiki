@@ -25,7 +25,7 @@
   "scripts": {
     "build": "yarn clean && tsc",
     "build-docs": "run-s \"build-docs:*\"",
-    "build-docs:apidocs": "typedoc",
+    "build-docs:api": "typedoc",
     "build-docs:docs": "mike deploy ${VERSION} ${ALIAS}",
     "build-docs-dev": "VERSION=\"main\" ALIAS=\"stage\" yarn build-docs",
     "clean": "tsc --build --clean",
