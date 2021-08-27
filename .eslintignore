@@ -2,3 +2,5 @@
 node_modules
 dist
 coverage
+site
+docs/api

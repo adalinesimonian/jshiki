@@ -5,6 +5,11 @@ node_modules
 src
 test
 coverage
+docs
+docs-theme
+assets/logo/*
+!assets/logo/jshiki-readme-banner.svg
+site
 jest.config.js
 .editorconfig
 .eslintrc
@@ -15,4 +20,8 @@ jest.config.js
 .yarnrc.yml
 jsconfig.json
 tsconfig.json
+mkdocs.yml
+requirements.txt
+svgo.config.js
+typedoc.js
 yarn.lock

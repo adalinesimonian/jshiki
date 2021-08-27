@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: yarn install --immutable
 
       - name: Lint ESLint
@@ -26,8 +26,8 @@ jobs:
       - name: Lint Prettier
         run: yarn lint:prettier
 
-      - name: Check Types
+      - name: Check types
         run: yarn lint:types
 
-      - name: Check Lock File Changes
+      - name: Check lock file changes
         run: yarn && echo "Listing changed files:" && git diff --name-only --exit-code && echo "No files changed during lint."

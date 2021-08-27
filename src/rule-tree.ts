@@ -6,11 +6,11 @@ export type AccessPathArray = (string | symbol)[]
  * can be used as a wildcard for properties at any depth.
  */
 export type AccessPath = string | AccessPathArray
-type AllowAccessRule = {
+export type AllowAccessRule = {
   /** The path to the property to which access should be allowed. */
   allow: AccessPath
 }
-type BlockAccessRule = {
+export type BlockAccessRule = {
   /** The path to the property to which access should be blocked. */
   block: AccessPath
 }

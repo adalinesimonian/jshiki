@@ -1,0 +1,97 @@
+name: Publish package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Set release version env variables
+        run: |
+          export RELEASE_TAG_VERSION=${{ github.event.release.tag_name }}
+          echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION:1}" >> $GITHUB_ENV
+          export MAJOR_TAG_VERSION="$(echo ${RELEASE_TAG_VERSION} | grep -oP '^[^.]+')"
+          echo "MAJOR_TAG_VERSION=${MAJOR_TAG_VERSION:1}.x" >> $GITHUB_ENV
+
+      - name: Ensure new version is mentioned in change log
+        run: grep --regexp "\[${RELEASE_TAG_VERSION}\]" CHANGELOG.md
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install docs dependencies
+        run: yarn install-docs-deps
+
+      - name: Clean docs directories
+        run: rm -rf site docs/api
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASS }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+          git-tag-gpgsign: true
+
+      - name: Set aliases
+        run: |
+          export LATEST_DOCS_VERSION="$(mike list | grep -oP '^.+(?= \[latest\])')"
+          if [ -z "$LATEST_DOCS_VERSION" ]; then
+            echo "ALIAS_LATEST=latest" >> $GITHUB_ENV
+          else
+            npx -y semver -r ">$LATEST_DOCS_VERSION" ${RELEASE_TAG_VERSION}
+            if [ $? -eq 0 ]; then
+              echo "ALIAS_LATEST=latest" >> $GITHUB_ENV
+            fi
+          fi
+          export LATEST_DOCS_VERSION_FOR_MAJOR="$(mike list | grep -oP "^.+(?= \[$MAJOR_TAG_VERSION\])")"
+          if [ -z "$LATEST_DOCS_VERSION_FOR_MAJOR" ]; then
+            echo "ALIAS_MAJOR=$MAJOR_TAG_VERSION" >> $GITHUB_ENV
+          else
+            npx -y semver -r "^$LATEST_DOCS_VERSION_FOR_MAJOR" ${RELEASE_TAG_VERSION}
+            if [ $? -eq 0 ]; then
+              echo "ALIAS_MAJOR=$MAJOR_TAG_VERSION" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Build docs
+        run: |
+          mike deploy ${RELEASE_TAG_VERSION} ${ALIAS_MAJOR} ${ALIAS_LATEST}
+          mike set-default --push latest
+        env:
+          VERSION: ${{ env.RELEASE_TAG_VERSION }}
+          ALIAS: latest
+
+      - name: Deploy all docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: '.'
+          keep_files: true
+
+      - name: Publish to registry
+        run: yarn npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
