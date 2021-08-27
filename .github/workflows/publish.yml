@@ -90,6 +90,7 @@ jobs:
         run: git push origin gh-pages
 
       - name: Publish to registry
-        run: yarn npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn config set npmAlwaysAuth true
+          yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
+          yarn npm publish
