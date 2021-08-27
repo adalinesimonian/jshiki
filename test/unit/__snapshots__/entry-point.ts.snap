@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Entry point parse() should throw an error for invalid expressions 1`] = `"Unexpected token (1:9)"`;
