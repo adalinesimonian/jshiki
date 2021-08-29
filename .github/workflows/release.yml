@@ -1,11 +1,11 @@
 name: Publish package
 
 on:
-  release:
-    types: [published]
+  create:
 
 jobs:
-  build:
+  release:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,13 +20,16 @@ jobs:
 
       - name: Set release version env variables
         run: |
-          export RELEASE_TAG_VERSION="$(echo "${{ github.event.release.tag_name }}" | grep -oP '^[^\s]+')"
-          echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION:1}" >> $GITHUB_ENV
-          export MAJOR_TAG_VERSION="$(echo ${RELEASE_TAG_VERSION} | grep -oP '^[^.]+')"
-          echo "MAJOR_TAG_VERSION=${MAJOR_TAG_VERSION:1}.x" >> $GITHUB_ENV
+          export RELEASE_TAG_VERSION="$(echo "${{ github.ref }}" | grep -oP '(?<=refs/tags/v)\d+\.\d+\.\d+.*')"
+          echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION}" >> $GITHUB_ENV
+          export MAJOR_TAG_VERSION="$(echo ${RELEASE_TAG_VERSION} | grep -oP '^[^.]+').x"
+          echo "MAJOR_TAG_VERSION=${MAJOR_TAG_VERSION}" >> $GITHUB_ENV
 
       - name: Ensure new version is mentioned in change log
         run: grep --regexp "\[v${RELEASE_TAG_VERSION}\]" CHANGELOG.md
+
+      - name: Extract changelog for release
+        run: awk -v ver=${RELEASE_TAG_VERSION} '/^#+ \[v/ { if (p) { exit }; if ($2 ~ "[v"ver"]") { p=1; next } } p' CHANGELOG.md > release-changelog.md
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -86,6 +89,15 @@ jobs:
         env:
           VERSION: ${{ env.RELEASE_TAG_VERSION }}
           ALIAS: latest
+
+      - name: Build package
+        run: yarn pack
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release-changelog.md
+          files: package.tgz
 
       - name: Deploy docs
         run: git push origin gh-pages

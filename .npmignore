@@ -25,3 +25,4 @@ requirements.txt
 svgo.config.js
 typedoc.js
 yarn.lock
+release-changelog.md

@@ -3,6 +3,7 @@ node_modules
 dist
 coverage
 site
+release-changelog.md
 # Prettier does not play well with markdown with advanced formatting and will
 # break content tabs and other features and extensions, so we disable it for now
 docs
