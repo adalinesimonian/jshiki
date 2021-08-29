@@ -8,26 +8,6 @@ exports[`Evaluator Expression creation Object expressions should throw when give
 
 exports[`Evaluator Expression creation Unary expressions should throw when given an invalid operator 1`] = `"Unsupported unary operator: invalid"`;
 
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 1`] = `"Member access is not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 2`] = `"Member access is not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 3`] = `"Member access is not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 4`] = `"Member access is not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
-
-exports[`Evaluator Expression options should block expressions when corresponding option is set to false 10`] = `"Array literals are not allowed"`;
-
 exports[`Evaluator Operator options should support allowing only the specified operators 1`] = `"Unary operator ! is not allowed"`;
 
 exports[`Evaluator Operator options should support allowing only the specified operators 2`] = `"Unary operator ~ is not allowed"`;
@@ -127,3 +107,23 @@ exports[`Evaluator Operator options should throw if the options do not contain a
 exports[`Evaluator Operator options should throw if the options do not contain a list 6`] = `"Operator options must specify either an allow list or a block list"`;
 
 exports[`Evaluator Parsing should throw an error if the expression is invalid 1`] = `"Unexpected token (1:10)"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 2`] = `"Member access is not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 3`] = `"Member access is not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 4`] = `"Member access is not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;

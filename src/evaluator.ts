@@ -148,10 +148,10 @@ export interface OperatorOptions {
 }
 
 /**
- * Defines which expressions are allowed.
+ * Defines what syntax is allowed.
  * @example
  * ```js
- * const expressionOptions = {
+ * const syntaxOptions = {
  *   memberAccess: true,
  *   calls: false,
  *   taggedTemplates: false,
@@ -161,7 +161,7 @@ export interface OperatorOptions {
  * }
  * ```
  */
-export interface ExpressionOptions {
+export interface SyntaxOptions {
   /**
    * Whether or not member access is allowed. A value of `true` allows member
    * access, `false` blocks it. Defaults to `true`.
@@ -217,12 +217,12 @@ export interface EvaluatorOptions {
   operators?: OperatorOptions
 
   /**
-   * Defines which expressions are allowed. By default, all supported
-   * expressions are allowed.
+   * Defines what syntax is allowed. By default, all supported syntax is
+   * allowed.
    * @example
    * ```js
    * const options = {
-   *   expressions: {
+   *   syntax: {
    *     memberAccess: true,
    *     calls: false,
    *     taggedTemplates: false,
@@ -233,7 +233,7 @@ export interface EvaluatorOptions {
    * }
    * ```
    */
-  expressions?: ExpressionOptions
+  syntax?: SyntaxOptions
 }
 
 type ArrayExpression = Expression & { node: ESTree.ArrayExpression }
@@ -353,7 +353,7 @@ export default class Evaluator {
 
   constructor({
     operators: { unary, binary, logical, ternary = true } = {},
-    expressions: {
+    syntax: {
       memberAccess = true,
       calls = true,
       taggedTemplates = true,

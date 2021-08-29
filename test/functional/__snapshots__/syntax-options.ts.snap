@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Syntax options should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 2`] = `"Member access is not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 3`] = `"Member access is not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 4`] = `"Member access is not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
+
+exports[`Syntax options should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;

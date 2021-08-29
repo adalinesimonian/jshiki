@@ -1,7 +1,7 @@
 import { evaluate, parse } from '../../src'
 
-describe('Expression options', () => {
-  it('should allow all supported expressions by default', () => {
+describe('Syntax options', () => {
+  it('should allow all supported syntax by default', () => {
     expect(evaluate('a.b.c', { scope: { a: { b: { c: 1 } } } })).toBe(1)
     expect(evaluate('a?.b?.c', { scope: { a: { b: { c: 1 } } } })).toBe(1)
     expect(evaluate('a["b"]["c"]', { scope: { a: { b: { c: 1 } } } })).toBe(1)
@@ -27,9 +27,9 @@ describe('Expression options', () => {
     expect(evaluate('[1, , 3]')).toEqual([1, , 3])
   })
 
-  it('should allow expressions when corresponding option is set to true', () => {
+  it('should allow syntax when corresponding option is set to true', () => {
     const options = {
-      expressions: {
+      syntax: {
         memberAccess: true,
         calls: true,
         taggedTemplates: true,
@@ -74,9 +74,9 @@ describe('Expression options', () => {
     expect(evaluate('[1, , 3]', options)).toEqual([1, , 3])
   })
 
-  it('should block expressions when corresponding option is set to false', () => {
+  it('should block syntax when corresponding option is set to false', () => {
     const options = {
-      expressions: {
+      syntax: {
         memberAccess: false,
         calls: false,
         taggedTemplates: false,

@@ -387,8 +387,8 @@ describe('Evaluator', () => {
     })
   })
 
-  describe('Expression options', () => {
-    it('should allow all supported expressions by default', () => {
+  describe('Syntax options', () => {
+    it('should allow all supported syntax by default', () => {
       const evaluator = new Evaluator()
 
       expect(evaluator.createExpression('a.b.c')({ a: { b: { c: 1 } } })).toBe(
@@ -420,9 +420,9 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
     })
 
-    it('should allow expressions when corresponding option is set to true', () => {
+    it('should allow syntax when corresponding option is set to true', () => {
       const evaluator = new Evaluator({
-        expressions: {
+        syntax: {
           memberAccess: true,
           calls: true,
           taggedTemplates: true,
@@ -461,9 +461,9 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
     })
 
-    it('should block expressions when corresponding option is set to false', () => {
+    it('should block syntax when corresponding option is set to false', () => {
       const evaluator = new Evaluator({
-        expressions: {
+        syntax: {
           memberAccess: false,
           calls: false,
           taggedTemplates: false,
