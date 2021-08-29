@@ -70,77 +70,77 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('+2')()).toBe(2)
       expect(evaluator.createExpression('-2')()).toBe(-2)
       expect(() =>
-        evaluator.createExpression('!2')()
+        evaluator.createExpression('!2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('~2')()
+        evaluator.createExpression('~2')
       ).toThrowErrorMatchingSnapshot()
 
       // Binary operators
       expect(() =>
-        evaluator.createExpression('4 + 2')()
+        evaluator.createExpression('4 + 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 - 2')()
+        evaluator.createExpression('4 - 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 * 2')()
+        evaluator.createExpression('4 * 2')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 ** 2')()).toBe(16)
       expect(() =>
-        evaluator.createExpression('4 / 2')()
+        evaluator.createExpression('4 / 2')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 % 2')()).toBe(0)
       expect(() =>
-        evaluator.createExpression('4 < 2')()
+        evaluator.createExpression('4 < 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 > 2')()
+        evaluator.createExpression('4 > 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 <= 2')()
+        evaluator.createExpression('4 <= 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >= 2')()
+        evaluator.createExpression('4 >= 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 == 2')()
+        evaluator.createExpression('4 == 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 != 2')()
+        evaluator.createExpression('4 != 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 === 2')()
+        evaluator.createExpression('4 === 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 !== 2')()
+        evaluator.createExpression('4 !== 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 | 2')()
+        evaluator.createExpression('4 | 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 ^ 2')()
+        evaluator.createExpression('4 ^ 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 & 2')()
+        evaluator.createExpression('4 & 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 << 2')()
+        evaluator.createExpression('4 << 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >> 2')()
+        evaluator.createExpression('4 >> 2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >>> 2')()
+        evaluator.createExpression('4 >>> 2')
       ).toThrowErrorMatchingSnapshot()
 
       // Logical operators
       expect(evaluator.createExpression('null && true')()).toBe(null)
       expect(() =>
-        evaluator.createExpression('null || true')()
+        evaluator.createExpression('null || true')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('null ?? true')()
+        evaluator.createExpression('null ?? true')
       ).toThrowErrorMatchingSnapshot()
 
       // Conditional operator
@@ -159,10 +159,10 @@ describe('Evaluator', () => {
 
       // Unary operators
       expect(() =>
-        evaluator.createExpression('+2')()
+        evaluator.createExpression('+2')
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('-2')()
+        evaluator.createExpression('-2')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('!2')()).toBe(false)
       expect(evaluator.createExpression('~2')()).toBe(-3)
@@ -172,11 +172,11 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 - 2')()).toBe(2)
       expect(evaluator.createExpression('4 * 2')()).toBe(8)
       expect(() =>
-        evaluator.createExpression('4 ** 2')()
+        evaluator.createExpression('4 ** 2')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 / 2')()).toBe(2)
       expect(() =>
-        evaluator.createExpression('4 % 2')()
+        evaluator.createExpression('4 % 2')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 < 2')()).toBe(false)
       expect(evaluator.createExpression('4 > 2')()).toBe(true)
@@ -195,14 +195,14 @@ describe('Evaluator', () => {
 
       // Logical operators
       expect(() =>
-        evaluator.createExpression('null && true')()
+        evaluator.createExpression('null && true')
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('null || true')()).toBe(true)
       expect(evaluator.createExpression('null ?? true')()).toBe(true)
 
       // Conditional operator
       expect(() =>
-        evaluator.createExpression('false ? 5 : 3')()
+        evaluator.createExpression('false ? 5 : 3')
       ).toThrowErrorMatchingSnapshot()
     })
 
