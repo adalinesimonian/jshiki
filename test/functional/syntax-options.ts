@@ -25,6 +25,7 @@ describe('Syntax options', () => {
     expect(evaluate('{ a: 1 }')).toEqual({ a: 1 })
     // eslint-disable-next-line no-sparse-arrays
     expect(evaluate('[1, , 3]')).toEqual([1, , 3])
+    expect(evaluate('/x/g')).toEqual(/x/g)
   })
 
   it('should allow syntax when corresponding option is set to true', () => {
@@ -36,6 +37,7 @@ describe('Syntax options', () => {
         templates: true,
         objects: true,
         arrays: true,
+        regexes: true,
       },
     }
 
@@ -72,6 +74,7 @@ describe('Syntax options', () => {
     expect(evaluate('{ a: 1 }', options)).toEqual({ a: 1 })
     // eslint-disable-next-line no-sparse-arrays
     expect(evaluate('[1, , 3]', options)).toEqual([1, , 3])
+    expect(evaluate('/x/g')).toEqual(/x/g)
   })
 
   it('should block syntax when corresponding option is set to false', () => {
@@ -83,6 +86,7 @@ describe('Syntax options', () => {
         templates: false,
         objects: false,
         arrays: false,
+        regexes: false,
       },
     }
 
@@ -104,5 +108,6 @@ describe('Syntax options', () => {
     ).toThrowErrorMatchingSnapshot()
     expect(() => parse('{ a: 1 }', options)).toThrowErrorMatchingSnapshot()
     expect(() => parse('[1, , 3]', options)).toThrowErrorMatchingSnapshot()
+    expect(() => parse('/x/g', options)).toThrowErrorMatchingSnapshot()
   })
 })

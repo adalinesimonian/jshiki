@@ -158,6 +158,7 @@ export interface OperatorOptions {
  *   templates: true,
  *   objects: true,
  *   arrays: false,
+ *   regexes: false,
  * }
  * ```
  */
@@ -197,11 +198,18 @@ export interface SyntaxOptions {
    * array literals, `false` blocks them. Defaults to `true`.
    */
   arrays?: boolean
+
+  /**
+   * Whether or not regular expressions are allowed. A value of `true` allows
+   * regular expressions, `false` blocks them. Defaults to `true`.
+   */
+  regexes?: boolean
 }
 
 export interface EvaluatorOptions {
   /**
-   * Defines which operators are allowed.
+   * Defines which operators are allowed. By default, all supported operators
+   * are allowed.
    * @example
    * ```js
    * const options = {
@@ -229,6 +237,7 @@ export interface EvaluatorOptions {
    *     templates: true,
    *     objects: true,
    *     arrays: false,
+   *     regexes: false,
    *   },
    * }
    * ```
@@ -351,6 +360,8 @@ export default class Evaluator {
 
   allowArrays: boolean
 
+  allowRegexes: boolean
+
   constructor({
     operators: { unary, binary, logical, ternary = true } = {},
     syntax: {
@@ -360,6 +371,7 @@ export default class Evaluator {
       templates = true,
       objects = true,
       arrays = true,
+      regexes = true,
     } = {},
   }: EvaluatorOptions = {}) {
     this.operators = {
@@ -378,6 +390,7 @@ export default class Evaluator {
     this.allowTemplates = Boolean(templates)
     this.allowObjects = Boolean(objects)
     this.allowArrays = Boolean(arrays)
+    this.allowRegexes = Boolean(regexes)
   }
 
   createExpression(code: string): (scope?: any) => any {
@@ -591,6 +604,9 @@ export default class Evaluator {
   createLiteral(
     node: ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral
   ): LiteralExpression {
+    if (!this.allowRegexes && node.value instanceof RegExp) {
+      throw new Error('Regular expressions are not allowed')
+    }
     return Object.assign(() => node.value, { node })
   }
 

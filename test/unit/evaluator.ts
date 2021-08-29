@@ -418,6 +418,7 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
       // eslint-disable-next-line no-sparse-arrays
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
+      expect(evaluator.createExpression('/x/g')()).toEqual(/x/g)
     })
 
     it('should allow syntax when corresponding option is set to true', () => {
@@ -429,6 +430,7 @@ describe('Evaluator', () => {
           templates: true,
           objects: true,
           arrays: true,
+          regexes: true,
         },
       })
 
@@ -459,6 +461,7 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
       // eslint-disable-next-line no-sparse-arrays
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
+      expect(evaluator.createExpression('/x/g')()).toEqual(/x/g)
     })
 
     it('should block syntax when corresponding option is set to false', () => {
@@ -470,6 +473,7 @@ describe('Evaluator', () => {
           templates: false,
           objects: false,
           arrays: false,
+          regexes: false,
         },
       })
 
@@ -504,6 +508,9 @@ describe('Evaluator', () => {
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
         evaluator.createExpression('[1, , 3]')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('/x/g')
       ).toThrowErrorMatchingSnapshot()
     })
   })

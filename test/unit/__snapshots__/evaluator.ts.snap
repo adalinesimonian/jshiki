@@ -127,3 +127,5 @@ exports[`Evaluator Syntax options should block syntax when corresponding option 
 exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
 
 exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;
+
+exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 11`] = `"Regular expressions are not allowed"`;
