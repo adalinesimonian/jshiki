@@ -84,7 +84,7 @@ jobs:
       - name: Build docs
         run: |
           yarn build-docs:api
-          mike deploy ${RELEASE_TAG_VERSION} ${ALIAS_MAJOR} ${ALIAS_LATEST}
+          mike deploy -u ${RELEASE_TAG_VERSION} ${ALIAS_MAJOR} ${ALIAS_LATEST}
           mike set-default --push latest
         env:
           VERSION: ${{ env.RELEASE_TAG_VERSION }}
