@@ -3,6 +3,7 @@ import Evaluator, {
   BinaryOperatorOptions,
   LogicalOperatorOptions,
   OperatorOptions,
+  ExpressionOptions,
   EvaluatorOptions,
 } from './evaluator'
 import getRuleProxy from './rule-proxy'
@@ -22,6 +23,7 @@ export {
   BinaryOperatorOptions,
   LogicalOperatorOptions,
   OperatorOptions,
+  ExpressionOptions,
 }
 
 /**
