@@ -387,6 +387,127 @@ describe('Evaluator', () => {
     })
   })
 
+  describe('Expression options', () => {
+    it('should allow all supported expressions by default', () => {
+      const evaluator = new Evaluator()
+
+      expect(evaluator.createExpression('a.b.c')({ a: { b: { c: 1 } } })).toBe(
+        1
+      )
+      expect(
+        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(
+        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(
+        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
+      expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
+      expect(
+        // eslint-disable-next-line no-template-curly-in-string
+        evaluator.createExpression('tag`a${b}`')({
+          b: 1,
+          tag: (strings: TemplateStringsArray, expression: number) =>
+            `got ${strings.join('')} and ${expression}`,
+        })
+      ).toBe('got a and 1')
+      // eslint-disable-next-line no-template-curly-in-string
+      expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
+      expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
+      // eslint-disable-next-line no-sparse-arrays
+      expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
+    })
+
+    it('should allow expressions when corresponding option is set to true', () => {
+      const evaluator = new Evaluator({
+        expressions: {
+          memberAccess: true,
+          calls: true,
+          taggedTemplates: true,
+          templates: true,
+          objects: true,
+          arrays: true,
+        },
+      })
+
+      expect(evaluator.createExpression('a.b.c')({ a: { b: { c: 1 } } })).toBe(
+        1
+      )
+      expect(
+        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(
+        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(
+        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } })
+      ).toBe(1)
+      expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
+      expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
+      expect(
+        // eslint-disable-next-line no-template-curly-in-string
+        evaluator.createExpression('tag`a${b}`')({
+          b: 1,
+          tag: (strings: TemplateStringsArray, expression: number) =>
+            `got ${strings.join('')} and ${expression}`,
+        })
+      ).toBe('got a and 1')
+      // eslint-disable-next-line no-template-curly-in-string
+      expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
+      expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
+      // eslint-disable-next-line no-sparse-arrays
+      expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
+    })
+
+    it('should block expressions when corresponding option is set to false', () => {
+      const evaluator = new Evaluator({
+        expressions: {
+          memberAccess: false,
+          calls: false,
+          taggedTemplates: false,
+          templates: false,
+          objects: false,
+          arrays: false,
+        },
+      })
+
+      expect(() =>
+        evaluator.createExpression('a.b.c')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('a?.b?.c')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('a["b"]["c"]')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('a?.["b"]?.["c"]')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('a()')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('a?.()')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        // eslint-disable-next-line no-template-curly-in-string
+        evaluator.createExpression('tag`a${b}`')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        // eslint-disable-next-line no-template-curly-in-string
+        evaluator.createExpression('`a ${b}`')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('{ a: 1 }')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('[1, , 3]')
+      ).toThrowErrorMatchingSnapshot()
+    })
+  })
+
   describe('Expression creation', () => {
     describe('Array expressions', () => {
       it('should create an array expression', () => {

@@ -130,10 +130,12 @@ export type JshikiExpression = (scope?: Record<any, any>) => any
  */
 export function parse(
   str: string,
-  { rules, explicitAllow, operators }: JshikiParseOptions = {}
+  { rules, explicitAllow, operators, expressions }: JshikiParseOptions = {}
 ): JshikiExpression {
   const ruleTree = rules ? new RuleTree(rules) : undefined
-  const expression = new Evaluator({ operators }).createExpression(str)
+  const expression = new Evaluator({ operators, expressions }).createExpression(
+    str
+  )
 
   return (scope: Record<any, any> = {}) => {
     const proxiedScope = ruleTree

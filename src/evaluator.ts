@@ -147,6 +147,58 @@ export interface OperatorOptions {
   ternary?: boolean
 }
 
+/**
+ * Defines which expressions are allowed.
+ * @example
+ * ```js
+ * const expressionOptions = {
+ *   memberAccess: true,
+ *   calls: false,
+ *   taggedTemplates: false,
+ *   templates: true,
+ *   objects: true,
+ *   arrays: false,
+ * }
+ * ```
+ */
+export interface ExpressionOptions {
+  /**
+   * Whether or not member access is allowed. A value of `true` allows member
+   * access, `false` blocks it. Defaults to `true`.
+   */
+  memberAccess?: boolean
+
+  /**
+   * Whether or not function calls are allowed. A value of `true` allows
+   * function calls, `false` blocks them. Defaults to `true`.
+   */
+  calls?: boolean
+
+  /**
+   * Whether or not tagged template literals are allowed. A value of `true`
+   * allows tagged template literals, `false` blocks them. Defaults to `true`.
+   */
+  taggedTemplates?: boolean
+
+  /**
+   * Whether or not template literals are allowed. A value of `true` allows
+   * template literals, `false` blocks them. Defaults to `true`.
+   */
+  templates?: boolean
+
+  /**
+   * Whether or not object literals are allowed. A value of `true` allows
+   * object literals, `false` blocks them. Defaults to `true`.
+   */
+  objects?: boolean
+
+  /**
+   * Whether or not array literals are allowed. A value of `true` allows
+   * array literals, `false` blocks them. Defaults to `true`.
+   */
+  arrays?: boolean
+}
+
 export interface EvaluatorOptions {
   /**
    * Defines which operators are allowed.
@@ -158,11 +210,30 @@ export interface EvaluatorOptions {
    *     binary: { allow: ['+', '-', '*', '/', '%'] },
    *     logical: { block: ['??'] },
    *     ternary: false,
-   *   }
+   *   },
    * }
    * ```
    */
   operators?: OperatorOptions
+
+  /**
+   * Defines which expressions are allowed. By default, all supported
+   * expressions are allowed.
+   * @example
+   * ```js
+   * const options = {
+   *   expressions: {
+   *     memberAccess: true,
+   *     calls: false,
+   *     taggedTemplates: false,
+   *     templates: true,
+   *     objects: true,
+   *     arrays: false,
+   *   },
+   * }
+   * ```
+   */
+  expressions?: ExpressionOptions
 }
 
 type ArrayExpression = Expression & { node: ESTree.ArrayExpression }
@@ -266,10 +337,30 @@ export default class Evaluator {
     logical: Partial<typeof operators.logical>
   }
 
-  allowTernary: boolean = true
+  allowTernary: boolean
+
+  allowMemberAccess: boolean
+
+  allowCalls: boolean
+
+  allowTaggedTemplates: boolean
+
+  allowTemplates: boolean
+
+  allowObjects: boolean
+
+  allowArrays: boolean
 
   constructor({
     operators: { unary, binary, logical, ternary = true } = {},
+    expressions: {
+      memberAccess = true,
+      calls = true,
+      taggedTemplates = true,
+      templates = true,
+      objects = true,
+      arrays = true,
+    } = {},
   }: EvaluatorOptions = {}) {
     this.operators = {
       unary: unary ? filterOperators(unary, operators.unary) : operators.unary,
@@ -281,6 +372,12 @@ export default class Evaluator {
         : operators.logical,
     }
     this.allowTernary = Boolean(ternary)
+    this.allowMemberAccess = Boolean(memberAccess)
+    this.allowCalls = Boolean(calls)
+    this.allowTaggedTemplates = Boolean(taggedTemplates)
+    this.allowTemplates = Boolean(templates)
+    this.allowObjects = Boolean(objects)
+    this.allowArrays = Boolean(arrays)
   }
 
   createExpression(code: string): (scope?: any) => any {
@@ -313,9 +410,6 @@ export default class Evaluator {
       case 'ChainExpression':
         return this.createChainExpression(node)
       case 'ConditionalExpression':
-        if (!this.allowTernary) {
-          throw new Error('Conditional/ternary operator is not allowed')
-        }
         return this.createConditionalExpression(node)
       case 'Identifier':
         return this.createIdentifier(node)
@@ -374,6 +468,9 @@ export default class Evaluator {
   }
 
   createArrayExpression(node: ESTree.ArrayExpression): ArrayExpression {
+    if (!this.allowArrays) {
+      throw new Error('Array literals are not allowed')
+    }
     const elements = node.elements.map(element => {
       if (!element) {
         // eslint-disable-next-line no-sparse-arrays
@@ -423,6 +520,9 @@ export default class Evaluator {
   }
 
   createCallExpression(node: ESTree.SimpleCallExpression): CallExpression {
+    if (!this.allowCalls) {
+      throw new Error('Function calls are not allowed')
+    }
     if (node.callee.type !== 'MemberExpression') {
       const callee = this.evaluateIfIdentifier(node.callee)
 
@@ -472,6 +572,9 @@ export default class Evaluator {
   createConditionalExpression(
     node: ESTree.ConditionalExpression
   ): ConditionalExpression {
+    if (!this.allowTernary) {
+      throw new Error('Conditional/ternary operator is not allowed')
+    }
     const test = this.evaluateIfIdentifier(node.test)
     const consequent = this.evaluateIfIdentifier(node.consequent)
     const alternate = this.evaluateIfIdentifier(node.alternate)
@@ -513,6 +616,9 @@ export default class Evaluator {
   }
 
   createMemberExpression(node: ESTree.MemberExpression): MemberExpression {
+    if (!this.allowMemberAccess) {
+      throw new Error('Member access is not allowed')
+    }
     const object = this.evaluateIfIdentifier(node.object)
     const property = node.computed
       ? this.evaluateIfIdentifier(node.property)
@@ -526,6 +632,9 @@ export default class Evaluator {
   }
 
   createObjectExpression(node: ESTree.ObjectExpression): ObjectExpression {
+    if (!this.allowObjects) {
+      throw new Error('Object literals are not allowed')
+    }
     const properties = node.properties.map(property => {
       switch (property.type) {
         case 'Property': {
@@ -563,6 +672,9 @@ export default class Evaluator {
   createTaggedTemplateExpression(
     node: ESTree.TaggedTemplateExpression
   ): TaggedTemplateExpression {
+    if (!this.allowTaggedTemplates) {
+      throw new Error('Tagged template literals are not allowed')
+    }
     const tag = this.evaluateIfIdentifier(node.tag)
 
     const strings: TemplateStringsArray = node.quasi.quasis.reduce<
@@ -589,6 +701,9 @@ export default class Evaluator {
   createTemplateLiteral(
     node: ESTree.TemplateLiteral
   ): TemplateLiteralExpression {
+    if (!this.allowTemplates) {
+      throw new Error('Template literals are not allowed')
+    }
     const expressions: ((scope: any) => string)[] = []
     for (const element of iterateThroughTemplateLiteral(node)) {
       if (element.type === 'TemplateElement') {
