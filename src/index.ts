@@ -23,7 +23,7 @@ export {
   BinaryOperatorOptions,
   LogicalOperatorOptions,
   OperatorOptions,
-  SyntaxOptions as ExpressionOptions,
+  SyntaxOptions,
 }
 
 /**
