@@ -5,6 +5,7 @@ site
 docs/api
 package.tgz
 node_modules
+release-changelog.md
 .yarn/*
 !.yarn/patches
 !.yarn/releases
