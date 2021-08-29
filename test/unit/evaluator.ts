@@ -16,6 +16,377 @@ describe('Evaluator', () => {
     })
   })
 
+  describe('Operator options', () => {
+    it('should allow all supported operators by default', () => {
+      const evaluator = new Evaluator()
+      // Unary operators
+      expect(evaluator.createExpression('+2')()).toBe(2)
+      expect(evaluator.createExpression('-2')()).toBe(-2)
+      expect(evaluator.createExpression('!2')()).toBe(false)
+      expect(evaluator.createExpression('~2')()).toBe(-3)
+
+      // Binary operators
+      expect(evaluator.createExpression('4 + 2')()).toBe(6)
+      expect(evaluator.createExpression('4 - 2')()).toBe(2)
+      expect(evaluator.createExpression('4 * 2')()).toBe(8)
+      expect(evaluator.createExpression('4 ** 2')()).toBe(16)
+      expect(evaluator.createExpression('4 / 2')()).toBe(2)
+      expect(evaluator.createExpression('4 % 2')()).toBe(0)
+      expect(evaluator.createExpression('4 < 2')()).toBe(false)
+      expect(evaluator.createExpression('4 > 2')()).toBe(true)
+      expect(evaluator.createExpression('4 <= 2')()).toBe(false)
+      expect(evaluator.createExpression('4 >= 2')()).toBe(true)
+      expect(evaluator.createExpression('4 == 2')()).toBe(false)
+      expect(evaluator.createExpression('4 != 2')()).toBe(true)
+      expect(evaluator.createExpression('4 === 2')()).toBe(false)
+      expect(evaluator.createExpression('4 !== 2')()).toBe(true)
+      expect(evaluator.createExpression('4 | 2')()).toBe(6)
+      expect(evaluator.createExpression('4 ^ 2')()).toBe(6)
+      expect(evaluator.createExpression('4 & 2')()).toBe(0)
+      expect(evaluator.createExpression('4 << 2')()).toBe(16)
+      expect(evaluator.createExpression('4 >> 2')()).toBe(1)
+      expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
+
+      // Logical operators
+      expect(evaluator.createExpression('null && true')()).toBe(null)
+      expect(evaluator.createExpression('null || true')()).toBe(true)
+      expect(evaluator.createExpression('null ?? true')()).toBe(true)
+
+      // Conditional operator
+      expect(evaluator.createExpression('false ? 5 : 3')()).toBe(3)
+    })
+
+    it('should support allowing only the specified operators', () => {
+      const evaluator = new Evaluator({
+        operators: {
+          unary: { allow: ['+', '-'] },
+          binary: { allow: ['%', '**'] },
+          logical: { allow: ['&&'] },
+          ternary: true,
+        },
+      })
+
+      // Unary operators
+      expect(evaluator.createExpression('+2')()).toBe(2)
+      expect(evaluator.createExpression('-2')()).toBe(-2)
+      expect(() =>
+        evaluator.createExpression('!2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('~2')()
+      ).toThrowErrorMatchingSnapshot()
+
+      // Binary operators
+      expect(() =>
+        evaluator.createExpression('4 + 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 - 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 * 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('4 ** 2')()).toBe(16)
+      expect(() =>
+        evaluator.createExpression('4 / 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('4 % 2')()).toBe(0)
+      expect(() =>
+        evaluator.createExpression('4 < 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 > 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 <= 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 >= 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 == 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 != 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 === 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 !== 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 | 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 ^ 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 & 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 << 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 >> 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('4 >>> 2')()
+      ).toThrowErrorMatchingSnapshot()
+
+      // Logical operators
+      expect(evaluator.createExpression('null && true')()).toBe(null)
+      expect(() =>
+        evaluator.createExpression('null || true')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('null ?? true')()
+      ).toThrowErrorMatchingSnapshot()
+
+      // Conditional operator
+      expect(evaluator.createExpression('false ? 5 : 3')()).toBe(3)
+    })
+
+    it('should support blocking specified operators', () => {
+      const evaluator = new Evaluator({
+        operators: {
+          unary: { block: ['+', '-'] },
+          binary: { block: ['%', '**'] },
+          logical: { block: ['&&'] },
+          ternary: false,
+        },
+      })
+
+      // Unary operators
+      expect(() =>
+        evaluator.createExpression('+2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('-2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('!2')()).toBe(false)
+      expect(evaluator.createExpression('~2')()).toBe(-3)
+
+      // Binary operators
+      expect(evaluator.createExpression('4 + 2')()).toBe(6)
+      expect(evaluator.createExpression('4 - 2')()).toBe(2)
+      expect(evaluator.createExpression('4 * 2')()).toBe(8)
+      expect(() =>
+        evaluator.createExpression('4 ** 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('4 / 2')()).toBe(2)
+      expect(() =>
+        evaluator.createExpression('4 % 2')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('4 < 2')()).toBe(false)
+      expect(evaluator.createExpression('4 > 2')()).toBe(true)
+      expect(evaluator.createExpression('4 <= 2')()).toBe(false)
+      expect(evaluator.createExpression('4 >= 2')()).toBe(true)
+      expect(evaluator.createExpression('4 == 2')()).toBe(false)
+      expect(evaluator.createExpression('4 != 2')()).toBe(true)
+      expect(evaluator.createExpression('4 === 2')()).toBe(false)
+      expect(evaluator.createExpression('4 !== 2')()).toBe(true)
+      expect(evaluator.createExpression('4 | 2')()).toBe(6)
+      expect(evaluator.createExpression('4 ^ 2')()).toBe(6)
+      expect(evaluator.createExpression('4 & 2')()).toBe(0)
+      expect(evaluator.createExpression('4 << 2')()).toBe(16)
+      expect(evaluator.createExpression('4 >> 2')()).toBe(1)
+      expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
+
+      // Logical operators
+      expect(() =>
+        evaluator.createExpression('null && true')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(evaluator.createExpression('null || true')()).toBe(true)
+      expect(evaluator.createExpression('null ?? true')()).toBe(true)
+
+      // Conditional operator
+      expect(() =>
+        evaluator.createExpression('false ? 5 : 3')()
+      ).toThrowErrorMatchingSnapshot()
+    })
+
+    it('should throw if providing both an allow and block list', () => {
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: { allow: ['+', '-'], block: ['+', '-'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: { allow: ['+', '-'], block: ['+', '-'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: { allow: ['&&', '??'], block: ['&&', '??'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+    })
+
+    it('should throw if providing an unsupported operator', () => {
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: { allow: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: { block: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: { allow: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: { block: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: { allow: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: { block: ['invalid'] },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+    })
+
+    it('should throw if the list is not an array', () => {
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: { allow: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: { block: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: { allow: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: { block: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: { allow: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: { block: 'invalid' as any },
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+    })
+
+    it('should throw if the options do not contain a list', () => {
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              unary: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              binary: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+      expect(
+        () =>
+          new Evaluator({
+            operators: {
+              logical: {} as any,
+            },
+          })
+      ).toThrowErrorMatchingSnapshot()
+    })
+  })
+
   describe('Array expressions', () => {
     it('should create an array expression', () => {
       const node: ESTree.ArrayExpression = {

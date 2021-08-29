@@ -7,6 +7,164 @@ type Expression = {
   node: ESTree.Node
 }
 
+/**
+ * Defines which unary operators are allowed. Must provide an allow list or a
+ * block list, but not both. Valid options are `||`, `&&`, `??`.
+ * @example
+ * ```js
+ * // allows only unary operators '!' and '+'
+ * { unary: { allow: ['!', '+'] } }
+ * // allows any unary operator except '-' and '~'
+ * { unary: { block: ['-', '~'] } }
+ * ```
+ */
+export type UnaryOperatorOptions =
+  | {
+      /**
+       * Which unary operators to allow. Valid options are `-`, `+`, `!`, `~`.
+       */
+      allow: (keyof typeof operators.unary)[]
+    }
+  | {
+      /**
+       * Which unary operators to block. Valid options are `-`, `+`, `!`, `~`.
+       */
+      block: (keyof typeof operators.unary)[]
+    }
+
+/**
+ * Defines which binary operators are allowed. Must provide an allow list or a
+ * block list, but not both. Valid options are `+`, `-`, `*`, `**`, `/`, `%`,
+ * `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`, `<<`, `>>`, `>>>`.
+ * @example
+ * ```js
+ * // allows only binary operators '/', '%', '+', and '-'
+ * { allow: ['/', '%', '+', '-'] }
+ * // allows any binary operator except '*', '**', and '&'
+ * { block: ['*', '**', '&'] }
+ * ```
+ */
+export type BinaryOperatorOptions =
+  | {
+      /**
+       * Which binary operators to allow. Valid options are `+`, `-`, `*`, `**`,
+       * `/`, `%`, `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`,
+       * `<<`, `>>`, `>>>`.
+       */
+      allow: (keyof typeof operators.binary)[]
+    }
+  | {
+      /**
+       * Which binary operators to block. Valid options are `+`, `-`, `*`, `**`,
+       * `/`, `%`, `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`,
+       * `<<`, `>>`, `>>>`.
+       */
+      block: (keyof typeof operators.binary)[]
+    }
+
+/**
+ * Defines which logical operators are allowed. Must provide either an allow
+ * list or a block list, but not both. Valid options are `||`, `&&`, `??`.
+ * @example
+ * ```js
+ * // allows only logical operators '||' and '&&'
+ * { allow: ['||', '&&'] }
+ * // allows any logical operator except '??'
+ * { block: ['??'] }
+ * ```
+ */
+export type LogicalOperatorOptions =
+  | {
+      /**
+       * Which logical operators to allow. Valid options are `||`, `&&`, `??`.
+       */
+      allow: (keyof typeof operators.logical)[]
+    }
+  | {
+      /**
+       * Which logical operators to block. Valid options are `||`, `&&`, `??`.
+       */
+      block: (keyof typeof operators.logical)[]
+    }
+
+/**
+ * Defines which operators are allowed.
+ * @example
+ * ```js
+ * const operatorOptions = {
+ *   unary: { allow: ['!'] },
+ *   binary: { allow: ['+', '-', '*', '/', '%'] },
+ *   logical: { block: ['??'] },
+ *   ternary: false,
+ * }
+ * ```
+ */
+export interface OperatorOptions {
+  /**
+   * Defines which unary operators are allowed. If defined, must provide an
+   * allow list or a block list, but not both. Valid options are `-`, `+`, `!`,
+   * `~`.
+   * @example
+   * ```js
+   * // allows only unary operators '!' and '+'
+   * { unary: { allow: ['!', '+'] } }
+   * // allows any unary operator except '-' and '~'
+   * { unary: { block: ['-', '~'] } }
+   * ```
+   */
+  unary?: UnaryOperatorOptions
+  /**
+   * Defines which binary operators are allowed. If defined, must provide an
+   * allow list or a block list, but not both. Valid options are `+`, `-`, `*`,
+   * `**`, `/`, `%`, `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`,
+   * `<<`, `>>`, `>>>`.
+   * @example
+   * ```js
+   * // allows only binary operators '/', '%', '+', and '-'
+   * { binary: { allow: ['/', '%', '+', '-'] } }
+   * // allows any binary operator except '*', '**', and '&'
+   * { binary: { block: ['*', '**', '&'] } }
+   * ```
+   */
+  binary?: BinaryOperatorOptions
+  /**
+   * Defines which logical operators are allowed. If defined, must provide an
+   * allow list or a block list, but not both. Valid options are `||`, `&&`,
+   * `??`.
+   * @example
+   * ```js
+   * // allows only logical operators '||' and '&&'
+   * { logical: { allow: ['||', '&&'] } }
+   * // allows any logical operator except '??'
+   * { logical: { block: ['??'] } }
+   * ```
+   */
+  logical?: LogicalOperatorOptions
+  /**
+   * Whether or not the ternary/conditional operator is allowed. A value of
+   * `true` allows the ternary operator, `false` blocks it. Defaults to `true`.
+   */
+  ternary?: boolean
+}
+
+export interface EvaluatorOptions {
+  /**
+   * Defines which operators are allowed.
+   * @example
+   * ```js
+   * const options = {
+   *   operators: {
+   *     unary: { allow: ['!'] },
+   *     binary: { allow: ['+', '-', '*', '/', '%'] },
+   *     logical: { block: ['??'] },
+   *     ternary: false,
+   *   }
+   * }
+   * ```
+   */
+  operators?: OperatorOptions
+}
+
 type ArrayExpression = Expression & { node: ESTree.ArrayExpression }
 // TODO
 // type AwaitExpression = Expression & { node: ESTree.AwaitExpression }
@@ -50,7 +208,81 @@ function* iterateThroughTemplateLiteral(
   )
 }
 
+function filterOperators<
+  V,
+  R extends Record<string, V>,
+  O extends { allow: (keyof R)[] } | { block: (keyof R)[] }
+>(options: O, unfiltered: R): Partial<R> {
+  // Allow only specified operators
+  if ('allow' in options) {
+    if ('block' in options) {
+      throw new Error(
+        'Cannot specify both an allow list and block list of operators'
+      )
+    }
+    const { allow } = options
+
+    if (!Array.isArray(allow)) {
+      throw new Error('Operator allow list must be an array')
+    }
+
+    return allow.reduce<Partial<R>>((filtered, operator) => {
+      if (!(operator in unfiltered)) {
+        throw new Error(`Operator ${operator} is not supported`)
+      }
+
+      filtered[operator] = unfiltered[operator]
+      return filtered
+    }, {})
+  }
+
+  // Block specified operators
+  if ('block' in options) {
+    const { block } = options
+
+    if (!Array.isArray(block)) {
+      throw new Error('Operator block list must be an array')
+    }
+
+    return block.reduce<Partial<R>>((filtered, operator) => {
+      if (!(operator in unfiltered)) {
+        throw new Error(`Operator ${operator} is not supported`)
+      }
+
+      delete filtered[operator]
+      return filtered
+    }, Object.assign({}, unfiltered))
+  }
+
+  throw new Error(
+    'Operator options must specify either an allow list or a block list'
+  )
+}
+
 export default class Evaluator {
+  operators: {
+    unary: Partial<typeof operators.unary>
+    binary: Partial<typeof operators.binary>
+    logical: Partial<typeof operators.logical>
+  }
+
+  allowTernary: boolean = true
+
+  constructor({
+    operators: { unary, binary, logical, ternary = true } = {},
+  }: EvaluatorOptions = {}) {
+    this.operators = {
+      unary: unary ? filterOperators(unary, operators.unary) : operators.unary,
+      binary: binary
+        ? filterOperators(binary, operators.binary)
+        : operators.binary,
+      logical: logical
+        ? filterOperators(logical, operators.logical)
+        : operators.logical,
+    }
+    this.allowTernary = Boolean(ternary)
+  }
+
   createExpression(code: string): (scope?: any) => any {
     // Wrapping in an arrow function to allow use of expressions that would
     // otherwise be invalid as a statement.
@@ -81,6 +313,9 @@ export default class Evaluator {
       case 'ChainExpression':
         return this.createChainExpression(node)
       case 'ConditionalExpression':
+        if (!this.allowTernary) {
+          throw new Error('Conditional/ternary operator is not allowed')
+        }
         return this.createConditionalExpression(node)
       case 'Identifier':
         return this.createIdentifier(node)
@@ -173,9 +408,12 @@ export default class Evaluator {
   // }
 
   createBinaryExpression(node: ESTree.BinaryExpression): BinaryExpression {
-    const operator = operators.binary[node.operator]
+    const operator = this.operators.binary[node.operator]
     if (!operator) {
-      throw new Error(`Unsupported binary operator: ${node.operator}`)
+      if (!(node.operator in operators.binary)) {
+        throw new Error(`Unsupported binary operator: ${node.operator}`)
+      }
+      throw new Error(`Binary operator ${node.operator} is not allowed`)
     }
     const left = this.evaluateIfIdentifier(node.left)
     const right = this.evaluateIfIdentifier(node.right)
@@ -254,9 +492,12 @@ export default class Evaluator {
   }
 
   createLogicalExpression(node: ESTree.LogicalExpression): LogicalExpression {
-    const operator = operators.logical[node.operator]
+    const operator = this.operators.logical[node.operator]
     if (!operator) {
-      throw new Error(`Unsupported logical operator: ${node.operator}`)
+      if (!(node.operator in operators.logical)) {
+        throw new Error(`Unsupported logical operator: ${node.operator}`)
+      }
+      throw new Error(`Logical operator ${node.operator} is not allowed`)
     }
     const left = this.evaluateIfIdentifier(node.left)
     const right = this.evaluateIfIdentifier(node.right)
@@ -365,9 +606,12 @@ export default class Evaluator {
   }
 
   createUnaryExpression(node: ESTree.UnaryExpression): UnaryExpression {
-    const operator = operators.unary[node.operator]
+    const operator = this.operators.unary[node.operator]
     if (!operator) {
-      throw new Error(`Unsupported unary operator: ${node.operator}`)
+      if (!(node.operator in operators.unary)) {
+        throw new Error(`Unsupported unary operator: ${node.operator}`)
+      }
+      throw new Error(`Unary operator ${node.operator} is not allowed`)
     }
     const argument = this.evaluateIfIdentifier(node.argument)
 

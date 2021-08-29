@@ -1,4 +1,10 @@
-import Evaluator from './evaluator'
+import Evaluator, {
+  UnaryOperatorOptions,
+  BinaryOperatorOptions,
+  LogicalOperatorOptions,
+  OperatorOptions,
+  EvaluatorOptions,
+} from './evaluator'
 import getRuleProxy from './rule-proxy'
 import RuleTree, {
   AccessPath,
@@ -7,12 +13,21 @@ import RuleTree, {
   BlockAccessRule,
 } from './rule-tree'
 
-export { AccessPath, AccessRule, AllowAccessRule, BlockAccessRule }
+export {
+  AccessPath,
+  AccessRule,
+  AllowAccessRule,
+  BlockAccessRule,
+  UnaryOperatorOptions,
+  BinaryOperatorOptions,
+  LogicalOperatorOptions,
+  OperatorOptions,
+}
 
 /**
  * Options for parsing.
  */
-export interface JshikiParseOptions {
+export interface JshikiParseOptions extends EvaluatorOptions {
   /**
    * Access rules to use when determining what properties can be accessed by the
    * expression. The rules are evaluated in order.
