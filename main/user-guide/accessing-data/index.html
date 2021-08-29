@@ -378,6 +378,18 @@
   
   
     <li class="md-nav__item">
+      <a href="../limiting-syntax/" class="md-nav__link">
+        Limiting Syntax
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rules/" class="md-nav__link">
         Rules
       </a>
@@ -499,6 +511,17 @@
 <p>There are several good practices to safeguard your data from manipulation by expressions:</p>
 <ul>
 <li>Only pass objects to jshiki that don't have methods that can change data.</li>
+<li>Block the use of function calls (the <a href="../limiting-syntax/">next section</a> will go into more detail).
+    <div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]</span>
+
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">expressions</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">calls</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+  <span class="nx">scope</span><span class="o">:</span> <span class="p">{</span> <span class="nx">array</span> <span class="p">},</span>
+<span class="p">})</span>
+<span class="c1">// throws Error: Function calls are not allowed.</span>
+</code></pre></div></li>
 <li>
 <p>If you are passing an object that contains such a method:</p>
 <ul>
@@ -539,7 +562,8 @@
 </ul>
 </li>
 </ul>
-<p>We'll cover rules in more detail in the following section.</p>
+<hr />
+<p>Next, we'll cover how to limit what kind of syntax is allowed in expressions.</p>
                 
               
               
@@ -575,13 +599,13 @@
       
       
         
-        <a href="../rules/" class="md-footer__link md-footer__link--next" aria-label="Next: Rules" rel="next">
+        <a href="../limiting-syntax/" class="md-footer__link md-footer__link--next" aria-label="Next: Limiting Syntax" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Rules
+              Limiting Syntax
             </div>
           </div>
           <div class="md-footer__button md-icon">

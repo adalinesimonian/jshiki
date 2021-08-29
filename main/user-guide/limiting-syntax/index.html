@@ -14,7 +14,7 @@
     
     
       
-        <title>Security - jshiki</title>
+        <title>Limiting Syntax - jshiki</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#staying-safe" class="md-skip">
+        <a href="#disallowing-operators" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Security
+              Limiting Syntax
             
           </span>
         </div>
@@ -340,11 +340,54 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../limiting-syntax/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Limiting Syntax
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Limiting Syntax
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disallowing-operators" class="md-nav__link">
+    Disallowing operators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disallowing-syntax" class="md-nav__link">
+    Disallowing syntax
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -364,47 +407,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Security
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
         Security
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#staying-safe" class="md-nav__link">
-    Staying Safe
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -454,8 +461,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#staying-safe" class="md-nav__link">
-    Staying Safe
+  <a href="#disallowing-operators" class="md-nav__link">
+    Disallowing operators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disallowing-syntax" class="md-nav__link">
+    Disallowing syntax
   </a>
   
 </li>
@@ -472,68 +486,82 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/adalinesimonian/jshiki/edit/master/docs/user-guide/security.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/adalinesimonian/jshiki/edit/master/docs/user-guide/limiting-syntax.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Security</h1>
+                  <h1>Limiting Syntax</h1>
                 
-                <blockquote>
-<p><strong>NOTE:</strong> Many factors can affect the security of your application. Though jshiki prevents most avenues through which expressions can gain unwanted access to or modify data, using jshiki alone does not guarantee that every expression you evaluate will be safe.</p>
-<p>This section is not an exhaustive list of all security concerns but rather a high-level overview of some of the most common problems to consider when using jshiki. The <a href="https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html">OWASP NodeJS security cheat sheet</a> is a good place to start for a more in-depth look at security in Javascript applications.</p>
-</blockquote>
-<p>jshiki is designed to be a safe and secure environment for evaluating expressions. It achieves this through methods we've discussed elsewhere in this guide, such as preventing access to any data that isn't explicitly exposed and limiting the operations that expressions can perform. However, this is not enough to contain all possible attacks.</p>
-<p>When you pass a <a href="../accessing-data/">scope object</a> to an expression, you effectively open up the sandbox in which jshiki evaluates it since the scope object is outside of the expression's context. Through this opening, it may, in theory, be possible for the expression to gain access to data that is not explicitly exposed, for several reasons, including, but not limited to:</p>
+                <p>jshiki lets you limit what syntax is allowed in expressions by letting you:</p>
 <ul>
-<li>
-<p>An oversight or a change in a third-party library, dependency, or data layer results in additional data being added to an object exposed to the expression without the consuming program's developer's knowledge.</p>
-<blockquote>
-<p>Example: A change elsewhere in an application adds a new property to a set of data fetched from an API, which is then directly exposed to expressions. The developer of the consuming program does not know that someone else added the new property.</p>
-<p>If an expression attempts to access that data, it may gain access to the new property.</p>
-</blockquote>
-</li>
-<li>
-<p>A function or property getter/setter on an object exposed to the expression unexpectedly mutates data.</p>
-<blockquote>
-<p>Example: A getter method on an object changes some internal value which determines if a block of code gets executed. The code that calls jshiki provides the expression with the object with the getter method.</p>
-<p>An attacker could use this behaviour to write expressions that would result in the execution of code that is not intended to be executed.</p>
-</blockquote>
-</li>
-<li>
-<p>A vulnerability in the Javascript engine allows arbitrary code execution and can be exploited with methods or properties of a particular type of object, such as an array.</p>
-<blockquote>
-<p>Example: A new, undisclosed vulnerability in the V8 Javascript engine that allows arbitrary code execution can be exploited by providing specific parameters to the <code class="highlight"><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">splice</span></code> method.</p>
-<p>Now, suppose an array is now made available to an expression. In that case, an attacker could write an expression that would execute arbitrary code, and jshiki would evaluate it unless a rule blocked the <code>splice</code> method.</p>
-</blockquote>
-</li>
+<li>Disallow certain operators</li>
+<li>Disallow certain literals and expressions</li>
 </ul>
-<h2 id="staying-safe">Staying Safe</h2>
-<p>So, how do we use jshiki while avoiding common pitfalls? We can take a few steps to keep expression execution safe:</p>
+<h2 id="disallowing-operators">Disallowing operators</h2>
+<p>jshiki lets you block specific unary operators, binary operators, logical operators, and the ternary/conditional operator.</p>
+<p>For each type of operator aside from the ternay operator, you can either use an allow list, which will only allow the operators you specify, or a block list, which will block all operators you specify.</p>
+<p>Here's an example in which we block the use of the binary <code>+</code> operator (not to be confused with the unary <code>+</code> operator, e.g. <code class="highlight"><span class="o">+</span><span class="mf">1</span></code>):</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Binary operator + is not allowed</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;1 + 2&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">operators</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// blocks the binary + operator</span>
+    <span class="nx">binary</span><span class="o">:</span> <span class="p">{</span> <span class="nx">block</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">]</span> <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>If instead we were to opt for an allow list, we could specify only the operators we want to allow. Here's an example in which we allow only the logical operators <code>&amp;&amp;</code> and <code>||</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">operators</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// allows only the logical operators &amp;&amp; and ||</span>
+    <span class="nx">logical</span><span class="o">:</span> <span class="p">{</span> <span class="nx">allow</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&amp;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;||&#39;</span><span class="p">]</span> <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;1 &amp;&amp; 2 || 3&#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="c1">// returns 2</span>
+
+<span class="c1">// throws Error: Logical operator ?? is not allowed</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;null ?? 1&#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
+</code></pre></div>
+<p>The conditional operator takes a boolean instead since it is the only ternary operator in Javascript — <code>true</code> allows it, <code>false</code> blocks it.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Conditional/ternary operator is not allowed</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;1 ? 2 : 3&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">operators</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// blocks the ternary/conditional operator</span>
+    <span class="nx">ternary</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>In full, the operators options object is as follows:</p>
 <ul>
-<li>
-<p><strong>Limit the data you pass to expressions</strong> to the minimal set of data required to perform the desired operation.</p>
-<p>Instead of passing an entire object full of data to an expression, provide only the necessary portion of the data as a separate object.</p>
-<blockquote>
-<p>For example, if you want an expression to access a user's <code>name</code> and <code>age</code> properties, you can pass those properties to the expression alone instead of passing the entire object.</p>
-</blockquote>
-</li>
-<li>
-<p><strong>Sanitize the data you pass to expressions.</strong></p>
-<p>Even when selecting a subset of data to pass to an expression, it is possible for the values or types of the fields themselves to change to something unexpected. Make sure that the data you provide to an expression is what you expect it to be.</p>
-<blockquote>
-<p>For example, if you pass a user's <code>created</code> field to an expression, but the field's value is later changed from a string to an object, it may expose different data to the expression than it did before.</p>
-</blockquote>
-</li>
-<li>
-<p><strong>Restrict creating expressions to only those that need to be able to do so.</strong></p>
-<p>If there is no need for certain users to write expressions, there is no reason why they should have access to create them. The fewer people have access to creating expressions, the less likely you are to encounter an attack.</p>
-<blockquote>
-<p>If, for example, you have a site that uses expressions for business rules, and you want to allow users to create expressions, you should assign the ability to edit expressions only to those users who need to edit business rules.</p>
-</blockquote>
-</li>
+<li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">unary</span></code> — Unary operators (e.g. <code class="highlight"><span class="o">!</span><span class="kc">true</span></code>, <code class="highlight"><span class="o">-</span><span class="mf">1</span></code>)</li>
+<li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">binary</span></code> — Binary operators (e.g. <code class="highlight"><span class="mf">1</span> <span class="o">+</span> <span class="mf">2</span></code>, <code class="highlight"><span class="mf">1</span> <span class="o">!==</span> <span class="mf">2</span></code>)</li>
+<li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">logical</span></code> — Logical operators (e.g. <code class="highlight"><span class="kc">true</span> <span class="o">&amp;&amp;</span> <span class="kc">false</span></code>, <code class="highlight"><span class="kc">null</span> <span class="o">??</span> <span class="mf">1</span></code>)</li>
+<li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">ternary</span></code> — Ternary/conditional operator (e.g. <code class="highlight"><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span> <span class="o">?</span> <span class="mf">2</span> <span class="o">:</span> <span class="mf">3</span></code>)</li>
 </ul>
-<p>Even with these precautions in place, never assume that your code is safe. Any code that you run that you do not write or have direct control over carries with it the risk of an attack — even with an expression evaluator like jshiki.</p>
+<p>All supported operators are allowed by default. For an exhaustive list, see the <a href="../../api/interfaces/OperatorOptions.html">API docs</a>.</p>
+<h2 id="disallowing-syntax">Disallowing syntax</h2>
+<p>You can also block specific syntax by setting the corresponding <code>syntax</code> option to <code>false</code>. For example, you might want to disallow the use of function calls:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Function calls are not allowed</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;foo()&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">syntax</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// blocks the use of function calls</span>
+    <span class="nx">calls</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>In full, the syntax options object is as follows:</p>
+<ul>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">memberAccess</span></code> — Member access (e.g. <code class="highlight"><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span></code>, <code class="highlight"><span class="nx">foo</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">calls</span></code> — Function calls (e.g. <code class="highlight"><span class="nx">foo</span><span class="p">()</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">taggedTemplates</span></code> — Tagged template literals (e.g. <code class="highlight"><span class="nx">tag</span><span class="sb">`foo </span><span class="si">${</span><span class="nx">bar</span><span class="si">}</span><span class="sb">`</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">templates</span></code> — Template literals (e.g. <code class="highlight"><span class="sb">`foo </span><span class="si">${</span><span class="nx">bar</span><span class="si">}</span><span class="sb">`</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">objects</span></code> — Object literals (e.g. <code class="highlight"><span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="mf">1</span> <span class="p">}</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">arrays</span></code> — Array literals (e.g. <code class="highlight"><span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">regexes</span></code> — Regular expressions (e.g. <code class="highlight"><span class="sr">/foo/g</span></code>)</li>
+</ul>
+<hr />
+<p>Next, we'll examine another way jshiki lets you limit what expressions can do — rules.</p>
                 
               
               
@@ -553,7 +581,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../rules/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Rules" rel="prev">
+        <a href="../accessing-data/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Accessing Data" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -562,11 +590,26 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Rules
+              Accessing Data
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../rules/" class="md-footer__link md-footer__link--next" aria-label="Next: Rules" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Rules
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
