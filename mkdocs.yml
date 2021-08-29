@@ -36,6 +36,7 @@ nav:
   - User Guide:
       - Getting Started: user-guide/index.md
       - Accessing Data: user-guide/accessing-data.md
+      - Limiting Syntax: user-guide/limiting-syntax.md
       - Rules: user-guide/rules.md
       - Security: user-guide/security.md
   - API Docs: api/

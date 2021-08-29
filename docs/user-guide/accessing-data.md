@@ -42,10 +42,22 @@ jshiki.evaluate('array.splice(1, 1)', { scope: { array } })
 
 There are several good practices to safeguard your data from manipulation by expressions:
 
--   Only pass objects to jshiki that don't have methods that can change data.
--   If you are passing an object that contains such a method:
+- Only pass objects to jshiki that don't have methods that can change data.
+- Block the use of function calls (the [next section] will go into more detail).
+    ```js
+    const array = [1, 2, 3]
 
-    -   Make a copy of the object so that the original is unchanged if the expression calls the method in question.
+    jshiki.evaluate('array.splice(1, 1)', {
+      expressions: {
+        calls: false,
+      }
+      scope: { array },
+    })
+    // throws Error: Function calls are not allowed.
+    ```
+- If you are passing an object that contains such a method:
+
+    - Make a copy of the object so that the original is unchanged if the expression calls the method in question.
 
         ```js
         const array = [1, 2, 3]
@@ -57,7 +69,7 @@ There are several good practices to safeguard your data from manipulation by exp
         // array => [1, 2, 3]
         ```
 
-    -   Use [rules] to prevent expressions from accessing methods you don't want them to access.
+    - Use [rules] to prevent expressions from accessing methods you don't want them to access.
 
         ```js
         const array = [1, 2, 3]
@@ -81,6 +93,9 @@ There are several good practices to safeguard your data from manipulation by exp
         // throws TypeError: evaluatedObject[property(...)] is not a function
         ```
 
-We'll cover rules in more detail in the following section.
+---
+
+Next, we'll cover how to limit what kind of syntax is allowed in expressions.
 
 [rules]: rules.md
+[next section]: limiting-syntax.md
