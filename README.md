@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml"><img alt="Build Status" src="https://github.com/adalinesimonian/jshiki/actions/workflows/main-test.yml/badge.svg?branch=main" /></a>
-  <a href="https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA"><img alt="Codecov Coverage Status" src="https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA" /></a>
+  <a href="https://app.codecov.io/gh/adalinesimonian/jshiki"><img alt="Codecov Coverage Status" src="https://codecov.io/gh/adalinesimonian/jshiki/branch/main/graph/badge.svg?token=SrIwZvl2YA" /></a>
   <a href="https://www.npmjs.com/package/jshiki"><img alt="npm Version" src="https://img.shields.io/npm/v/jshiki.svg" /></a>
 </p>
 
