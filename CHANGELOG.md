@@ -1,5 +1,35 @@
 # Change Log
 
+## [v3.2.0](https://github.com/adalinesimonian/jshiki/tree/v3.2.0) (2021-08-29)
+
+### Additions
+
+- Specific operators can now be blocked or allow-listed:
+  ```js
+  // throws Error: Binary operator / is not allowed.
+  jshiki.parse('a / b', {
+    operators: {
+      binary: { allow: ['+', '-'] },
+    },
+  })
+  ```
+- Specific syntax can now be blocked:
+  ```js
+  // throws Error: Function calls are not allowed.
+  jshiki.parse('a()', {
+    syntax: {
+      calls: false,
+    },
+  })
+  ```
+
+### Documentation
+
+- Fixed edit links by pointing them to the correct branch.
+- Fixed codecov link in the readme.
+
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v3.1.0...v3.2.0)
+
 ## [v3.1.0](https://github.com/adalinesimonian/jshiki/tree/v3.1.0) (2021-08-27)
 
 ### Additions
