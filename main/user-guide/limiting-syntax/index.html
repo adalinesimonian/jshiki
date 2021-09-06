@@ -539,7 +539,7 @@
 <li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">logical</span></code> — Logical operators (e.g. <code class="highlight"><span class="kc">true</span> <span class="o">&amp;&amp;</span> <span class="kc">false</span></code>, <code class="highlight"><span class="kc">null</span> <span class="o">??</span> <span class="mf">1</span></code>)</li>
 <li><code class="highlight"><span class="nx">operators</span><span class="p">.</span><span class="nx">ternary</span></code> — Ternary/conditional operator (e.g. <code class="highlight"><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span> <span class="o">?</span> <span class="mf">2</span> <span class="o">:</span> <span class="mf">3</span></code>)</li>
 </ul>
-<p>All supported operators are allowed by default. For an exhaustive list, see the <a href="../../api/interfaces/OperatorOptions.html">API docs</a>.</p>
+<p>All supported operators, except for <code>typeof</code>, <code>in</code>, and <code>instanceof</code>, are allowed by default. For an exhaustive list, see the <a href="../../api/interfaces/OperatorOptions.html">API docs</a>.</p>
 <h2 id="disallowing-syntax">Disallowing syntax</h2>
 <p>You can also block specific syntax by setting the corresponding <code>syntax</code> option to <code>false</code>. For example, you might want to disallow the use of function calls:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Function calls are not allowed</span>

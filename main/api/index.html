@@ -171,14 +171,15 @@
 					<div class="tsd-signature tsd-kind-icon">Binary<wbr>Operator<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in evaluator.ts:47</li>
+							<li>Defined in evaluator.ts:50</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
 						<div class="lead">
 							<p>Defines which binary operators are allowed. Must provide an allow list or a
 								block list, but not both. Valid options are <code>+</code>, <code>-</code>, <code>*</code>, <code>**</code>, <code>/</code>, <code>%</code>,
-							<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code>, <code>===</code>, <code>!==</code>, <code>|</code>, <code>&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code>.</p>
+								<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code>, <code>===</code>, <code>!==</code>, <code>|</code>, <code>&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code>,
+							<code>in</code>, <code>instanceof</code>.</p>
 						</div>
 						</div><div class="tsd-comment tsd-typography tsd-comment-tags">
 						<dl class="tsd-comment-tags"><dt>example</dt>
@@ -267,7 +268,7 @@
 					<div class="tsd-signature tsd-kind-icon">Logical<wbr>Operator<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in evaluator.ts:76</li>
+							<li>Defined in evaluator.ts:79</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -297,7 +298,7 @@
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
 						<div class="lead">
 							<p>Defines which unary operators are allowed. Must provide an allow list or a
-							block list, but not both. Valid options are <code>||</code>, <code>&amp;&amp;</code>, <code>??</code>.</p>
+							block list, but not both. Valid options are <code>-</code>, <code>+</code>, <code>!</code>, <code>~</code>, <code>typeof</code>.</p>
 						</div>
 						</div><div class="tsd-comment tsd-typography tsd-comment-tags">
 						<dl class="tsd-comment-tags"><dt>example</dt>
