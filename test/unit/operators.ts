@@ -135,6 +135,56 @@ describe('Operators', () => {
       expect(operators.binary['!=='](undefined, null)).toBe(true)
       expect(operators.binary['!=='](null, undefined)).toBe(true)
     })
+
+    it('should export |', () => {
+      expect(operators.binary).toHaveProperty('|')
+      expect(operators.binary['|'](8, 4)).toBe(12)
+      expect(operators.binary['|'](5, 5)).toBe(5)
+      expect(operators.binary['|']('1', '2')).toBe(3)
+      expect(operators.binary['|'](null, undefined)).toBe(0)
+    })
+
+    it('should export ^', () => {
+      expect(operators.binary).toHaveProperty('^')
+      expect(operators.binary['^'](8, 4)).toBe(12)
+      expect(operators.binary['^'](5, 5)).toBe(0)
+      expect(operators.binary['^']('1', '2')).toBe(3)
+      expect(operators.binary['^'](null, undefined)).toBe(0)
+    })
+
+    it('should export &', () => {
+      expect(operators.binary).toHaveProperty('&')
+      expect(operators.binary['&'](8, 4)).toBe(0)
+      expect(operators.binary['&'](5, 5)).toBe(5)
+      expect(operators.binary['&']('1', '2')).toBe(0)
+      expect(operators.binary['&'](null, undefined)).toBe(0)
+    })
+
+    it('should export <<', () => {
+      expect(operators.binary).toHaveProperty('<<')
+      expect(operators.binary['<<'](8, 4)).toBe(128)
+      expect(operators.binary['<<'](5, 5)).toBe(160)
+      expect(operators.binary['<<']('1', '2')).toBe(4)
+      expect(operators.binary['<<'](null, undefined)).toBe(0)
+    })
+
+    it('should export >>', () => {
+      expect(operators.binary).toHaveProperty('>>')
+      expect(operators.binary['>>'](8, 4)).toBe(0)
+      expect(operators.binary['>>'](-8, 4)).toBe(-1)
+      expect(operators.binary['>>'](5, 5)).toBe(0)
+      expect(operators.binary['>>']('2', '1')).toBe(1)
+      expect(operators.binary['>>'](null, undefined)).toBe(0)
+    })
+
+    it('should export >>>', () => {
+      expect(operators.binary).toHaveProperty('>>>')
+      expect(operators.binary['>>>'](8, 4)).toBe(0)
+      expect(operators.binary['>>>'](-8, 4)).toBe(268435455)
+      expect(operators.binary['>>>'](5, 5)).toBe(0)
+      expect(operators.binary['>>>']('2', '1')).toBe(1)
+      expect(operators.binary['>>>'](null, undefined)).toBe(0)
+    })
   })
 
   describe('Logical operators', () => {
