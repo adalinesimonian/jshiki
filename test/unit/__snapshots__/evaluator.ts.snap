@@ -4,6 +4,8 @@ exports[`Evaluator Expression creation Binary expressions should throw when give
 
 exports[`Evaluator Expression creation Logical expressions should throw when given a logical expression with an invalid operator 1`] = `"Unsupported logical operator: invalid"`;
 
+exports[`Evaluator Expression creation Object expressions should throw when given an invalid property kind 1`] = `"Only assignment properties are allowed"`;
+
 exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 1`] = `"Unsupported property type: Identifier"`;
 
 exports[`Evaluator Expression creation Unary expressions should throw when given an invalid operator 1`] = `"Unsupported unary operator: invalid"`;
@@ -119,6 +121,8 @@ exports[`Evaluator Operator options should throw if the options do not contain a
 exports[`Evaluator Operator options should throw if the options do not contain a list 6`] = `"Operator options must specify either an allow list or a block list"`;
 
 exports[`Evaluator Parsing should throw an error if the expression is invalid 1`] = `"Unexpected token (1:10)"`;
+
+exports[`Evaluator Parsing should throw an error if the expression is unsupported 1`] = `"Unsupported node type: SequenceExpression"`;
 
 exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
 

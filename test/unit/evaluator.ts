@@ -14,6 +14,12 @@ describe('Evaluator', () => {
         new Evaluator().createExpression('1 +')
       ).toThrowErrorMatchingSnapshot()
     })
+
+    it('should throw an error if the expression is unsupported', () => {
+      expect(() =>
+        new Evaluator().createExpression('("x", 5)')
+      ).toThrowErrorMatchingSnapshot()
+    })
   })
 
   describe('Operator options', () => {
@@ -712,6 +718,233 @@ describe('Evaluator', () => {
           })
         ).toBe(10)
       })
+
+      it('should create an optional call expression', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          optional: true,
+          callee: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo(a: number, b: number, c: number, d: number) {
+              return a + b + c + d
+            },
+          })
+        ).toBe(10)
+        expect(expr({})).toBe(undefined)
+      })
+
+      it('should create a call expression with a member expression callee', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: false,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+          })
+        ).toBe(10)
+      })
+
+      it('should create a call expression with a member expression callee with a computed property', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Literal',
+              value: 'bar',
+            },
+            computed: true,
+            optional: false,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+          })
+        ).toBe(10)
+      })
+
+      it('should create an optional call expression with a member expression callee', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: false,
+          },
+          optional: true,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+          })
+        ).toBe(10)
+        expect(
+          expr({
+            foo: {},
+          })
+        ).toBe(undefined)
+      })
     })
 
     describe('Chain expressions', () => {
@@ -1022,6 +1255,47 @@ describe('Evaluator', () => {
                 type: 'Identifier',
                 name: 'invalid',
               } as any,
+            ],
+          })
+        ).toThrowErrorMatchingSnapshot()
+      })
+
+      it('should throw when given an invalid property kind', () => {
+        expect(() =>
+          new Evaluator().createObjectExpression({
+            type: 'ObjectExpression',
+            properties: [
+              {
+                type: 'Property',
+                method: false,
+                shorthand: false,
+                computed: false,
+                key: {
+                  type: 'Identifier',
+                  name: 'x',
+                },
+                kind: 'get',
+                value: {
+                  type: 'FunctionExpression',
+                  id: null,
+                  generator: false,
+                  async: false,
+                  params: [],
+                  body: {
+                    type: 'BlockStatement',
+                    body: [
+                      {
+                        type: 'ReturnStatement',
+                        argument: {
+                          type: 'Literal',
+                          value: 5,
+                          raw: '5',
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
             ],
           })
         ).toThrowErrorMatchingSnapshot()

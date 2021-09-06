@@ -46,6 +46,13 @@ describe('Rule Proxy', () => {
     expect(obj.a.b.c).toBe('bar')
   })
 
+  it('should cache returned values', () => {
+    const obj = getTestObject()
+    const proxy = getRuleProxy(obj, new RuleTree())
+    const result = proxy.x
+    expect(result).toBe(proxy.x)
+  })
+
   describe('with explicit allow set to true', () => {
     it('should block accessing properties w/o applicable rule', () => {
       const ruleTree = new RuleTree([
