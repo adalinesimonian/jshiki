@@ -8,49 +8,61 @@ exports[`Evaluator Expression creation Object expressions should throw when give
 
 exports[`Evaluator Expression creation Unary expressions should throw when given an invalid operator 1`] = `"Unsupported unary operator: invalid"`;
 
+exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 1`] = `"Unary operator typeof is not allowed"`;
+
+exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 2`] = `"Binary operator in is not allowed"`;
+
+exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 3`] = `"Binary operator instanceof is not allowed"`;
+
 exports[`Evaluator Operator options should support allowing only the specified operators 1`] = `"Unary operator ! is not allowed"`;
 
 exports[`Evaluator Operator options should support allowing only the specified operators 2`] = `"Unary operator ~ is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 3`] = `"Binary operator + is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 3`] = `"Unary operator typeof is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 4`] = `"Binary operator - is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 4`] = `"Binary operator + is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 5`] = `"Binary operator * is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 5`] = `"Binary operator - is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 6`] = `"Binary operator / is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 6`] = `"Binary operator * is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 7`] = `"Binary operator < is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 7`] = `"Binary operator / is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 8`] = `"Binary operator > is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 8`] = `"Binary operator < is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 9`] = `"Binary operator <= is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 9`] = `"Binary operator > is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 10`] = `"Binary operator >= is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 10`] = `"Binary operator <= is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 11`] = `"Binary operator == is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 11`] = `"Binary operator >= is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 12`] = `"Binary operator != is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 12`] = `"Binary operator == is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 13`] = `"Binary operator === is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 13`] = `"Binary operator != is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 14`] = `"Binary operator !== is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 14`] = `"Binary operator === is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 15`] = `"Binary operator | is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 15`] = `"Binary operator !== is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 16`] = `"Binary operator ^ is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 16`] = `"Binary operator | is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 17`] = `"Binary operator & is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 17`] = `"Binary operator ^ is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 18`] = `"Binary operator << is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 18`] = `"Binary operator & is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 19`] = `"Binary operator >> is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 19`] = `"Binary operator << is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 20`] = `"Binary operator >>> is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 20`] = `"Binary operator >> is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 21`] = `"Logical operator || is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 21`] = `"Binary operator >>> is not allowed"`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 22`] = `"Logical operator ?? is not allowed"`;
+exports[`Evaluator Operator options should support allowing only the specified operators 22`] = `"Binary operator in is not allowed"`;
+
+exports[`Evaluator Operator options should support allowing only the specified operators 23`] = `"Binary operator instanceof is not allowed"`;
+
+exports[`Evaluator Operator options should support allowing only the specified operators 24`] = `"Logical operator || is not allowed"`;
+
+exports[`Evaluator Operator options should support allowing only the specified operators 25`] = `"Logical operator ?? is not allowed"`;
 
 exports[`Evaluator Operator options should support blocking specified operators 1`] = `"Unary operator + is not allowed"`;
 

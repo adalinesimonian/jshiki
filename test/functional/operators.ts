@@ -37,6 +37,24 @@ describe('Operators', () => {
         expect(evaluate('~-15')).toBe(14)
       })
     })
+
+    describe('typeof (Type check)', () => {
+      const options = {
+        operators: {
+          unary: { allow: ['typeof'] },
+        },
+      }
+
+      it('should return the type of the expression', () => {
+        expect(evaluate('typeof 5', options)).toBe('number')
+        expect(evaluate('typeof true', options)).toBe('boolean')
+        expect(evaluate('typeof "hello"', options)).toBe('string')
+        expect(evaluate('typeof null', options)).toBe('object')
+        expect(evaluate('typeof undefined', options)).toBe('undefined')
+        expect(evaluate('typeof []', options)).toBe('object')
+        expect(evaluate('typeof {}', options)).toBe('object')
+      })
+    })
   })
 
   describe('Binary Operators', () => {
@@ -332,6 +350,63 @@ describe('Operators', () => {
 
       it('should throw when the expression is missing an operand', () => {
         expect(() => parse('a >>>')).toThrowErrorMatchingSnapshot()
+      })
+    })
+
+    describe('in (Property Membership)', () => {
+      const options = {
+        operators: {
+          binary: { allow: ['in'] },
+        },
+      }
+
+      it('should check if a property is in an object', () => {
+        expect(evaluate('"x" in { x: 1 }', options)).toBe(true)
+        expect(evaluate('"y" in { x: 1 }', options)).toBe(false)
+      })
+
+      it('should throw when the expression is missing an operand', () => {
+        expect(() => parse('a in', options)).toThrowErrorMatchingSnapshot()
+        expect(() => parse('in a', options)).toThrowErrorMatchingSnapshot()
+      })
+    })
+
+    describe('instanceof (Prototype Check)', () => {
+      class Foo {
+        x = 5
+      }
+
+      class Bar extends Foo {}
+
+      const foo = new Foo()
+      const bar = new Bar()
+
+      const baseOptions = {
+        operators: {
+          binary: { allow: ['instanceof'] },
+        },
+        scope: {
+          foo,
+          bar,
+          Foo,
+          Bar,
+        },
+      }
+
+      it('should check if an object is an instance of a constructor', () => {
+        expect(evaluate('foo instanceof Foo', baseOptions)).toBe(true)
+        expect(evaluate('bar instanceof Foo', baseOptions)).toBe(true)
+        expect(evaluate('foo instanceof Bar', baseOptions)).toBe(false)
+        expect(evaluate('bar instanceof Bar', baseOptions)).toBe(true)
+      })
+
+      it('should throw when the expression is missing an operand', () => {
+        expect(() =>
+          parse('a instanceof', baseOptions)
+        ).toThrowErrorMatchingSnapshot()
+        expect(() =>
+          parse('instanceof a', baseOptions)
+        ).toThrowErrorMatchingSnapshot()
       })
     })
 

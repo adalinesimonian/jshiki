@@ -27,18 +27,6 @@ describe('Invalid/Illegal syntax', () => {
     expect(() => parse('void a')).toThrowErrorMatchingSnapshot()
   })
 
-  it('should throw when using `typeof`', () => {
-    expect(() => parse('typeof a')).toThrowErrorMatchingSnapshot()
-  })
-
-  it('should throw when using `in`', () => {
-    expect(() => parse('a in b')).toThrowErrorMatchingSnapshot()
-  })
-
-  it('should throw when using `instanceof`', () => {
-    expect(() => parse('a instanceof b')).toThrowErrorMatchingSnapshot()
-  })
-
   it('should throw when using a sequence expression', () => {
     expect(() => parse('(a, b)')).toThrowErrorMatchingSnapshot()
   })

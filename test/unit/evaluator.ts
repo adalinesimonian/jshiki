@@ -17,13 +17,16 @@ describe('Evaluator', () => {
   })
 
   describe('Operator options', () => {
-    it('should allow all supported operators by default', () => {
+    it('should allow all supported operators except typeof, in, and instanceof by default', () => {
       const evaluator = new Evaluator()
       // Unary operators
       expect(evaluator.createExpression('+2')()).toBe(2)
       expect(evaluator.createExpression('-2')()).toBe(-2)
       expect(evaluator.createExpression('!2')()).toBe(false)
       expect(evaluator.createExpression('~2')()).toBe(-3)
+      expect(() =>
+        evaluator.createExpression('typeof 2')()
+      ).toThrowErrorMatchingSnapshot()
 
       // Binary operators
       expect(evaluator.createExpression('4 + 2')()).toBe(6)
@@ -46,6 +49,12 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 << 2')()).toBe(16)
       expect(evaluator.createExpression('4 >> 2')()).toBe(1)
       expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
+      expect(() =>
+        evaluator.createExpression('"x" in {x: 5}')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('{} instanceof Object')({ Object })
+      ).toThrowErrorMatchingSnapshot()
 
       // Logical operators
       expect(evaluator.createExpression('null && true')()).toBe(null)
@@ -54,6 +63,53 @@ describe('Evaluator', () => {
 
       // Conditional operator
       expect(evaluator.createExpression('false ? 5 : 3')()).toBe(3)
+    })
+
+    it('should support overriding default options with null', () => {
+      const evaluator = new Evaluator({
+        operators: {
+          unary: null,
+          binary: null,
+          logical: null,
+        },
+      })
+      // Unary operators
+      expect(evaluator.createExpression('+2')()).toBe(2)
+      expect(evaluator.createExpression('-2')()).toBe(-2)
+      expect(evaluator.createExpression('!2')()).toBe(false)
+      expect(evaluator.createExpression('~2')()).toBe(-3)
+      expect(evaluator.createExpression('typeof 2')()).toBe('number')
+
+      // Binary operators
+      expect(evaluator.createExpression('4 + 2')()).toBe(6)
+      expect(evaluator.createExpression('4 - 2')()).toBe(2)
+      expect(evaluator.createExpression('4 * 2')()).toBe(8)
+      expect(evaluator.createExpression('4 ** 2')()).toBe(16)
+      expect(evaluator.createExpression('4 / 2')()).toBe(2)
+      expect(evaluator.createExpression('4 % 2')()).toBe(0)
+      expect(evaluator.createExpression('4 < 2')()).toBe(false)
+      expect(evaluator.createExpression('4 > 2')()).toBe(true)
+      expect(evaluator.createExpression('4 <= 2')()).toBe(false)
+      expect(evaluator.createExpression('4 >= 2')()).toBe(true)
+      expect(evaluator.createExpression('4 == 2')()).toBe(false)
+      expect(evaluator.createExpression('4 != 2')()).toBe(true)
+      expect(evaluator.createExpression('4 === 2')()).toBe(false)
+      expect(evaluator.createExpression('4 !== 2')()).toBe(true)
+      expect(evaluator.createExpression('4 | 2')()).toBe(6)
+      expect(evaluator.createExpression('4 ^ 2')()).toBe(6)
+      expect(evaluator.createExpression('4 & 2')()).toBe(0)
+      expect(evaluator.createExpression('4 << 2')()).toBe(16)
+      expect(evaluator.createExpression('4 >> 2')()).toBe(1)
+      expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
+      expect(evaluator.createExpression('"x" in {x: 5}')()).toBe(true)
+      expect(
+        evaluator.createExpression('{} instanceof Object')({ Object })
+      ).toBe(true)
+
+      // Logical operators
+      expect(evaluator.createExpression('null && true')()).toBe(null)
+      expect(evaluator.createExpression('null || true')()).toBe(true)
+      expect(evaluator.createExpression('null ?? true')()).toBe(true)
     })
 
     it('should support allowing only the specified operators', () => {
@@ -74,6 +130,9 @@ describe('Evaluator', () => {
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
         evaluator.createExpression('~2')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('typeof 2')
       ).toThrowErrorMatchingSnapshot()
 
       // Binary operators
@@ -133,6 +192,12 @@ describe('Evaluator', () => {
       expect(() =>
         evaluator.createExpression('4 >>> 2')
       ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('"x" in {x: 5}')()
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('{} instanceof Object')({ Object })
+      ).toThrowErrorMatchingSnapshot()
 
       // Logical operators
       expect(evaluator.createExpression('null && true')()).toBe(null)
@@ -166,6 +231,7 @@ describe('Evaluator', () => {
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('!2')()).toBe(false)
       expect(evaluator.createExpression('~2')()).toBe(-3)
+      expect(evaluator.createExpression('typeof 2')()).toBe('number')
 
       // Binary operators
       expect(evaluator.createExpression('4 + 2')()).toBe(6)
@@ -192,6 +258,10 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 << 2')()).toBe(16)
       expect(evaluator.createExpression('4 >> 2')()).toBe(1)
       expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
+      expect(evaluator.createExpression('"x" in {x: 5}')()).toBe(true)
+      expect(
+        evaluator.createExpression('{} instanceof Object')({ Object })
+      ).toBe(true)
 
       // Logical operators
       expect(() =>

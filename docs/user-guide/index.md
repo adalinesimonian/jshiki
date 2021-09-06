@@ -59,4 +59,4 @@ You can use all of the below in expressions:
 Next, we'll look at how to let expressions access data not contained in the expression itself.
 
 [acorn]: https://github.com/acornjs/acorn
-[type definitions]: ../../api/#evaluate
+[type definitions]: ../api/#evaluate

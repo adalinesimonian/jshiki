@@ -24,6 +24,21 @@ describe('Operators', () => {
       expect(operators.unary).toHaveProperty('!')
       expect(operators.unary['!'](true)).toBe(false)
     })
+
+    it('should export ~', () => {
+      expect(operators.unary).toHaveProperty('~')
+      expect(operators.unary['~'](5)).toBe(-6)
+      expect(operators.unary['~'](-5)).toBe(4)
+    })
+
+    it('should export typeof', () => {
+      expect(operators.unary).toHaveProperty('typeof')
+      expect(operators.unary.typeof('test')).toBe('string')
+      expect(operators.unary.typeof(5)).toBe('number')
+      expect(operators.unary.typeof(true)).toBe('boolean')
+      expect(operators.unary.typeof(null)).toBe('object')
+      expect(operators.unary.typeof(undefined)).toBe('undefined')
+    })
   })
 
   describe('Binary operators', () => {
@@ -184,6 +199,43 @@ describe('Operators', () => {
       expect(operators.binary['>>>'](5, 5)).toBe(0)
       expect(operators.binary['>>>']('2', '1')).toBe(1)
       expect(operators.binary['>>>'](null, undefined)).toBe(0)
+    })
+
+    it('should export in', () => {
+      expect(operators.binary).toHaveProperty('in')
+      expect(operators.binary.in('x', { x: 1 })).toBe(true)
+      expect(operators.binary.in('x', { y: 1 })).toBe(false)
+      expect(() => operators.binary.in('x', 5)).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        operators.binary.in('x', 'string')
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        operators.binary.in('x', null)
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        operators.binary.in('x', undefined)
+      ).toThrowErrorMatchingSnapshot()
+    })
+
+    it('should export instanceof', () => {
+      class A {
+        x: number = 5
+      }
+      const a = new A()
+      expect(operators.binary).toHaveProperty('instanceof')
+      expect(operators.binary.instanceof(a, A)).toBe(true)
+      expect(operators.binary.instanceof(a, Object)).toBe(true)
+      expect(operators.binary.instanceof(a, String)).toBe(false)
+      expect(operators.binary.instanceof({ x: 5 }, Object)).toBe(true)
+      expect(operators.binary.instanceof({ x: 5 }, A)).toBe(false)
+      expect(operators.binary.instanceof(5, Number)).toBe(false)
+      expect(operators.binary.instanceof('string', String)).toBe(false)
+      expect(() =>
+        operators.binary.instanceof(5, null)
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        operators.binary.instanceof(5, undefined)
+      ).toThrowErrorMatchingSnapshot()
     })
   })
 

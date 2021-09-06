@@ -130,6 +130,14 @@ exports[`Operators Binary Operators | (Bitwise OR) should throw when the express
 
 exports[`Operators Binary Operators - (Subtraction) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:10)"`;
 
+exports[`Operators Binary Operators in (Property Membership) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:11)"`;
+
+exports[`Operators Binary Operators in (Property Membership) should throw when the expression is missing an operand 2`] = `"Unexpected token (1:7)"`;
+
+exports[`Operators Binary Operators instanceof (Prototype Check) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:19)"`;
+
+exports[`Operators Binary Operators instanceof (Prototype Check) should throw when the expression is missing an operand 2`] = `"Unexpected token (1:7)"`;
+
 exports[`Operators Logical Operators && (Logical AND) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:11)"`;
 
 exports[`Operators Logical Operators ?? (Null coalescing) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:11)"`;

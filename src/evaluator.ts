@@ -9,7 +9,7 @@ type Expression = {
 
 /**
  * Defines which unary operators are allowed. Must provide an allow list or a
- * block list, but not both. Valid options are `||`, `&&`, `??`.
+ * block list, but not both. Valid options are `-`, `+`, `!`, `~`, `typeof`.
  * @example
  * ```js
  * // allows only unary operators '!' and '+'
@@ -21,13 +21,15 @@ type Expression = {
 export type UnaryOperatorOptions =
   | {
       /**
-       * Which unary operators to allow. Valid options are `-`, `+`, `!`, `~`.
+       * Which unary operators to allow. Valid options are `-`, `+`, `!`, `~`,
+       * `typeof`.
        */
       allow: (keyof typeof operators.unary)[]
     }
   | {
       /**
-       * Which unary operators to block. Valid options are `-`, `+`, `!`, `~`.
+       * Which unary operators to block. Valid options are `-`, `+`, `!`, `~`,
+       * `typeof`.
        */
       block: (keyof typeof operators.unary)[]
     }
@@ -35,7 +37,8 @@ export type UnaryOperatorOptions =
 /**
  * Defines which binary operators are allowed. Must provide an allow list or a
  * block list, but not both. Valid options are `+`, `-`, `*`, `**`, `/`, `%`,
- * `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`, `<<`, `>>`, `>>>`.
+ * `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`, `<<`, `>>`, `>>>`,
+ * `in`, `instanceof`.
  * @example
  * ```js
  * // allows only binary operators '/', '%', '+', and '-'
@@ -49,7 +52,7 @@ export type BinaryOperatorOptions =
       /**
        * Which binary operators to allow. Valid options are `+`, `-`, `*`, `**`,
        * `/`, `%`, `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`,
-       * `<<`, `>>`, `>>>`.
+       * `<<`, `>>`, `>>>`, `in`, `instanceof`.
        */
       allow: (keyof typeof operators.binary)[]
     }
@@ -57,7 +60,7 @@ export type BinaryOperatorOptions =
       /**
        * Which binary operators to block. Valid options are `+`, `-`, `*`, `**`,
        * `/`, `%`, `<`, `>`, `<=`, `>=`, `==`, `!=`, `===`, `!==`, `|`, `&`,
-       * `<<`, `>>`, `>>>`.
+       * `<<`, `>>`, `>>>`, `in`, `instanceof`.
        */
       block: (keyof typeof operators.binary)[]
     }
@@ -103,7 +106,7 @@ export interface OperatorOptions {
   /**
    * Defines which unary operators are allowed. If defined, must provide an
    * allow list or a block list, but not both. Valid options are `-`, `+`, `!`,
-   * `~`.
+   * `~`, `typeof`.
    * @example
    * ```js
    * // allows only unary operators '!' and '+'
@@ -112,7 +115,7 @@ export interface OperatorOptions {
    * { unary: { block: ['-', '~'] } }
    * ```
    */
-  unary?: UnaryOperatorOptions
+  unary?: UnaryOperatorOptions | null
   /**
    * Defines which binary operators are allowed. If defined, must provide an
    * allow list or a block list, but not both. Valid options are `+`, `-`, `*`,
@@ -126,7 +129,7 @@ export interface OperatorOptions {
    * { binary: { block: ['*', '**', '&'] } }
    * ```
    */
-  binary?: BinaryOperatorOptions
+  binary?: BinaryOperatorOptions | null
   /**
    * Defines which logical operators are allowed. If defined, must provide an
    * allow list or a block list, but not both. Valid options are `||`, `&&`,
@@ -139,7 +142,7 @@ export interface OperatorOptions {
    * { logical: { block: ['??'] } }
    * ```
    */
-  logical?: LogicalOperatorOptions
+  logical?: LogicalOperatorOptions | null
   /**
    * Whether or not the ternary/conditional operator is allowed. A value of
    * `true` allows the ternary operator, `false` blocks it. Defaults to `true`.
@@ -208,8 +211,8 @@ export interface SyntaxOptions {
 
 export interface EvaluatorOptions {
   /**
-   * Defines which operators are allowed. By default, all supported operators
-   * are allowed.
+   * Defines which operators are allowed. By default, all supported operators,
+   * except for `typeof`, `in`, and `instanceof`, are allowed.
    * @example
    * ```js
    * const options = {
@@ -363,7 +366,12 @@ export default class Evaluator {
   allowRegexes: boolean
 
   constructor({
-    operators: { unary, binary, logical, ternary = true } = {},
+    operators: {
+      unary = { block: ['typeof'] },
+      binary = { block: ['in', 'instanceof'] },
+      logical,
+      ternary = true,
+    } = {},
     syntax: {
       memberAccess = true,
       calls = true,

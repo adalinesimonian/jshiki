@@ -56,7 +56,7 @@ In full, the operators options object is as follows:
 - `:::js operators.logical` — Logical operators (e.g. `:::js true && false`, `:::js null ?? 1`)
 - `:::js operators.ternary` — Ternary/conditional operator (e.g. `:::js a === b ? 2 : 3`)
 
-All supported operators are allowed by default. For an exhaustive list, see the [API docs].
+All supported operators, except for `typeof`, `in`, and `instanceof`, are allowed by default. For an exhaustive list, see the [API docs].
 
 ## Disallowing syntax
 
