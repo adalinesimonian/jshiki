@@ -9,7 +9,8 @@
 </p>
 
 <p align="center">
-  <strong><a href="https://adalinesimonian.github.io/jshiki/latest/user-guide/">Documentation</a></strong>
+  <strong><a href="https://adalinesimonian.github.io/jshiki/latest/user-guide/">Documentation</a></strong> |
+  <strong><a href="https://github.com/adalinesimonian/jshiki/blob/main/CHANGELOG.md">Change Log</a></strong>
 </p>
 
 ---
