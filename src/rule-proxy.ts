@@ -6,17 +6,9 @@ function hasAccess(
   propertyScope: AccessPathArray
 ) {
   const match = ruleTree.match(propertyScope)
-
   return explicitAllow
-    ? match === true ||
-        (typeof match === 'object' &&
-          match[0] === propertyScope.length - 1 &&
-          match[1] === 'allow')
-    : !(
-        typeof match === 'object' &&
-        match[0] === propertyScope.length - 1 &&
-        match[1] === 'block'
-      )
+    ? match === true || (typeof match === 'string' && match === 'allow')
+    : !(typeof match === 'string' && match === 'block')
 }
 
 function getProxyHandler<T extends object>(

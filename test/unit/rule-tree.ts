@@ -73,11 +73,11 @@ describe('Rule Tree', () => {
       { block: 'foo.\\*' },
       { allow: ['foo', '\\**'] },
     ])
-    expect(ruleTree.match(['x', 'y', 'z'])).toEqual([2, 'allow'])
-    expect(ruleTree.match('a.b.c')).toEqual([2, 'block'])
-    expect(ruleTree.match(['alpha', symbolBeta])).toEqual([1, 'allow'])
-    expect(ruleTree.match(['foo', '*'])).toEqual([1, 'block'])
-    expect(ruleTree.match('foo.**')).toEqual([1, 'allow'])
+    expect(ruleTree.match(['x', 'y', 'z'])).toEqual('allow')
+    expect(ruleTree.match('a.b.c')).toEqual('block')
+    expect(ruleTree.match(['alpha', symbolBeta])).toEqual('allow')
+    expect(ruleTree.match(['foo', '*'])).toEqual('block')
+    expect(ruleTree.match('foo.**')).toEqual('allow')
   })
 
   it('should not match inapplicable paths to rules', () => {
@@ -103,10 +103,10 @@ describe('Rule Tree', () => {
       { allow: 'alpha.beta.*.delta' },
       { block: ['*', symbolBar] },
     ])
-    expect(ruleTree.match(['x', 'y', 'z'])).toEqual([2, 'allow'])
-    expect(ruleTree.match('a.b.c.d')).toEqual([3, 'block'])
-    expect(ruleTree.match('alpha.beta.gamma.delta')).toEqual([3, 'allow'])
-    expect(ruleTree.match(['foo', symbolBar])).toEqual([1, 'block'])
+    expect(ruleTree.match(['x', 'y', 'z'])).toEqual('allow')
+    expect(ruleTree.match('a.b.c.d')).toEqual('block')
+    expect(ruleTree.match('alpha.beta.gamma.delta')).toEqual('allow')
+    expect(ruleTree.match(['foo', symbolBar])).toEqual('block')
   })
 
   it('should not match inapplicable paths to rules with wildcards', () => {
@@ -142,20 +142,10 @@ describe('Rule Tree', () => {
       { block: [symbolBar, 'baz'] },
       { allow: ['foo', symbolBar, 'baz'] },
     ])
-    expect(ruleTree.match('x.y.z')).toEqual([2, 'block'])
-    expect(ruleTree.match('a.b.c')).toEqual([2, 'allow'])
-    expect(ruleTree.match('alpha.beta.gamma.delta')).toEqual([2, 'block'])
-    expect(ruleTree.match(['foo', symbolBar, 'baz'])).toEqual([2, 'allow'])
-  })
-
-  it('should block descendant access when a rule blocks a parent', () => {
-    const ruleTree = new RuleTree([{ allow: 'x.y.z' }, { block: 'x.y' }])
-    expect(ruleTree.match('x.y.z')).toEqual([1, 'block'])
-  })
-
-  it('should not block descendant access when a rule allows a parent', () => {
-    const ruleTree = new RuleTree([{ allow: 'x.y.z' }, { allow: 'x.y' }])
-    expect(ruleTree.match('x.y.z')).toEqual([1, 'allow'])
+    expect(ruleTree.match('x.y.z')).toEqual('block')
+    expect(ruleTree.match('a.b.c')).toEqual('allow')
+    expect(ruleTree.match('alpha.beta.gamma')).toEqual('block')
+    expect(ruleTree.match(['foo', symbolBar, 'baz'])).toEqual('allow')
   })
 
   it('should return true when the path has descendants with an allow rule', () => {

@@ -16,7 +16,7 @@ export type BlockAccessRule = {
 }
 export type AccessRule = AllowAccessRule | BlockAccessRule
 type Action = 'allow' | 'block'
-type MatchResult = [number, Action] | boolean
+type MatchResult = Action | boolean
 
 function normalizePath(path: AccessPath): AccessPathArray {
   if (typeof path === 'string') {
@@ -87,10 +87,9 @@ export default class RuleTree {
     if (!rule) {
       return this
     }
-    const [action, path]: [Action, AccessPathArray] = isAllowRule(rule)
+    const [action, normalized]: [Action, AccessPathArray] = isAllowRule(rule)
       ? ['allow', normalizePath(rule.allow)]
       : ['block', normalizePath(rule.block)]
-    const normalized = normalizePath(path)
     if (normalized.length === 0) {
       return this
     }
@@ -147,25 +146,30 @@ export default class RuleTree {
   }
 
   /**
-   * Checks if the given path has a matching rule. If it does, returns the index
-   * of the property in the given path along with the matching action. If it
-   * doesn't, returns a boolean indicating whether or not there is a rule that
-   * would allow access to a descendant of the given path.
+   * Checks if the given path has a matching rule. If it does, returns the
+   * matching action. If it doesn't, returns a boolean indicating whether or not
+   * there is a rule that would allow access to a descendant of the given path.
    * @param path The path to check.
-   * @returns If a match is found, a tuple with the first element being the
-   * index of the matching property in the path and the second element being the
-   * action. If no match is found, a boolean indicating whether or not there is
-   * a rule that would allow access to a descendant of the given path.
+   * @returns If a match is found, the action, either `'allow'` or `'block'`. If
+   * no match is found, a boolean indicating whether or not there is a rule that
+   * would allow access to a descendant of the given path.
    * @example
+   * ```js
    * const ruleTree = new RuleTree([
    *   { allow: 'a.b.c' },
+   *   { block: 'x.y.z' },
    * ])
    * let match = ruleTree.match('a.b.c')
-   * // match => [2, 'allow']
+   * // match => 'allow'
    * match = ruleTree.match('a.b.d')
    * // match => false
    * match = ruleTree.match('a.b')
    * // match => true
+   * match = ruleTree.match('x.y.z')
+   * // match => 'block'
+   * match = ruleTree.match('x.y.z.alpha')
+   * // match => false
+   * ```
    */
   match(path: AccessPath): MatchResult {
     const normalized = normalizePath(path)
@@ -175,7 +179,10 @@ export default class RuleTree {
 
     let currentNodes = [...this.#rootNodes]
     let nextNodes: [AccessPathPart, RuleTreeNode][] = []
-    const actions: [precedence: number, index: number, action: Action][] = []
+    const actions: Map<
+      RuleTreeNode,
+      [precedence: number, index: number, action: Action]
+    > = new Map()
     let hasAllowDescendant = false
 
     for (const [index, pathPart] of normalized.entries()) {
@@ -187,7 +194,11 @@ export default class RuleTree {
           const matchingNode = matchingChild ?? node
 
           if (isActionNode(matchingNode)) {
-            actions.push([matchingNode.precedence, index, matchingNode.action])
+            actions.set(matchingNode, [
+              matchingNode.precedence,
+              index,
+              matchingNode.action,
+            ])
           }
 
           if (matchingChild) {
@@ -205,7 +216,6 @@ export default class RuleTree {
               hasAllowDescendant = true
             }
           }
-          continue
         }
 
         if (
@@ -213,7 +223,7 @@ export default class RuleTree {
           unescapeWildcard(nodePathPart) === pathPart
         ) {
           if (isActionNode(node)) {
-            actions.push([node.precedence, index, node.action])
+            actions.set(node, [node.precedence, index, node.action])
           }
           if (node.hasAllowDescendant) {
             hasAllowDescendant = true
@@ -232,22 +242,30 @@ export default class RuleTree {
       nextNodes = []
     }
 
-    if (actions.length > 0) {
-      if (actions.length === 1) {
-        return [actions[0][1], actions[0][2]]
+    if (actions.size > 0) {
+      if (actions.size === 1) {
+        const action = actions.values().next().value
+        return action[1] === normalized.length - 1
+          ? action[2]
+          : hasAllowDescendant
       }
       // Pick the action with the highest precedence
       let highestPrecedence = -1
       let highestPrecedenceResult: [number, Action]
 
-      for (const [precedence, index, action] of actions) {
+      const actionArray = [...actions.values()]
+
+      while (actionArray.length > 0) {
+        const [precedence, index, action] = actionArray.pop()!
         if (precedence > highestPrecedence) {
           highestPrecedence = precedence
           highestPrecedenceResult = [index, action]
         }
       }
 
-      return highestPrecedenceResult!
+      const [index, action] = highestPrecedenceResult!
+
+      return index === normalized.length - 1 ? action : hasAllowDescendant
     }
 
     return hasAllowDescendant
