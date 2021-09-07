@@ -18,6 +18,17 @@ const options = {
 }
 ```
 
+> **IMPORTANT!** Rules will not apply to any properties of values that aren't objects or functions. This behaviour is a result of jshiki's rules implementation using [proxies] under the hood — proxies can only be created for objects or functions.
+>
+> ```js
+> const options = {
+>   rules: [{ block: 'length' }],
+>   scope: 'str',
+> }
+> const result = jshiki.evaluate('length', options)
+> // result => 3
+> ```
+
 ## Requiring Explicit Allowing of Access
 
 By default, jshiki will allow access to all properties of the scope object unless a block rule applies. However, you can instead require that an allow rule matches the property before allowing the expression to access it by setting the `explicitAllow` option to `true`.
@@ -91,6 +102,7 @@ const rules = [{ block: 'user.groups' }, { allow: 'user.*' }]
 
 In the following section, we'll discuss how to practice good data security when using jshiki.
 
-[type definitions]: ../../api/#AccessPath
-[scope object]: accessing-data.md
 [security]: security.md
+[scope object]: accessing-data.md
+[type definitions]: ../../api/#AccessPath
+[proxies]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
