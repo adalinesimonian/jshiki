@@ -1,0 +1,15 @@
+comment:
+  require_base: yes
+  require_head: yes
+  branches: [main]
+
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - target: 90%
+  individual_flags:
+    - name: unit
+      carryforward: true
+      statuses:
+        - target: 100%

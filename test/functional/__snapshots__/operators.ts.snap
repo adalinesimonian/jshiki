@@ -144,6 +144,8 @@ exports[`Operators Logical Operators ?? (Null coalescing) should throw when the 
 
 exports[`Operators Logical Operators || (Logical OR) should throw when the expression is missing an operand 1`] = `"Unexpected token (1:11)"`;
 
+exports[`Operators Unary Operators Unsupported operators should throw an error 1`] = `"Unsupported unary operator: delete"`;
+
 exports[`Operators should throw when the expression contains an invalid operator 1`] = `"Unexpected token (1:15)"`;
 
 exports[`Operators should throw when the expression contains an invalid operator 2`] = `"Unexpected token (1:9)"`;

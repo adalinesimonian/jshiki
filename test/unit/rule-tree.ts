@@ -72,12 +72,17 @@ describe('Rule Tree', () => {
       { allow: ['alpha', symbolBeta] },
       { block: 'foo.\\*' },
       { allow: ['foo', '\\**'] },
+      { allow: 'qux.quux' },
+      { allow: 'quuz.**' },
+      { allow: 'quuz.corge' },
     ])
-    expect(ruleTree.match(['x', 'y', 'z'])).toEqual('allow')
-    expect(ruleTree.match('a.b.c')).toEqual('block')
-    expect(ruleTree.match(['alpha', symbolBeta])).toEqual('allow')
-    expect(ruleTree.match(['foo', '*'])).toEqual('block')
-    expect(ruleTree.match('foo.**')).toEqual('allow')
+    expect(ruleTree.match(['x', 'y', 'z'])).toBe('allow')
+    expect(ruleTree.match('a.b.c')).toBe('block')
+    expect(ruleTree.match(['alpha', symbolBeta])).toBe('allow')
+    expect(ruleTree.match(['foo', '*'])).toBe('block')
+    expect(ruleTree.match('foo.**')).toBe('allow')
+    expect(ruleTree.match('qux.quux.quuz')).toBe(false)
+    expect(ruleTree.match('quuz.corge.grault')).toBe(false)
   })
 
   it('should not match inapplicable paths to rules', () => {
@@ -91,8 +96,8 @@ describe('Rule Tree', () => {
     expect(ruleTree.match(['x', 'y'])).toBe(true)
     expect(ruleTree.match('a')).toBe(false)
     expect(ruleTree.match(['alpha', Symbol('beta')])).toBe(false)
-    expect(ruleTree.match(['foo', 'bar'])).toEqual(false)
-    expect(ruleTree.match('foo.bar.baz')).toEqual(false)
+    expect(ruleTree.match(['foo', 'bar'])).toBe(false)
+    expect(ruleTree.match('foo.bar.baz')).toBe(false)
   })
 
   it('should match applicable paths to rules with wildcards', () => {
@@ -103,10 +108,10 @@ describe('Rule Tree', () => {
       { allow: 'alpha.beta.*.delta' },
       { block: ['*', symbolBar] },
     ])
-    expect(ruleTree.match(['x', 'y', 'z'])).toEqual('allow')
-    expect(ruleTree.match('a.b.c.d')).toEqual('block')
-    expect(ruleTree.match('alpha.beta.gamma.delta')).toEqual('allow')
-    expect(ruleTree.match(['foo', symbolBar])).toEqual('block')
+    expect(ruleTree.match(['x', 'y', 'z'])).toBe('allow')
+    expect(ruleTree.match('a.b.c.d')).toBe('block')
+    expect(ruleTree.match('alpha.beta.gamma.delta')).toBe('allow')
+    expect(ruleTree.match(['foo', symbolBar])).toBe('block')
   })
 
   it('should not match inapplicable paths to rules with wildcards', () => {
@@ -141,11 +146,14 @@ describe('Rule Tree', () => {
       { block: '*.beta.gamma' },
       { block: [symbolBar, 'baz'] },
       { allow: ['foo', symbolBar, 'baz'] },
+      { block: 'qux.quux' },
+      { allow: ['qux', 'quux'] },
     ])
-    expect(ruleTree.match('x.y.z')).toEqual('block')
-    expect(ruleTree.match('a.b.c')).toEqual('allow')
-    expect(ruleTree.match('alpha.beta.gamma')).toEqual('block')
-    expect(ruleTree.match(['foo', symbolBar, 'baz'])).toEqual('allow')
+    expect(ruleTree.match('x.y.z')).toBe('block')
+    expect(ruleTree.match('a.b.c')).toBe('allow')
+    expect(ruleTree.match('alpha.beta.gamma')).toBe('block')
+    expect(ruleTree.match(['foo', symbolBar, 'baz'])).toBe('allow')
+    expect(ruleTree.match('qux.quux')).toBe('allow')
   })
 
   it('should return true when the path has descendants with an allow rule', () => {

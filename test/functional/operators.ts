@@ -55,6 +55,12 @@ describe('Operators', () => {
         expect(evaluate('typeof {}', options)).toBe('object')
       })
     })
+
+    describe('Unsupported operators', () => {
+      it('should throw an error', () => {
+        expect(() => evaluate('delete x.y')).toThrowErrorMatchingSnapshot()
+      })
+    })
   })
 
   describe('Binary Operators', () => {

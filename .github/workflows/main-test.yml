@@ -26,7 +26,16 @@ jobs:
         run: yarn install --immutable
 
       - name: Run tests
-        run: yarn test --maxWorkers=2 --coverage
+        run: yarn test-ci
 
-      - name: Upload coverage to Codecov
+      - name: Upload unit test coverage to Codecov
         uses: codecov/codecov-action@v2
+        with:
+          directory: coverage/unit
+          flags: unit
+
+      - name: Upload functional test coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: coverage/functional
+          flags: functional

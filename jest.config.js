@@ -1,10 +1,9 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  transform: {
-    'node_modules/variables/.+\\.(j|t)sx?$': 'ts-jest',
-  },
-  transformIgnorePatterns: ['node_modules/(?!variables/.*)'],
-  testMatch: ['**/test/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+const config = {
+  projects: [
+    '<rootDir>/unit.jest.config.js',
+    '<rootDir>/functional.jest.config.js',
+  ],
 }
+
+module.exports = config
