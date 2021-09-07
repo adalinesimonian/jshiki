@@ -528,6 +528,16 @@
   <span class="p">],</span>
 <span class="p">}</span>
 </code></pre></div>
+<blockquote>
+<p><strong>IMPORTANT!</strong> Rules will not apply to any properties of values that aren't objects or functions. This behaviour is a result of jshiki's rules implementation using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">proxies</a> under the hood — proxies can only be created for objects or functions.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">rules</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">block</span><span class="o">:</span> <span class="s1">&#39;length&#39;</span> <span class="p">}],</span>
+  <span class="nx">scope</span><span class="o">:</span> <span class="s1">&#39;str&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
+<span class="c1">// result =&gt; 3</span>
+</code></pre></div>
+</blockquote>
 <h2 id="requiring-explicit-allowing-of-access">Requiring Explicit Allowing of Access</h2>
 <p>By default, jshiki will allow access to all properties of the scope object unless a block rule applies. However, you can instead require that an allow rule matches the property before allowing the expression to access it by setting the <code>explicitAllow</code> option to <code>true</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
