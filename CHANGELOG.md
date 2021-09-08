@@ -1,5 +1,29 @@
 # Change Log
 
+## [v3.3.0](https://github.com/adalinesimonian/jshiki/tree/v3.3.0) (2021-09-08)
+
+### Additions
+
+- `typeof`, `in`, and `instanceof` operators are now supported. They are disabled by default to maintain behaviour with prior versions of jshiki.
+
+### Fixes
+
+- Fixed bug where rules with `**` wildcards would be incorrectly evaluated in certain cases.
+
+### Documentation
+
+- Documented that rules do not affect properties of values that are not objects or functions due to limitations of [proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
+
+### Development changes
+
+- Coverage split between unit and functional tests.
+- Unit tests have 100% coverage.
+- Tests that used snapshots to check errors thrown by Node for property access on `null` and `undefined` have been edited to test without using snapshots. This is due to a change in V8 that changes the format of the error message, included in the version of V8 used by Node 16.9.0 and above.
+- Type in SVG assets has been converted to outlines.
+- VS Code configured to use the workspace version of Typescript.
+
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v3.2.0...v3.3.0)
+
 ## [v3.2.0](https://github.com/adalinesimonian/jshiki/tree/v3.2.0) (2021-08-29)
 
 ### Additions
