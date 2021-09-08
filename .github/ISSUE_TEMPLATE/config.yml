@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ⁉️ Need help using jshiki?
+    url: https://github.com/adalinesimonian/jshiki/discussions
+    about: Search for or start a discussion on GitHub related to your question.
