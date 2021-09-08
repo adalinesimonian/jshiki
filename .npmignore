@@ -11,12 +11,13 @@ assets/logo/*
 !assets/logo/jshiki-readme-banner.svg
 site
 jest.config.js
+*.jest.config.js
 .editorconfig
 .eslintrc
 .eslintignore
 .prettierignore
 .prettierrc
-.travis.yml
+codecov.yml
 .yarnrc.yml
 jsconfig.json
 tsconfig.json
@@ -26,3 +27,5 @@ svgo.config.js
 typedoc.js
 yarn.lock
 release-changelog.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
