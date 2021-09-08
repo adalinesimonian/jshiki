@@ -54,7 +54,7 @@
   "engines": {
     "node": ">=14.0"
   },
-  "homepage": "https://adalinesimonian.github.io/jshiki/",
+  "homepage": "https://jshiki.io/",
   "repository": {
     "type": "git",
     "url": "https://github.com/adalinesimonian/jshiki.git"

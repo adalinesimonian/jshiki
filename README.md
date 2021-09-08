@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong><a href="https://adalinesimonian.github.io/jshiki/latest/user-guide/">Documentation</a></strong> |
+  <strong><a href="https://jshiki.io/latest/user-guide/">Documentation</a></strong> |
   <strong><a href="https://github.com/adalinesimonian/jshiki/blob/main/CHANGELOG.md">Change Log</a></strong>
 </p>
 
@@ -49,4 +49,4 @@ For more examples, features, and information on how to use jshiki, see the [docu
 [MIT](LICENCE)
 
 [acorn]: https://github.com/acornjs/acorn
-[documentation]: https://adalinesimonian.github.io/jshiki/latest/user-guide/
+[documentation]: https://jshiki.io/latest/user-guide/

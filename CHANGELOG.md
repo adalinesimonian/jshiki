@@ -153,4 +153,4 @@
 [esprima]: https://github.com/jquery/esprima
 [mkdocs]: https://www.mkdocs.org/
 [mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
-[documentation]: https://adalinesimonian.github.io/jshiki/
+[documentation]: https://jshiki.io/
