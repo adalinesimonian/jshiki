@@ -3,17 +3,3 @@
 exports[`Rules Rule parsing should throw an error if a rule's path is not a string or string array 1`] = `"Path must be a string or an array of strings and/or symbols, got boolean"`;
 
 exports[`Rules Rule parsing should throw an error if a rule's path part is not a string or a symbol 1`] = `"Path part must be a string or a symbol, got boolean"`;
-
-exports[`Rules with explicit allow set to false should not be able to access properties w/ matching block rule 1`] = `"Cannot read property 'c' of undefined"`;
-
-exports[`Rules with explicit allow set to false should not be able to access properties w/ matching block rule 2`] = `"Cannot read property 'c' of undefined"`;
-
-exports[`Rules with explicit allow set to true should not be able to access properties w/ matching block rule 1`] = `"Cannot read property 'c' of undefined"`;
-
-exports[`Rules with explicit allow set to true should not be able to access properties w/ matching block rule 2`] = `"Cannot read property 'c' of undefined"`;
-
-exports[`Rules with explicit allow set to true should not be able to access properties w/o matching rule 1`] = `"Cannot read property 'bar' of undefined"`;
-
-exports[`Rules with explicit allow set to true should not be able to access properties w/o matching rule 2`] = `"Cannot read property 'bar' of undefined"`;
-
-exports[`Rules with explicit allow set to true should not be able to access properties w/o matching rule 3`] = `"Cannot read property 'Symbol(beta)' of undefined"`;

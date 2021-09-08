@@ -51,13 +51,9 @@ describe('Rules', () => {
         scope: getTestObject(),
       }
       expect(evaluate('foo', options)).toBeUndefined()
-      expect(() => evaluate('foo.bar', options)).toThrowErrorMatchingSnapshot()
-      expect(() =>
-        evaluate('foo["b" + "a" + "r"]', options)
-      ).toThrowErrorMatchingSnapshot()
-      expect(() =>
-        evaluate('alpha[symbolBeta]', options)
-      ).toThrowErrorMatchingSnapshot()
+      expect(() => evaluate('foo.bar', options)).toThrowError()
+      expect(() => evaluate('foo["b" + "a" + "r"]', options)).toThrowError()
+      expect(() => evaluate('alpha[symbolBeta]', options)).toThrowError()
     })
 
     it('should be able to access properties w/ matching allow rule', () => {
@@ -90,10 +86,8 @@ describe('Rules', () => {
       }
       expect(evaluate('a.b', options)).toBeUndefined()
       expect(evaluate('a["b"]', options)).toBeUndefined()
-      expect(() => evaluate('a.b.c', options)).toThrowErrorMatchingSnapshot()
-      expect(() =>
-        evaluate('a["b"]["c"]', options)
-      ).toThrowErrorMatchingSnapshot()
+      expect(() => evaluate('a.b.c', options)).toThrowError()
+      expect(() => evaluate('a["b"]["c"]', options)).toThrowError()
       expect(evaluate('alpha[symbolBeta]', options)).toBeUndefined()
     })
 
@@ -166,10 +160,8 @@ describe('Rules', () => {
       }
       expect(evaluate('a.b', options)).toBeUndefined()
       expect(evaluate('a["b"]', options)).toBeUndefined()
-      expect(() => evaluate('a.b.c', options)).toThrowErrorMatchingSnapshot()
-      expect(() =>
-        evaluate('a["b"]["c"]', options)
-      ).toThrowErrorMatchingSnapshot()
+      expect(() => evaluate('a.b.c', options)).toThrowError()
+      expect(() => evaluate('a["b"]["c"]', options)).toThrowError()
       expect(evaluate('alpha[symbolBeta]', options)).toBeUndefined()
     })
 
