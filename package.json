@@ -26,8 +26,7 @@
     "build": "yarn clean && tsc",
     "build-docs": "run-s \"build-docs:*\"",
     "build-docs:api": "typedoc",
-    "build-docs:docs": "mike deploy ${VERSION} ${ALIAS}",
-    "build-docs-dev": "VERSION=\"main\" ALIAS=\"stage\" yarn build-docs",
+    "build-docs:docs": "mkdocs build",
     "clean": "tsc --build --clean",
     "install-docs-deps": "pip install --upgrade -r requirements.txt",
     "format": "run-s \"format:*\"",
@@ -46,7 +45,6 @@
     "test-ci": "run-s \"test-ci:*\"",
     "test-ci:functional": "jest -c functional.jest.config.js --maxWorkers=2",
     "test-ci:unit": "jest -c unit.jest.config.js --maxWorkers=2",
-    "serve-docs-dev": "yarn build-docs-dev && mike serve",
     "watch-docs": "run-p \"watch-docs:*\"",
     "watch-docs:apidocs": "typedoc --preserveWatchOutput --watch",
     "watch-docs:docs": "mkdocs serve"

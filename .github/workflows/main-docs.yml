@@ -43,7 +43,9 @@ jobs:
           git-tag-gpgsign: true
 
       - name: Build docs
-        run: yarn build-docs-dev
+        run: |
+          yarn build-docs:api
+          mike deploy main stage
 
       - name: Deploy docs
         run: git push origin gh-pages
