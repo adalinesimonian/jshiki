@@ -1,0 +1,228 @@
+.homepage-hero-wrapper {
+  background: linear-gradient(
+    to bottom,
+    var(--md-primary-fg-color),
+    #d93f72 99%
+  );
+  padding-top: 1rem;
+}
+
+[data-md-color-scheme="slate"] .homepage-hero-wrapper {
+  background: linear-gradient(
+    to bottom,
+    var(--md-primary-fg-color),
+    #d93f72 99%
+  );
+}
+
+.homepage-hero {
+  color: var(--md-primary-bg-color);
+  margin: 0 0.8rem;
+}
+
+.homepage-hero h1 {
+  color: currentColor;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.jumbotron {
+  margin: 1rem 0.8rem;
+  min-height: 8rem;
+}
+
+.homepage-content {
+  background: #00000000;
+}
+
+.homepage-content:nth-of-type(2n + 1) {
+  background: #00000018;
+}
+
+[data-md-color-scheme="slate"] .homepage-content:nth-of-type(2n + 1) {
+  background: #00000033;
+}
+
+.jumbotron.horizontal,
+.jumbotron.vertical {
+  display: flex;
+  align-items: center;
+}
+
+.jumbotron.vertical {
+  flex-direction: column;
+}
+
+.jumbotron.horizontal {
+  flex-direction: row;
+}
+
+.jumbotron h1 {
+  font-size: 2.4rem;
+  margin: 0.8rem;
+  flex-shrink: 0;
+}
+
+.jumbotron.horizontal h1 {
+  width: 12rem;
+}
+
+.jumbotron div {
+  flex-shrink: 1;
+  padding: 2rem;
+}
+
+#homepage-playground {
+  margin: 3.5rem 0 0 0;
+  padding-bottom: 8vw;
+}
+
+#playground-placeholder {
+  width: calc(100% - 200px);
+  box-shadow: #00000000 0px 0px 0px 0px;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 4px 8px;
+  overflow: hidden;
+}
+
+#playground-placeholder pre.placeholder-code {
+  white-space: normal;
+}
+
+#playground-placeholder pre.placeholder-code::before {
+  counter-reset: listing;
+}
+
+#playground-placeholder .gutter {
+  background-color: #f9f8f7;
+  position: absolute;
+  left: -43px;
+  box-sizing: content-box;
+  width: 35px;
+  height: calc(100% + 8px);
+  margin-top: -4px;
+  z-index: 0;
+}
+
+#playground-placeholder pre.placeholder-code {
+  font-family: "Ubuntu Mono", monospace;
+  color: #625666;
+  font-size: 15px;
+  line-height: 21.5px;
+  border-right-width: 13px;
+  position: relative;
+  margin: 0 0 0 35px;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+#playground-placeholder pre.placeholder-code span {
+  counter-increment: listing;
+  z-index: 5;
+}
+
+#playground-placeholder pre.placeholder-code span::before {
+  color: rgba(151, 137, 152, 0.5);
+  content: counter(listing);
+  display: block;
+  position: absolute;
+  left: -35px;
+  width: 21px;
+  padding-left: auto;
+  margin-left: auto;
+  text-align: right;
+}
+
+@media screen and (max-width: 76.188rem) {
+  #playground-placeholder {
+    width: calc(100% - 80px);
+  }
+
+  #homepage-playground > div:not(#playground-placeholder) {
+    margin-right: -120px !important;
+  }
+
+  #homepage-playground {
+    padding-bottom: 14vw;
+  }
+}
+
+@media screen and (max-width: 59.938rem) {
+  #playground-placeholder {
+    width: 100%;
+  }
+
+  #homepage-playground > div:not(#playground-placeholder) {
+    margin-right: -200px !important;
+  }
+
+  .jumbotron.horizontal,
+  .jumbotron.vertical {
+    flex-wrap: wrap;
+  }
+
+  .jumbotron.horizontal {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 29.9375em) {
+  .homepage-hero h1 {
+    font-size: 1.4rem;
+  }
+}
+
+.homepage-hero-content {
+  padding-bottom: 6rem;
+}
+
+@media screen and (min-width: 60em) {
+  .homepage-hero {
+    align-items: stretch;
+    display: flex;
+  }
+
+  .homepage-hero-content {
+    margin-top: 3.5rem;
+    max-width: 19rem;
+    padding-bottom: 6vw;
+  }
+
+  #homepage-playground {
+    order: 1;
+    transform: translateX(4rem);
+    width: 38rem;
+  }
+}
+
+@media screen and (min-width: 76.25em) {
+  #homepage-playground {
+    transform: translateX(8rem);
+  }
+
+  .homepage-hero-content {
+    margin-top: 3.5rem;
+    max-width: 19rem;
+    padding-bottom: 8vw;
+  }
+}
+
+.homepage-hero .md-button {
+  color: var(--md-primary-bg-color);
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.homepage-hero .md-button:focus,
+.homepage-hero .md-button:hover {
+  background-color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-accent-bg-color);
+}
+
+.homepage-hero .md-button--primary {
+  background-color: var(--md-primary-bg-color);
+  border-color: var(--md-primary-bg-color);
+  color: #d93f72;
+}
