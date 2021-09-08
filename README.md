@@ -44,9 +44,20 @@ result = jshiki.evaluate(expressionSource, {
 
 For more examples, features, and information on how to use jshiki, see the [documentation].
 
+## Discussion
+
+Discuss jshiki on [GitHub discussions]. Make sure to follow the [code of conduct].
+
+## Contributing
+
+If you're looking for a way to contribute to jshiki, see the [contribution guide].
+
 ## Licence
 
 [MIT](LICENCE)
 
 [acorn]: https://github.com/acornjs/acorn
 [documentation]: https://jshiki.io/latest/user-guide/
+[github discussions]: https://github.com/adalinesimonian/jshiki/discussions
+[code of conduct]: CODE_OF_CONDUCT.md
+[contribution guide]: CONTRIBUTING.md
