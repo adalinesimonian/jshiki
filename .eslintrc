@@ -11,6 +11,8 @@
     "@typescript-eslint/no-redeclare": ["error"],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "@typescript-eslint/explicit-module-boundary-types": ["error"]
+    "@typescript-eslint/explicit-module-boundary-types": ["error"],
+    "no-dupe-class-members": "off",
+    "@typescript-eslint/no-dupe-class-members": ["error"]
   }
 }
