@@ -13,6 +13,8 @@
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/explicit-module-boundary-types": ["error"],
     "no-dupe-class-members": "off",
-    "@typescript-eslint/no-dupe-class-members": ["error"]
+    "@typescript-eslint/no-dupe-class-members": ["error"],
+    "lines-between-class-members": "off",
+    "@typescript-eslint/lines-between-class-members": ["error"]
   }
 }
