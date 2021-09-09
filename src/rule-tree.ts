@@ -73,6 +73,7 @@ function unescapeWildcard(part: AccessPathPart): AccessPathPart {
 
 export default class RuleTree {
   #rootNodes: Map<AccessPathPart, RuleTreeNode> = new Map()
+
   #nextPrecedence = 0
 
   constructor(rules?: AccessRule[]) {
