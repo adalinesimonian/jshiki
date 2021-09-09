@@ -52,7 +52,7 @@
   "engines": {
     "node": ">=14.0"
   },
-  "homepage": "https://jshiki.io/",
+  "homepage": "https://jshiki.io",
   "repository": {
     "type": "git",
     "url": "https://github.com/adalinesimonian/jshiki.git"
