@@ -63,7 +63,7 @@
     "url": "https://github.com/adalinesimonian"
   },
   "license": "MIT",
-  "packageManager": "yarn@3.0.1",
+  "packageManager": "yarn@3.0.2",
   "devDependencies": {
     "@types/estree": "^0.0.50",
     "@types/jest": "^27.0.1",
