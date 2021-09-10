@@ -1,5 +1,45 @@
 # Change Log
 
+## [v3.4.0](https://github.com/adalinesimonian/jshiki/tree/v3.4.0) (2021-09-10)
+
+### Additions
+
+- Asynchronous expressions are now supported!
+  - `parseAsync` returns an async function
+    ```js
+    const expr = jshiki.parseAsync('1 + 2')
+    await expr() // => 3
+    ```
+  - `evaluateAsync` returns a promise
+    ```js
+    await jshiki.evaluateAsync('1 + 2') // => 3
+    ```
+  - `await` is supported within async expressions
+    ```js
+    const expr = jshiki.parseAsync('await a()')
+    await expr({ a: async () => 1 }) // => 1
+    ```
+
+### Fixes
+
+- Fixed bug where calling a method on a property using optional chaining syntax would instead operate as though regular member access was used. Example:
+  ```js
+  // Prior behavior:
+  jshiki.evaluate('a?.b?.()') // throws TypeError
+  jshiki.evaluate('a?.b()') // throws TypeError
+
+  // Patched behaviour:
+  jshiki.evaluate('a?.b?.()') // returns undefined
+  jshiki.evaluate('a?.b()') // returns undefined
+  ```
+
+### Development changes
+
+- Unit tests are now run before functional tests.
+- Updated yarn to 3.0.2
+
+[Full Changelog](https://github.com/adalinesimonian/jshiki/compare/v3.3.0...v3.4.0)
+
 ## [v3.3.0](https://github.com/adalinesimonian/jshiki/tree/v3.3.0) (2021-09-08)
 
 ### Additions
