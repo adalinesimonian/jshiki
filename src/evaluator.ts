@@ -2,9 +2,14 @@ import * as ESTree from 'estree'
 import * as acorn from 'acorn' // does not work as default import
 import operators from './operators'
 
-type Expression = {
-  (scope: any): any
-  node: ESTree.Node
+type Expression<T extends ESTree.Node> = {
+  (scope: unknown): unknown
+  node: T
+}
+
+type AsyncExpression<T extends ESTree.Node> = {
+  (scope: unknown): Promise<{ value: unknown }>
+  node: T
 }
 
 /**
@@ -248,25 +253,12 @@ export interface EvaluatorOptions {
   syntax?: SyntaxOptions
 }
 
-type ArrayExpression = Expression & { node: ESTree.ArrayExpression }
-// TODO
-// type AwaitExpression = Expression & { node: ESTree.AwaitExpression }
-type BinaryExpression = Expression & { node: ESTree.BinaryExpression }
-type CallExpression = Expression & { node: ESTree.SimpleCallExpression }
-type ChainExpression = Expression & { node: ESTree.ChainExpression }
-type ConditionalExpression = Expression & { node: ESTree.ConditionalExpression }
-type IdentifierExpression = Expression & { node: ESTree.Identifier }
-type LiteralExpression = Expression & {
-  node: ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral
-}
-type LogicalExpression = Expression & { node: ESTree.LogicalExpression }
-type MemberExpression = Expression & { node: ESTree.MemberExpression }
-type ObjectExpression = Expression & { node: ESTree.ObjectExpression }
-type TaggedTemplateExpression = Expression & {
-  node: ESTree.TaggedTemplateExpression
-}
-type TemplateLiteralExpression = Expression & { node: ESTree.TemplateLiteral }
-type UnaryExpression = Expression & { node: ESTree.UnaryExpression }
+type AsyncIfSpecified<
+  T extends boolean,
+  N extends ESTree.Node = ESTree.Node,
+  A extends AsyncExpression<N> = AsyncExpression<N>,
+  S extends Expression<N> = Expression<N>
+> = T extends true ? A : S
 
 function assert(condition: boolean): asserts condition {
   console.assert(condition)
@@ -401,96 +393,204 @@ export default class Evaluator {
     this.allowRegexes = Boolean(regexes)
   }
 
-  createExpression(code: string): (scope?: any) => any {
+  /**
+   * Parses a string representing an expression and returns an invokable
+   * function that evaluates the expression.
+   * @param code The expression to parse.
+   * @param async Whether or not the expression should be evaluated as an
+   * asynchronous function. If true, the expression can use the `await` keyword.
+   */
+  createExpression(code: string): (scope?: any) => any
+  createExpression<T extends boolean>(
+    code: string,
+    async: T
+  ): T extends true ? (scope?: any) => Promise<any> : (scope?: any) => any
+  createExpression<T extends boolean>(
+    code: string,
+    async?: T
+  ): T extends true ? (scope?: any) => Promise<any> : (scope?: any) => any {
     // Wrapping in an arrow function to allow use of expressions that would
     // otherwise be invalid as a statement.
-    const ast = acorn.parse(`() => (${code})`, {
-      sourceType: 'module',
-      ecmaVersion: 'latest',
-    }) as unknown as ESTree.Program
+    const ast = acorn.parse(
+      async ? `async () => (${code})` : `() => (${code})`,
+      {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      }
+    ) as unknown as ESTree.Program
     assert(ast.body.length === 1)
     const statement = ast.body[0]
     assert(statement.type === 'ExpressionStatement')
     const { expression } = statement
     assert(expression.type === 'ArrowFunctionExpression')
-    const built = this.evaluateIfIdentifier(expression.body)
-    return (scope: any = {}) => built(scope)
+    if (async) {
+      const built = this.evaluateIfIdentifier(expression.body, true)
+      return async (scope: any = {}) => (await built(scope)).value
+    }
+    const built = this.evaluateIfIdentifier(expression.body, false)
+    return (scope: any = {}): any => built(scope)
   }
 
-  createExpressionForNode(node: ESTree.Node): Expression {
+  createExpressionForNode<T extends boolean>(
+    node: ESTree.Node,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.Node> {
     switch (node.type) {
       case 'ArrayExpression':
-        return this.createArrayExpression(node)
-      // TODO
-      // case 'AwaitExpression':
-      //   return this.createAwaitExpression(node)
+        return this.createArrayExpression(node, async)
+      case 'AwaitExpression':
+        return this.createAwaitExpression(node, async)
       case 'BinaryExpression':
-        return this.createBinaryExpression(node)
+        return this.createBinaryExpression(node, async)
       case 'CallExpression':
-        return this.createCallExpression(node)
+        return this.createCallExpression(node, async)
       case 'ChainExpression':
-        return this.createChainExpression(node)
+        return this.createChainExpression(node, async)
       case 'ConditionalExpression':
-        return this.createConditionalExpression(node)
+        return this.createConditionalExpression(node, async)
       case 'Identifier':
-        return this.createIdentifier(node)
+        return this.createIdentifier(node, async)
       case 'Literal':
-        return this.createLiteral(node)
+        return this.createLiteral(node, async)
       case 'LogicalExpression':
-        return this.createLogicalExpression(node)
+        return this.createLogicalExpression(node, async)
       case 'MemberExpression':
-        return this.createMemberExpression(node)
+        return this.createMemberExpression(node, async)
       case 'ObjectExpression':
-        return this.createObjectExpression(node)
+        return this.createObjectExpression(node, async)
       case 'TaggedTemplateExpression':
-        return this.createTaggedTemplateExpression(node)
+        return this.createTaggedTemplateExpression(node, async)
       case 'TemplateLiteral':
-        return this.createTemplateLiteral(node)
+        return this.createTemplateLiteral(node, async)
       case 'UnaryExpression':
-        return this.createUnaryExpression(node)
+        return this.createUnaryExpression(node, async)
       default:
         throw new Error(`Unsupported node type: ${(node as any).type}`)
     }
   }
 
-  evaluateIfIdentifier(node: ESTree.Node): Expression {
+  evaluateIfIdentifier<T extends boolean>(
+    node: ESTree.Node,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.Node> {
     if (node.type === 'Identifier') {
       const { name } = node
       switch (name) {
         case 'undefined':
-          return Object.assign(() => undefined, { node })
+          return Object.assign(
+            async ? async () => ({ value: undefined }) : (): any => undefined,
+            { node }
+          )
         case 'NaN':
-          return Object.assign(() => NaN, { node })
+          return Object.assign(
+            async ? async () => ({ value: NaN }) : (): any => NaN,
+            { node }
+          )
         case 'Infinity':
-          return Object.assign(() => Infinity, { node })
+          return Object.assign(
+            async ? async () => ({ value: Infinity }) : (): any => Infinity,
+            { node }
+          )
         default:
-          return Object.assign((scope: any) => scope[name], { node })
+          return Object.assign(
+            async
+              ? async (scope: any) => ({ value: scope[name] })
+              : (scope: any) => scope[name],
+            { node }
+          )
       }
     }
 
-    return this.createExpressionForNode(node)
+    return this.createExpressionForNode(node, async)
   }
 
-  parseCallArgs(
-    args: (ESTree.Expression | ESTree.SpreadElement)[]
-  ): ((arr: any[], scope: any) => any[])[] {
-    return args.map(argument => {
+  parseCallArgs<T extends boolean>(
+    args: (ESTree.Expression | ESTree.SpreadElement)[],
+    async: T
+  ): T extends true ? (scope: any) => Promise<any[]> : (scope: any) => any[] {
+    if (async) {
+      const argFuncs = args.map(argument => {
+        if (argument.type === 'SpreadElement') {
+          const expression = this.evaluateIfIdentifier(argument.argument, true)
+          return async (arr: any[], scope: any) =>
+            arr.concat((await expression(scope)).value)
+        }
+
+        const expression = this.evaluateIfIdentifier(argument, true)
+        return async (arr: any[], scope: any) => {
+          arr.push((await expression(scope)).value)
+          return arr
+        }
+      })
+
+      return (async (scope: any) => {
+        let evaluatedArgs: any[] = []
+        for (const arg of argFuncs) {
+          evaluatedArgs = await arg(evaluatedArgs, scope)
+        }
+        return evaluatedArgs
+      }) as T extends true
+        ? (scope: any) => Promise<any[]>
+        : (scope: any) => any[]
+    }
+    const argFuncs = args.map(argument => {
       if (argument.type === 'SpreadElement') {
-        const expression = this.evaluateIfIdentifier(argument.argument)
+        const expression = this.evaluateIfIdentifier(argument.argument, false)
         return (arr: any[], scope: any) => arr.concat(expression(scope))
       }
 
-      const expression = this.evaluateIfIdentifier(argument)
+      const expression = this.evaluateIfIdentifier(argument, false)
       return (arr: any[], scope: any) => {
         arr.push(expression(scope))
         return arr
       }
     })
+
+    return (scope: any): any => {
+      let evaluatedArgs: any[] = []
+      for (const arg of argFuncs) {
+        evaluatedArgs = arg(evaluatedArgs, scope)
+      }
+      return evaluatedArgs
+    }
   }
 
-  createArrayExpression(node: ESTree.ArrayExpression): ArrayExpression {
+  createArrayExpression<T extends boolean>(
+    node: ESTree.ArrayExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.ArrayExpression> {
     if (!this.allowArrays) {
       throw new Error('Array literals are not allowed')
+    }
+    if (async) {
+      const elements = node.elements.map(element => {
+        if (!element) {
+          // eslint-disable-next-line no-sparse-arrays
+          return (arr: any[]) => arr.concat([,])
+        }
+        if (element.type === 'SpreadElement') {
+          const expression = this.evaluateIfIdentifier(element.argument, true)
+          return async (arr: any[], scope: any) => {
+            arr.push(...((await expression(scope)).value as any))
+            return arr
+          }
+        }
+        const expression = this.evaluateIfIdentifier(element, true)
+        return async (arr: any[], scope: any) => {
+          arr.push((await expression(scope)).value)
+          return arr
+        }
+      })
+      return Object.assign(
+        async (scope: any) => {
+          let arr: any[] = []
+          for (const element of elements) {
+            arr = await element(arr, scope)
+          }
+          return { value: arr }
+        },
+        { node }
+      )
     }
     const elements = node.elements.map(element => {
       if (!element) {
@@ -498,34 +598,43 @@ export default class Evaluator {
         return (arr: any[]) => arr.concat([,])
       }
       if (element.type === 'SpreadElement') {
-        const expression = this.evaluateIfIdentifier(element.argument)
+        const expression = this.evaluateIfIdentifier(element.argument, false)
         return (arr: any[], scope: any) => {
-          arr.push(...expression(scope))
+          arr.push(...(expression(scope) as any))
           return arr
         }
       }
+      const expression = this.evaluateIfIdentifier(element, false)
       return (arr: any[], scope: any) => {
-        const expression = this.evaluateIfIdentifier(element)
         arr.push(expression(scope))
         return arr
       }
     })
     return Object.assign(
-      (scope: any) => elements.reduce<any[]>((arr, fn) => fn(arr, scope), []),
+      (scope: any): any =>
+        elements.reduce<any[]>((arr, fn) => fn(arr, scope), []),
       { node }
     )
   }
 
-  // TODO
-  // createAwaitExpression(node: ESTree.AwaitExpression): AwaitExpression {
-  //   return Object.assign(() => {
-  //     this.#evaluateIfIdentifier(node.argument)
-  //   }, {
-  //     node,
-  //   })
-  // }
+  createAwaitExpression(
+    node: ESTree.AwaitExpression,
+    async: boolean
+  ): AsyncExpression<ESTree.AwaitExpression> {
+    if (!async) {
+      throw new Error('await can only be used in async expressions')
+    }
+    const expression = this.evaluateIfIdentifier(node.argument, async)
+    return Object.assign(
+      async (scope: any) => ({ value: await (await expression(scope)).value }),
+      { node }
+    )
+  }
 
-  createBinaryExpression(node: ESTree.BinaryExpression): BinaryExpression {
+  createBinaryExpression<T extends boolean>(
+    node: ESTree.BinaryExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.BinaryExpression> {
     const operator = this.operators.binary[node.operator]
     if (!operator) {
       if (!(node.operator in operators.binary)) {
@@ -533,92 +642,234 @@ export default class Evaluator {
       }
       throw new Error(`Binary operator ${node.operator} is not allowed`)
     }
-    const left = this.evaluateIfIdentifier(node.left)
-    const right = this.evaluateIfIdentifier(node.right)
+
+    if (async) {
+      const left = this.evaluateIfIdentifier(node.left, true)
+      const right = this.evaluateIfIdentifier(node.right, true)
+
+      return Object.assign(
+        async (scope: any) => ({
+          value: operator(
+            (await left(scope)).value,
+            (await right(scope)).value
+          ),
+        }),
+        { node }
+      )
+    }
+
+    const left = this.evaluateIfIdentifier(node.left, false)
+    const right = this.evaluateIfIdentifier(node.right, false)
+
     return Object.assign((scope: any) => operator(left(scope), right(scope)), {
       node,
     })
   }
 
-  createCallExpression(node: ESTree.SimpleCallExpression): CallExpression {
+  createCallExpression<T extends boolean>(
+    node: ESTree.SimpleCallExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.SimpleCallExpression> {
     if (!this.allowCalls) {
       throw new Error('Function calls are not allowed')
     }
     if (node.callee.type !== 'MemberExpression') {
-      const callee = this.evaluateIfIdentifier(node.callee)
+      if (async) {
+        const callee = this.evaluateIfIdentifier(node.callee, true)
+        const args = this.parseCallArgs(node.arguments, true)
 
-      const args = this.parseCallArgs(node.arguments)
+        return Object.assign(
+          node.optional
+            ? async (scope: any) => ({
+                value: ((await callee(scope)).value as any)?.(
+                  ...(await args(scope))
+                ),
+              })
+            : async (scope: any) => ({
+                value: ((await callee(scope)).value as any)(
+                  ...(await args(scope))
+                ),
+              }),
+          { node }
+        )
+      }
+
+      const callee = this.evaluateIfIdentifier(node.callee, false)
+      const args = this.parseCallArgs(node.arguments, false)
+
       return Object.assign(
         node.optional
-          ? (scope: any) =>
-              callee(scope)?.(
-                ...args.reduce<any[]>((arr, arg) => arg(arr, scope), [])
-              )
-          : (scope: any) =>
-              callee(scope)(
-                ...args.reduce<any[]>((arr, arg) => arg(arr, scope), [])
-              ),
+          ? (scope: any) => (callee(scope) as any)?.(...args(scope))
+          : (scope: any) => (callee(scope) as any)(...args(scope)),
         { node }
       )
     }
 
-    const object = this.evaluateIfIdentifier(node.callee.object)
-    const property = node.callee.computed
-      ? this.evaluateIfIdentifier(node.callee.property)
-      : this.createExpressionForNode(node.callee.property)
-    const args = this.parseCallArgs(node.arguments)
+    if (async) {
+      const object = this.evaluateIfIdentifier(node.callee.object, true)
+      const property = node.callee.computed
+        ? this.evaluateIfIdentifier(node.callee.property, true)
+        : this.createExpressionForNode(node.callee.property, true)
 
-    return Object.assign(
-      node.optional
-        ? (scope: any) => {
-            const evaluatedObject = object(scope)
-            return evaluatedObject[property(scope)]?.(
-              ...args.reduce<any[]>((arr, arg) => arg(arr, scope), [])
-            )
-          }
-        : (scope: any) => {
-            const evaluatedObject = object(scope)
-            return evaluatedObject[property(scope)](
-              ...args.reduce<any[]>((arr, arg) => arg(arr, scope), [])
-            )
-          }
-    )
-  }
+      const args = this.parseCallArgs(node.arguments, true)
 
-  createChainExpression(node: ESTree.ChainExpression): ChainExpression {
-    const expression = this.createExpressionForNode(node.expression)
-    return Object.assign((scope: any) => expression(scope), { node })
-  }
+      if (node.callee.optional) {
+        if (node.optional) {
+          return Object.assign(
+            async (scope: any) => {
+              const obj: any = (await object(scope)).value
+              const prop: any = (await property(scope)).value
+              return { value: obj?.[prop]?.(...(await args(scope))) }
+            },
+            { node }
+          )
+        }
+        return Object.assign(
+          async (scope: any) => {
+            const obj: any = (await object(scope)).value
+            const prop: any = (await property(scope)).value
+            return { value: obj?.[prop](...(await args(scope))) }
+          },
+          { node }
+        )
+      }
 
-  createConditionalExpression(
-    node: ESTree.ConditionalExpression
-  ): ConditionalExpression {
-    if (!this.allowTernary) {
-      throw new Error('Conditional/ternary operator is not allowed')
+      if (node.optional) {
+        return Object.assign(
+          async (scope: any) => {
+            const obj: any = (await object(scope)).value
+            const prop: any = (await property(scope)).value
+            return { value: obj[prop]?.(...(await args(scope))) }
+          },
+          { node }
+        )
+      }
+
+      return Object.assign(
+        async (scope: any) => {
+          const obj: any = (await object(scope)).value
+          const prop: any = (await property(scope)).value
+          return { value: obj[prop](...(await args(scope))) }
+        },
+        { node }
+      )
     }
-    const test = this.evaluateIfIdentifier(node.test)
-    const consequent = this.evaluateIfIdentifier(node.consequent)
-    const alternate = this.evaluateIfIdentifier(node.alternate)
+
+    const object = this.evaluateIfIdentifier(node.callee.object, false)
+    const property = node.callee.computed
+      ? this.evaluateIfIdentifier(node.callee.property, false)
+      : this.createExpressionForNode(node.callee.property, false)
+    const args = this.parseCallArgs(node.arguments, false)
+
+    if (node.callee.optional) {
+      if (node.optional) {
+        return Object.assign(
+          (scope: any) => {
+            const evaluatedObject: any = object(scope)
+            return evaluatedObject?.[property(scope) as any]?.(...args(scope))
+          },
+          { node }
+        )
+      }
+
+      return Object.assign(
+        (scope: any) => {
+          const evaluatedObject: any = object(scope)
+          return evaluatedObject?.[property(scope) as any](...args(scope))
+        },
+        { node }
+      )
+    }
+
+    if (node.optional) {
+      return Object.assign(
+        (scope: any) => {
+          const evaluatedObject: any = object(scope)
+          return evaluatedObject[property(scope) as any]?.(...args(scope))
+        },
+        { node }
+      )
+    }
+
     return Object.assign(
-      (scope: any) => (test(scope) ? consequent(scope) : alternate(scope)),
+      (scope: any) => {
+        const evaluatedObject: any = object(scope)
+        return evaluatedObject[property(scope) as any](...args(scope))
+      },
       { node }
     )
   }
 
-  createIdentifier(node: ESTree.Identifier): IdentifierExpression {
-    return Object.assign(() => node.name, { node })
+  createChainExpression<T extends boolean>(
+    node: ESTree.ChainExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.ChainExpression> {
+    const expression = this.createExpressionForNode(node.expression, async)
+    return Object.assign((scope: any): any => expression(scope), { node })
   }
 
-  createLiteral(
-    node: ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral
-  ): LiteralExpression {
+  createConditionalExpression<T extends boolean>(
+    node: ESTree.ConditionalExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.ConditionalExpression> {
+    if (!this.allowTernary) {
+      throw new Error('Conditional/ternary operator is not allowed')
+    }
+
+    if (async) {
+      const test = this.evaluateIfIdentifier(node.test, true)
+      const consequent = this.evaluateIfIdentifier(node.consequent, true)
+      const alternate = this.evaluateIfIdentifier(node.alternate, true)
+
+      return Object.assign(
+        async (scope: any) => ({
+          value: (await test(scope)).value
+            ? (await consequent(scope)).value
+            : (await alternate(scope)).value,
+        }),
+        { node }
+      )
+    }
+    const test = this.evaluateIfIdentifier(node.test, false)
+    const consequent = this.evaluateIfIdentifier(node.consequent, false)
+    const alternate = this.evaluateIfIdentifier(node.alternate, false)
+
+    return Object.assign(
+      (scope: any): any => (test(scope) ? consequent(scope) : alternate(scope)),
+      { node }
+    )
+  }
+
+  createIdentifier<T extends boolean>(
+    node: ESTree.Identifier,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.Identifier> {
+    if (async) {
+      return Object.assign(async () => ({ value: node.name }), { node })
+    }
+    return Object.assign((): any => node.name, { node })
+  }
+
+  createLiteral<T extends boolean>(
+    node: ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral,
+    async: T
+  ): AsyncIfSpecified<
+    T,
+    ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral
+  > {
     if (!this.allowRegexes && node.value instanceof RegExp) {
       throw new Error('Regular expressions are not allowed')
     }
-    return Object.assign(() => node.value, { node })
+    if (async) {
+      return Object.assign(async () => ({ value: node.value }), { node })
+    }
+    return Object.assign((): any => node.value, { node })
   }
 
-  createLogicalExpression(node: ESTree.LogicalExpression): LogicalExpression {
+  createLogicalExpression<T extends boolean>(
+    node: ESTree.LogicalExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.LogicalExpression> {
     const operator = this.operators.logical[node.operator]
     if (!operator) {
       if (!(node.operator in operators.logical)) {
@@ -626,8 +877,26 @@ export default class Evaluator {
       }
       throw new Error(`Logical operator ${node.operator} is not allowed`)
     }
-    const left = this.evaluateIfIdentifier(node.left)
-    const right = this.evaluateIfIdentifier(node.right)
+
+    if (async) {
+      const left = this.evaluateIfIdentifier(node.left, true)
+      const right = this.evaluateIfIdentifier(node.right, true)
+
+      return Object.assign(
+        async (scope: any) => ({
+          value: (
+            await operator.async(
+              async (): Promise<any> => await left(scope),
+              async (): Promise<any> => await right(scope)
+            )
+          ).result,
+        }),
+        { node }
+      )
+    }
+
+    const left = this.evaluateIfIdentifier(node.left, false)
+    const right = this.evaluateIfIdentifier(node.right, false)
 
     return Object.assign(
       (scope: any) =>
@@ -639,67 +908,137 @@ export default class Evaluator {
     )
   }
 
-  createMemberExpression(node: ESTree.MemberExpression): MemberExpression {
+  createMemberExpression<T extends boolean>(
+    node: ESTree.MemberExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.MemberExpression> {
     if (!this.allowMemberAccess) {
       throw new Error('Member access is not allowed')
     }
-    const object = this.evaluateIfIdentifier(node.object)
+
+    if (async) {
+      const object = this.evaluateIfIdentifier(node.object, true)
+      const property = node.computed
+        ? this.evaluateIfIdentifier(node.property, true)
+        : this.createExpressionForNode(node.property, true)
+
+      return Object.assign(
+        node.optional
+          ? async (scope: any) => ({
+              value: ((await object(scope)).value as any)?.[
+                (await property(scope)).value as any
+              ],
+            })
+          : async (scope: any) => ({
+              value: ((await object(scope)).value as any)[
+                (await property(scope)).value as any
+              ],
+            }),
+        { node }
+      )
+    }
+
+    const object = this.evaluateIfIdentifier(node.object, false)
     const property = node.computed
-      ? this.evaluateIfIdentifier(node.property)
-      : this.createExpressionForNode(node.property)
+      ? this.evaluateIfIdentifier(node.property, false)
+      : this.createExpressionForNode(node.property, false)
 
     return node.optional
-      ? Object.assign((scope: any) => object(scope)?.[property(scope)], {
-          node,
-        })
-      : Object.assign((scope: any) => object(scope)[property(scope)], { node })
+      ? Object.assign(
+          (scope: any) => (object(scope) as any)?.[property(scope) as any],
+          {
+            node,
+          }
+        )
+      : Object.assign(
+          (scope: any) => (object(scope) as any)[property(scope) as any],
+          { node }
+        )
   }
 
-  createObjectExpression(node: ESTree.ObjectExpression): ObjectExpression {
+  createObjectExpression<T extends boolean>(
+    node: ESTree.ObjectExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.ObjectExpression> {
     if (!this.allowObjects) {
       throw new Error('Object literals are not allowed')
     }
-    const properties = node.properties.map(property => {
-      switch (property.type) {
-        case 'Property': {
-          if (property.kind !== 'init') {
-            throw new Error('Only assignment properties are allowed')
-          }
-          const key = property.computed
-            ? this.evaluateIfIdentifier(property.key)
-            : this.createExpressionForNode(property.key)
-          const value = this.evaluateIfIdentifier(property.value)
 
-          return (obj: any, scope: any) => {
-            obj[key(scope)] = value(scope)
-            return obj
+    if (async) {
+      const properties = node.properties.map(property => {
+        if (property.type === 'SpreadElement') {
+          const argument = this.evaluateIfIdentifier(property.argument, true)
+          return async (obj: any, scope: any) => ({
+            ...obj,
+            ...((await argument(scope)).value as any),
+          })
+        }
+
+        if (property.kind !== 'init') {
+          throw new Error('Only assignment properties are allowed')
+        }
+
+        const key = property.computed
+          ? this.evaluateIfIdentifier(property.key, true)
+          : this.createExpressionForNode(property.key, true)
+        const value = this.evaluateIfIdentifier(property.value, true)
+
+        return async (obj: any, scope: any) => {
+          obj[(await key(scope)).value as any] = (await value(scope)).value
+          return obj
+        }
+      })
+
+      return Object.assign(
+        async (scope: any) => {
+          let obj: Record<any, any> = {}
+          for (const property of properties) {
+            obj = await property(obj, scope)
           }
-        }
-        case 'SpreadElement': {
-          const argument = this.evaluateIfIdentifier(property.argument)
-          return (obj: any, scope: any) => ({ ...obj, ...argument(scope) })
-        }
-        default:
-          throw new Error(
-            `Unsupported property type: ${(property as any).type}`
-          )
+          return { value: obj }
+        },
+        { node }
+      )
+    }
+
+    const properties = node.properties.map(property => {
+      if (property.type === 'SpreadElement') {
+        const argument = this.evaluateIfIdentifier(property.argument, false)
+        return (obj: any, scope: any) => ({
+          ...obj,
+          ...(argument(scope) as any),
+        })
+      }
+
+      if (property.kind !== 'init') {
+        throw new Error('Only assignment properties are allowed')
+      }
+
+      const key = property.computed
+        ? this.evaluateIfIdentifier(property.key, false)
+        : this.createExpressionForNode(property.key, false)
+      const value = this.evaluateIfIdentifier(property.value, false)
+
+      return (obj: any, scope: any) => {
+        obj[key(scope) as any] = value(scope)
+        return obj
       }
     })
     return Object.assign(
-      (scope: any) => properties.reduce((obj, fn) => fn(obj, scope), {}),
-      {
-        node,
-      }
+      (scope: any): any => properties.reduce((obj, fn) => fn(obj, scope), {}),
+      { node }
     )
   }
 
-  createTaggedTemplateExpression(
-    node: ESTree.TaggedTemplateExpression
-  ): TaggedTemplateExpression {
+  createTaggedTemplateExpression<T extends boolean>(
+    node: ESTree.TaggedTemplateExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.TaggedTemplateExpression> {
     if (!this.allowTaggedTemplates) {
       throw new Error('Tagged template literals are not allowed')
     }
-    const tag = this.evaluateIfIdentifier(node.tag)
+
+    const tag = this.evaluateIfIdentifier(node.tag, async)
 
     const strings: TemplateStringsArray = node.quasi.quasis.reduce<
       string[] & { raw: string[] }
@@ -708,13 +1047,36 @@ export default class Evaluator {
       strs.raw.push(quasi.value.raw)
       return strs
     }, Object.assign([], { raw: [] }))
+
     const expressions = node.quasi.expressions.map(expression =>
-      this.evaluateIfIdentifier(expression)
+      this.evaluateIfIdentifier(expression, async)
     )
+
+    if (async) {
+      const evalExpressions = async (scope: any) => {
+        const exprs = []
+        for (const expression of expressions as AsyncExpression<ESTree.Node>[]) {
+          exprs.push((await expression(scope)).value)
+        }
+        return exprs
+      }
+
+      return Object.assign(
+        async (scope: any) => ({
+          value: (
+            (await (tag as AsyncExpression<ESTree.Node>)(scope)).value as any
+          )(
+            Object.assign(strings.slice(), { raw: strings.raw.slice() }),
+            ...(await evalExpressions(scope))
+          ),
+        }),
+        { node }
+      )
+    }
 
     return Object.assign(
       (scope: any) =>
-        tag(scope)(
+        ((tag as Expression<ESTree.Node>)(scope) as any)(
           Object.assign(strings.slice(), { raw: strings.raw.slice() }),
           ...expressions.map(expr => expr(scope))
         ),
@@ -722,29 +1084,60 @@ export default class Evaluator {
     )
   }
 
-  createTemplateLiteral(
-    node: ESTree.TemplateLiteral
-  ): TemplateLiteralExpression {
+  createTemplateLiteral<T extends boolean>(
+    node: ESTree.TemplateLiteral,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.TemplateLiteral> {
     if (!this.allowTemplates) {
       throw new Error('Template literals are not allowed')
     }
+
+    if (async) {
+      const expressions: ((scope: any) => Promise<string>)[] = []
+      for (const element of iterateThroughTemplateLiteral(node)) {
+        if (element.type === 'TemplateElement') {
+          const str = element.value.cooked!
+          expressions.push(async () => str)
+        } else {
+          const expression = this.evaluateIfIdentifier(element, true)
+          expressions.push(
+            async (scope: any) => `${(await expression(scope)).value}`
+          )
+        }
+      }
+      return Object.assign(
+        async (scope: any) => {
+          let str = ''
+          for (const expression of expressions) {
+            str += await expression(scope)
+          }
+          return { value: str }
+        },
+        { node }
+      )
+    }
+
     const expressions: ((scope: any) => string)[] = []
     for (const element of iterateThroughTemplateLiteral(node)) {
       if (element.type === 'TemplateElement') {
         const str = element.value.cooked!
         expressions.push(() => str)
       } else {
-        const expression = this.evaluateIfIdentifier(element)
+        const expression = this.evaluateIfIdentifier(element, false)
         expressions.push((scope: any) => `${expression(scope)}`)
       }
     }
     return Object.assign(
-      (scope: any) => expressions.reduce((str, elem) => str + elem(scope), ''),
+      (scope: any): any =>
+        expressions.reduce((str, elem) => str + elem(scope), ''),
       { node }
     )
   }
 
-  createUnaryExpression(node: ESTree.UnaryExpression): UnaryExpression {
+  createUnaryExpression<T extends boolean>(
+    node: ESTree.UnaryExpression,
+    async: T
+  ): AsyncIfSpecified<T, ESTree.UnaryExpression> {
     const operator = this.operators.unary[node.operator]
     if (!operator) {
       if (!(node.operator in operators.unary)) {
@@ -752,7 +1145,19 @@ export default class Evaluator {
       }
       throw new Error(`Unary operator ${node.operator} is not allowed`)
     }
-    const argument = this.evaluateIfIdentifier(node.argument)
+
+    if (async) {
+      const argument = this.evaluateIfIdentifier(node.argument, true)
+
+      return Object.assign(
+        async (scope: any) => ({
+          value: operator((await argument(scope)).value),
+        }),
+        { node }
+      )
+    }
+
+    const argument = this.evaluateIfIdentifier(node.argument, false)
 
     return Object.assign((scope: any) => operator(argument(scope)), { node })
   }

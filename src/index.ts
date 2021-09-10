@@ -117,6 +117,20 @@ export interface JshikiEvaluateOptions extends JshikiParseOptions {
 export type JshikiExpression = (scope?: Record<any, any>) => any
 
 /**
+ * A compiled, executable async expression.
+ *
+ * ```js
+ * const expression = jshiki.parseAsync('await foo.bar()')
+ * await expression({
+ *   foo: { bar: async () => 'baz' },
+ * }) // => 'baz'
+ * ```
+ * @param scope The scope to use when evaluating the expression. The expression
+ * will be limited to accessing the properties of the scope.
+ */
+export type JshikiAsyncExpression = (scope?: Record<any, any>) => Promise<any>
+
+/**
  * Parses an expression into an executable function.
  * @param str The expression to parse.
  * @param options The options to use.
@@ -149,6 +163,38 @@ export function parse(
 }
 
 /**
+ * Parses an expression into an executable async function.
+ * @param str The expression to parse.
+ * @param options The options to use.
+ * @returns The parsed expression.
+ * @example
+ * ```js
+ * const expression = jshiki.parseAsync('(await a?.() || 1) + 2')
+ * let result = expression()
+ * // result => 3
+ * result = expression({ a: async () => 5 })
+ * // result => 7
+ * ```
+ */
+export function parseAsync(
+  str: string,
+  { rules, explicitAllow, operators, syntax }: JshikiParseOptions = {}
+): JshikiAsyncExpression {
+  const ruleTree = rules ? new RuleTree(rules) : undefined
+  const expression = new Evaluator({
+    operators,
+    syntax,
+  }).createExpression(str, true)
+
+  return async (scope: Record<any, any> = {}) => {
+    const proxiedScope = ruleTree
+      ? getRuleProxy(scope, ruleTree, Boolean(explicitAllow))
+      : scope
+    return await expression(proxiedScope)
+  }
+}
+
+/**
  * Evaluates an expression.
  * @param str The expression to evaluate.
  * @param options The options to use.
@@ -163,6 +209,28 @@ export function parse(
  */
 export function evaluate(str: string, options?: JshikiEvaluateOptions): any {
   return parse(str, options)(options?.scope)
+}
+
+/**
+ * Evaluates an expression asynchronously.
+ * @param str The expression to evaluate.
+ * @param options The options to use.
+ * @returns The result of the expression.
+ * @example
+ * ```js
+ * let result = await jshiki.evaluateAsync('1 + 2')
+ * // result => 3
+ * result = await jshiki.evaluateAsync(
+ *   'await a() + 2', { scope: { a: async () => 5 } }
+ * )
+ * // result => 7
+ * ```
+ */
+export function evaluateAsync(
+  str: string,
+  options?: JshikiEvaluateOptions
+): Promise<any> {
+  return parseAsync(str, options)(options?.scope)
 }
 
 export default { parse, evaluate }

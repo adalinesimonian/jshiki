@@ -38,6 +38,29 @@ Then, get going! jshiki's API is simple:
     // result => 4
     ```
 
+You can use asynchronous expressions, too!
+
+- The **`:::js parseAsync()`** function creates an asynchronous expression.
+
+    ```js
+    const jshiki = require('jshiki')
+
+    const expression = jshiki.parseAsync('(await b() + 7) / 3')
+    const result = await expression({ b: async () => 5 })
+    // result => 4
+    ```
+
+- The **`:::js evaluateAsync()`** function evaluates an asynchronous expression.
+
+    ```js
+    const jshiki = require('jshiki')
+
+    const result = await jshiki.evaluateAsync('(await b() + 7) / 3', {
+      scope: { b: async () => 5 }
+    })
+    // result => 4
+    ```
+
 > Take a look at the [type definitions] to see the function signatures.
 
 You can use all of the below in expressions:

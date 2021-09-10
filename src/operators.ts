@@ -34,11 +34,32 @@ export const binary: { [operator: string]: (l: any, r: any) => any } = {
 }
 
 export const logical: {
-  [operator: string]: (l: () => any, r: () => any) => any
+  [operator: string]: {
+    (l: () => any, r: () => any): any
+    async: (
+      l: () => Promise<{ value: any }>,
+      r: () => Promise<{ value: any }>
+    ) => Promise<{ result: any }>
+  }
 } = {
-  '||': (l: () => any, r: () => any): any => l() || r(),
-  '&&': (l: () => any, r: () => any): any => l() && r(),
-  '??': (l: () => any, r: () => any): any => l() ?? r(),
+  '||': Object.assign((l: () => any, r: () => any): any => l() || r(), {
+    async: async (
+      l: () => Promise<{ value: any }>,
+      r: () => Promise<{ value: any }>
+    ) => ({ result: (await l()).value || (await r()).value }),
+  }),
+  '&&': Object.assign((l: () => any, r: () => any): any => l() && r(), {
+    async: async (
+      l: () => Promise<{ value: any }>,
+      r: () => Promise<{ value: any }>
+    ) => ({ result: (await l()).value && (await r()).value }),
+  }),
+  '??': Object.assign((l: () => any, r: () => any): any => l() ?? r(), {
+    async: async (
+      l: () => Promise<{ value: any }>,
+      r: () => Promise<{ value: any }>
+    ) => ({ result: (await l()).value ?? (await r()).value }),
+  }),
 }
 
 export default {

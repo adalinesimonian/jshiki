@@ -9,6 +9,22 @@ describe('Evaluator', () => {
       expect(expr()).toBe(3)
     })
 
+    it('should create an async expression', async () => {
+      const expr1 = new Evaluator().createExpression('1 + 2', true)
+      expect(expr1).toBeDefined()
+      expect(await expr1()).toBe(3)
+      const expr2 = new Evaluator().createExpression('y(await x())', true)
+      expect(expr2).toBeDefined()
+      expect(
+        await expr2({ x: async () => 5, y: async (x: any) => typeof x })
+      ).toBe('number')
+      const expr3 = new Evaluator().createExpression('y(x())', true)
+      expect(expr3).toBeDefined()
+      expect(
+        await expr3({ x: async () => 5, y: async (x: any) => typeof x })
+      ).toBe('object')
+    })
+
     it('should throw an error if the expression is invalid', () => {
       expect(() =>
         new Evaluator().createExpression('1 +')
@@ -620,15 +636,108 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createArrayExpression(node)
+        const expr = new Evaluator().createArrayExpression(node, false)
 
         expect(typeof expr).toBe('function')
-        const result = expr({})
+        const result: any = expr({})
         // eslint-disable-next-line no-sparse-arrays
         expect(result).toEqual([1, , 2, 3])
         const result2: any[] = []
         result.forEach((item: any) => result2.push(item))
         expect(result2).toEqual([1, 2, 3])
+      })
+      it('should create an async array expression', async () => {
+        const node: ESTree.ArrayExpression = {
+          type: 'ArrayExpression',
+          elements: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            null,
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'foo',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'AwaitExpression',
+                    argument: {
+                      type: 'CallExpression',
+                      callee: {
+                        type: 'Identifier',
+                        name: 'bar',
+                      },
+                      arguments: [],
+                      optional: false,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createArrayExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        const result = await expr({ foo: async () => 2, bar: async () => 3 })
+        // eslint-disable-next-line no-sparse-arrays
+        expect(result).toEqual({ value: [1, , 2, 3] })
+        const result2: any[] = []
+        ;(result.value as any[]).forEach((item: any) => result2.push(item))
+        expect(result2).toEqual([1, 2, 3])
+      })
+    })
+
+    describe('Await expressions', () => {
+      it('should create an await expression', async () => {
+        const node: ESTree.AwaitExpression = {
+          type: 'AwaitExpression',
+          argument: {
+            type: 'CallExpression',
+            callee: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            arguments: [],
+            optional: false,
+          },
+        }
+        const expr = new Evaluator().createAwaitExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        const result = await expr({ foo: async () => 2 })
+        expect(result).toEqual({ value: 2 })
+      })
+
+      it('should throw if async is false', () => {
+        const node: ESTree.AwaitExpression = {
+          type: 'AwaitExpression',
+          argument: {
+            type: 'CallExpression',
+            callee: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            arguments: [],
+            optional: false,
+          },
+        }
+        expect(() =>
+          new Evaluator().createAwaitExpression(node, false)
+        ).toThrowErrorMatchingSnapshot()
       })
     })
 
@@ -646,10 +755,37 @@ describe('Evaluator', () => {
             value: 2,
           },
         }
-        const expr = new Evaluator().createBinaryExpression(node)
+        const expr = new Evaluator().createBinaryExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe(3)
+      })
+
+      it('should create an async binary expression', async () => {
+        const node: ESTree.BinaryExpression = {
+          type: 'BinaryExpression',
+          operator: '+',
+          left: {
+            type: 'Literal',
+            value: 1,
+          },
+          right: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'func',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+        }
+        const expr = new Evaluator().createBinaryExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(await expr({ func: async () => 2 })).toEqual({ value: 3 })
       })
 
       it('should throw when given an invalid operator', () => {
@@ -666,7 +802,7 @@ describe('Evaluator', () => {
           },
         }
         expect(() =>
-          new Evaluator().createBinaryExpression(node)
+          new Evaluator().createBinaryExpression(node, false)
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -707,7 +843,7 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createCallExpression(node)
+        const expr = new Evaluator().createCallExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(
@@ -717,6 +853,62 @@ describe('Evaluator', () => {
             },
           })
         ).toBe(10)
+      })
+
+      it('should create an async call expression', async () => {
+        const node: ESTree.SimpleCallExpression = {
+          type: 'CallExpression',
+          optional: false,
+          callee: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'bar',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo(a: number, b: number, c: number, d: number) {
+              return a + b + c + d
+            },
+            bar: async () => 2,
+          })
+        ).toEqual({ value: 10 })
       })
 
       it('should create an optional call expression', () => {
@@ -754,7 +946,7 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createCallExpression(node)
+        const expr = new Evaluator().createCallExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(
@@ -765,6 +957,63 @@ describe('Evaluator', () => {
           })
         ).toBe(10)
         expect(expr({})).toBe(undefined)
+      })
+
+      it('should create an async optional call expression', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          optional: true,
+          callee: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          arguments: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'bar',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo(a: number, b: number, c: number, d: number) {
+              return a + b + c + d
+            },
+            bar: async () => 1,
+          })
+        ).toEqual({ value: 10 })
+        expect(await expr({ bar: async () => 1 })).toEqual({ value: undefined })
       })
 
       it('should create a call expression with a member expression callee', () => {
@@ -811,7 +1060,7 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createCallExpression(node)
+        const expr = new Evaluator().createCallExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(
@@ -823,6 +1072,73 @@ describe('Evaluator', () => {
             },
           })
         ).toBe(10)
+      })
+
+      it('should create an async call expression with a member expression callee', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: false,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'baz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+            baz: async () => 1,
+          })
+        ).toEqual({ value: 10 })
       })
 
       it('should create a call expression with a member expression callee with a computed property', () => {
@@ -869,7 +1185,7 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createCallExpression(node)
+        const expr = new Evaluator().createCallExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(
@@ -881,6 +1197,200 @@ describe('Evaluator', () => {
             },
           })
         ).toBe(10)
+      })
+
+      it('should create an async call expression with a member expression callee with a computed property', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'baz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            computed: true,
+            optional: false,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+            baz: async () => 'bar',
+          })
+        ).toEqual({ value: 10 })
+      })
+
+      it('should create a call expression with an optional member expression callee', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: true,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, false)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+          })
+        ).toBe(10)
+        expect(expr({})).toBeUndefined()
+      })
+
+      it('should create an async call expression with an optional member expression callee', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: true,
+          },
+          optional: false,
+          arguments: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'baz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+            baz: async () => 1,
+          })
+        ).toEqual({ value: 10 })
+        expect(await expr({ baz: async () => 1 })).toEqual({ value: undefined })
       })
 
       it('should create an optional call expression with a member expression callee', () => {
@@ -927,7 +1437,139 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createCallExpression(node)
+        const expr = new Evaluator().createCallExpression(node, false)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+          })
+        ).toBe(10)
+        expect(expr({ foo: {} })).toBeUndefined()
+      })
+
+      it('should create an async optional call expression with a member expression callee', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: false,
+          },
+          optional: true,
+          arguments: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'baz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+            baz: async () => 1,
+          })
+        ).toEqual({ value: 10 })
+        expect(
+          await expr({
+            foo: {},
+            baz: async () => 1,
+          })
+        ).toEqual({ value: undefined })
+      })
+
+      it('should create an optional call expression with an optional member expression callee', () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: true,
+          },
+          optional: true,
+          arguments: [
+            {
+              type: 'Literal',
+              value: 1,
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, false)
 
         expect(typeof expr).toBe('function')
         expect(
@@ -944,6 +1586,85 @@ describe('Evaluator', () => {
             foo: {},
           })
         ).toBe(undefined)
+        expect(expr({})).toBe(undefined)
+      })
+
+      it('should create an async optional call expression with an optional member expression callee', async () => {
+        const node: ESTree.CallExpression = {
+          type: 'CallExpression',
+          callee: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'foo',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'bar',
+            },
+            computed: false,
+            optional: true,
+          },
+          optional: true,
+          arguments: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'baz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            {
+              type: 'Literal',
+              value: 2,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'ArrayExpression',
+                elements: [
+                  {
+                    type: 'Literal',
+                    value: 3,
+                  },
+                  {
+                    type: 'Literal',
+                    value: 4,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createCallExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({
+            foo: {
+              bar(a: number, b: number, c: number, d: number) {
+                return a + b + c + d
+              },
+            },
+            baz: async () => 1,
+          })
+        ).toEqual({ value: 10 })
+        expect(
+          await expr({
+            foo: {},
+            baz: async () => 1,
+          })
+        ).toEqual({ value: undefined })
+        expect(
+          await expr({
+            baz: async () => 1,
+          })
+        ).toEqual({ value: undefined })
       })
     })
 
@@ -986,7 +1707,7 @@ describe('Evaluator', () => {
             ],
           },
         }
-        const expr = new Evaluator().createChainExpression(node)
+        const expr = new Evaluator().createChainExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBeUndefined()
         expect(
@@ -997,6 +1718,66 @@ describe('Evaluator', () => {
           })
         ).toBe(10)
       })
+
+      it('should create an async chain expression', async () => {
+        const node: ESTree.ChainExpression = {
+          type: 'ChainExpression',
+          expression: {
+            type: 'CallExpression',
+            optional: true,
+            callee: {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'foo',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+            arguments: [
+              {
+                type: 'Literal',
+                value: 1,
+              },
+              {
+                type: 'Literal',
+                value: 2,
+              },
+              {
+                type: 'SpreadElement',
+                argument: {
+                  type: 'ArrayExpression',
+                  elements: [
+                    {
+                      type: 'Literal',
+                      value: 3,
+                    },
+                    {
+                      type: 'Literal',
+                      value: 4,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        }
+        const expr = new Evaluator().createChainExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => undefined })).toEqual({
+          value: undefined,
+        })
+        expect(
+          await expr({
+            foo: async () => (a: number, b: number, c: number, d: number) => {
+              return a + b + c + d
+            },
+          })
+        ).toEqual({ value: 10 })
+      })
     })
 
     describe('Conditional expressions', () => {
@@ -1004,8 +1785,8 @@ describe('Evaluator', () => {
         const node: ESTree.ConditionalExpression = {
           type: 'ConditionalExpression',
           test: {
-            type: 'Literal',
-            value: true,
+            type: 'Identifier',
+            name: 'foo',
           },
           consequent: {
             type: 'Literal',
@@ -1016,10 +1797,42 @@ describe('Evaluator', () => {
             value: 2,
           },
         }
-        const expr = new Evaluator().createConditionalExpression(node)
+        const expr = new Evaluator().createConditionalExpression(node, false)
 
         expect(typeof expr).toBe('function')
-        expect(expr({})).toBe(1)
+        expect(expr({ foo: true })).toBe(1)
+        expect(expr({ foo: false })).toBe(2)
+      })
+
+      it('should create an async conditional expression', async () => {
+        const node: ESTree.ConditionalExpression = {
+          type: 'ConditionalExpression',
+          test: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          consequent: {
+            type: 'Literal',
+            value: 1,
+          },
+          alternate: {
+            type: 'Literal',
+            value: 2,
+          },
+        }
+        const expr = new Evaluator().createConditionalExpression(node, true)
+
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => true })).toEqual({ value: 1 })
+        expect(await expr({ foo: async () => false })).toEqual({ value: 2 })
       })
     })
 
@@ -1029,9 +1842,19 @@ describe('Evaluator', () => {
           type: 'Identifier',
           name: 'foo',
         }
-        const expr = new Evaluator().createIdentifier(node)
+        const expr = new Evaluator().createIdentifier(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe('foo')
+      })
+
+      it('should create an identifier with async set to true', async () => {
+        const node: ESTree.Identifier = {
+          type: 'Identifier',
+          name: 'foo',
+        }
+        const expr = new Evaluator().createIdentifier(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: 'foo' })
       })
 
       it('should evaluate identifiers', () => {
@@ -1039,10 +1862,21 @@ describe('Evaluator', () => {
           type: 'Identifier',
           name: 'foo',
         }
-        const expr = new Evaluator().evaluateIfIdentifier(node)
+        const expr = new Evaluator().evaluateIfIdentifier(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBeUndefined()
         expect(expr({ foo: 1 })).toBe(1)
+      })
+
+      it('should evaluate identifiers with async set to true', async () => {
+        const node: ESTree.Identifier = {
+          type: 'Identifier',
+          name: 'foo',
+        }
+        const expr = new Evaluator().evaluateIfIdentifier(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: undefined })
+        expect(await expr({ foo: 1 })).toEqual({ value: 1 })
       })
 
       it('should evaluate undefined', () => {
@@ -1050,10 +1884,21 @@ describe('Evaluator', () => {
           type: 'Identifier',
           name: 'undefined',
         }
-        const expr = new Evaluator().evaluateIfIdentifier(node)
+        const expr = new Evaluator().evaluateIfIdentifier(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBeUndefined()
         expect(expr({ undefined: 5 })).toBeUndefined()
+      })
+
+      it('should evaluate undefined asynchronously', async () => {
+        const node: ESTree.Identifier = {
+          type: 'Identifier',
+          name: 'undefined',
+        }
+        const expr = new Evaluator().evaluateIfIdentifier(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: undefined })
+        expect(await expr({ undefined: 5 })).toEqual({ value: undefined })
       })
 
       it('should evaluate NaN', () => {
@@ -1061,10 +1906,21 @@ describe('Evaluator', () => {
           type: 'Identifier',
           name: 'NaN',
         }
-        const expr = new Evaluator().evaluateIfIdentifier(node)
+        const expr = new Evaluator().evaluateIfIdentifier(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBeNaN()
         expect(expr({ NaN: 5 })).toBeNaN()
+      })
+
+      it('should evaluate NaN asynchronously', async () => {
+        const node: ESTree.Identifier = {
+          type: 'Identifier',
+          name: 'NaN',
+        }
+        const expr = new Evaluator().evaluateIfIdentifier(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: NaN })
+        expect(await expr({ NaN: 5 })).toEqual({ value: NaN })
       })
 
       it('should evaluate Infinity', () => {
@@ -1072,10 +1928,21 @@ describe('Evaluator', () => {
           type: 'Identifier',
           name: 'Infinity',
         }
-        const expr = new Evaluator().evaluateIfIdentifier(node)
+        const expr = new Evaluator().evaluateIfIdentifier(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe(Infinity)
         expect(expr({ Infinity: 5 })).toBe(Infinity)
+      })
+
+      it('should evaluate Infinity asynchronously', async () => {
+        const node: ESTree.Identifier = {
+          type: 'Identifier',
+          name: 'Infinity',
+        }
+        const expr = new Evaluator().evaluateIfIdentifier(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: Infinity })
+        expect(await expr({ Infinity: 5 })).toEqual({ value: Infinity })
       })
     })
 
@@ -1085,9 +1952,19 @@ describe('Evaluator', () => {
           type: 'Literal',
           value: 1,
         }
-        const expr = new Evaluator().createLiteral(node)
+        const expr = new Evaluator().createLiteral(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe(1)
+      })
+
+      it('should create a simple literal with async set to true', async () => {
+        const node: ESTree.SimpleLiteral = {
+          type: 'Literal',
+          value: 1,
+        }
+        const expr = new Evaluator().createLiteral(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({})).toEqual({ value: 1 })
       })
 
       it('should create a regex literal', () => {
@@ -1099,7 +1976,7 @@ describe('Evaluator', () => {
             flags: 'g',
           },
         }
-        const expr = new Evaluator().createLiteral(node)
+        const expr = new Evaluator().createLiteral(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toEqual(/foo/g)
       })
@@ -1110,7 +1987,7 @@ describe('Evaluator', () => {
           value: 1n,
           bigint: '1',
         }
-        const expr = new Evaluator().createLiteral(node)
+        const expr = new Evaluator().createLiteral(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe(1n)
       })
@@ -1130,25 +2007,54 @@ describe('Evaluator', () => {
             value: 0,
           },
         }
-        const expr = new Evaluator().createLogicalExpression(node)
+        const expr = new Evaluator().createLogicalExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toBe(0)
       })
 
+      it('should create an async logical expression', async () => {
+        const node: ESTree.LogicalExpression = {
+          type: 'LogicalExpression',
+          operator: '&&',
+          left: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          right: {
+            type: 'Literal',
+            value: 0,
+          },
+        }
+        const expr = new Evaluator().createLogicalExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => 1 })).toEqual({ value: 0 })
+      })
+
       it('should throw when given a logical expression with an invalid operator', () => {
         expect(() =>
-          new Evaluator().createLogicalExpression({
-            type: 'LogicalExpression',
-            operator: 'invalid' as any,
-            left: {
-              type: 'Identifier',
-              name: 'a',
+          new Evaluator().createLogicalExpression(
+            {
+              type: 'LogicalExpression',
+              operator: 'invalid' as any,
+              left: {
+                type: 'Identifier',
+                name: 'a',
+              },
+              right: {
+                type: 'Identifier',
+                name: 'b',
+              },
             },
-            right: {
-              type: 'Identifier',
-              name: 'b',
-            },
-          })
+            false
+          )
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -1168,9 +2074,38 @@ describe('Evaluator', () => {
           computed: false,
           optional: false,
         }
-        const expr = new Evaluator().createMemberExpression(node)
+        const expr = new Evaluator().createMemberExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({ foo: { bar: 1 } })).toBe(1)
+      })
+
+      it('should create an async member expression', async () => {
+        const node: ESTree.MemberExpression = {
+          type: 'MemberExpression',
+          object: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          property: {
+            type: 'Identifier',
+            name: 'bar',
+          },
+          computed: false,
+          optional: false,
+        }
+        const expr = new Evaluator().createMemberExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => ({ bar: 1 }) })).toEqual({
+          value: 1,
+        })
       })
 
       it('should create a computed member expression', () => {
@@ -1187,9 +2122,90 @@ describe('Evaluator', () => {
           computed: true,
           optional: false,
         }
-        const expr = new Evaluator().createMemberExpression(node)
+        const expr = new Evaluator().createMemberExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({ foo: { x: 1 }, bar: 'x' })).toBe(1)
+      })
+
+      it('should create an async computed member expression', async () => {
+        const node: ESTree.MemberExpression = {
+          type: 'MemberExpression',
+          object: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          property: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'bar',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          computed: true,
+          optional: false,
+        }
+        const expr = new Evaluator().createMemberExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: { x: 1 }, bar: async () => 'x' })).toEqual({
+          value: 1,
+        })
+      })
+
+      it('should create an optional member expression', () => {
+        const node: ESTree.MemberExpression = {
+          type: 'MemberExpression',
+          object: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          property: {
+            type: 'Identifier',
+            name: 'bar',
+          },
+          computed: false,
+          optional: true,
+        }
+        const expr = new Evaluator().createMemberExpression(node, false)
+        expect(typeof expr).toBe('function')
+        expect(expr({ foo: { bar: 1 } })).toBe(1)
+        expect(expr({})).toBeUndefined()
+      })
+
+      it('should create an async optional member expression', async () => {
+        const node: ESTree.MemberExpression = {
+          type: 'MemberExpression',
+          object: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          property: {
+            type: 'Identifier',
+            name: 'bar',
+          },
+          computed: false,
+          optional: true,
+        }
+        const expr = new Evaluator().createMemberExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => ({ bar: 1 }) })).toEqual({
+          value: 1,
+        })
+        expect(await expr({ foo: async () => undefined })).toEqual({
+          value: undefined,
+        })
       })
     })
 
@@ -1237,7 +2253,7 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createObjectExpression(node)
+        const expr = new Evaluator().createObjectExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({ bar: 'qux', baz: { quux: 3 } })).toEqual({
           foo: 1,
@@ -1246,58 +2262,183 @@ describe('Evaluator', () => {
         })
       })
 
+      it('should create an async object expression', async () => {
+        const node: ESTree.ObjectExpression = {
+          type: 'ObjectExpression',
+          properties: [
+            {
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              value: {
+                type: 'AwaitExpression',
+                argument: {
+                  type: 'CallExpression',
+                  callee: {
+                    type: 'Identifier',
+                    name: 'quuz',
+                  },
+                  arguments: [],
+                  optional: false,
+                },
+              },
+              kind: 'init',
+              computed: false,
+              method: false,
+              shorthand: false,
+            },
+            {
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: 'bar',
+              },
+              value: {
+                type: 'Literal',
+                value: 2,
+              },
+              kind: 'init',
+              computed: true,
+              method: false,
+              shorthand: false,
+            },
+            {
+              type: 'SpreadElement',
+              argument: {
+                type: 'Identifier',
+                name: 'baz',
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createObjectExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(
+          await expr({ bar: 'qux', baz: { quux: 3 }, quuz: async () => 1 })
+        ).toEqual({
+          value: {
+            foo: 1,
+            qux: 2,
+            quux: 3,
+          },
+        })
+      })
+
       it('should throw when given an invalid property type', () => {
         expect(() =>
-          new Evaluator().createObjectExpression({
-            type: 'ObjectExpression',
-            properties: [
-              {
-                type: 'Identifier',
-                name: 'invalid',
-              } as any,
-            ],
-          })
+          new Evaluator().createObjectExpression(
+            {
+              type: 'ObjectExpression',
+              properties: [
+                {
+                  type: 'Identifier',
+                  name: 'invalid',
+                } as any,
+              ],
+            },
+            false
+          )
+        ).toThrowErrorMatchingSnapshot()
+        expect(() =>
+          new Evaluator().createObjectExpression(
+            {
+              type: 'ObjectExpression',
+              properties: [
+                {
+                  type: 'Identifier',
+                  name: 'invalid',
+                } as any,
+              ],
+            },
+            true
+          )
         ).toThrowErrorMatchingSnapshot()
       })
 
       it('should throw when given an invalid property kind', () => {
         expect(() =>
-          new Evaluator().createObjectExpression({
-            type: 'ObjectExpression',
-            properties: [
-              {
-                type: 'Property',
-                method: false,
-                shorthand: false,
-                computed: false,
-                key: {
-                  type: 'Identifier',
-                  name: 'x',
-                },
-                kind: 'get',
-                value: {
-                  type: 'FunctionExpression',
-                  id: null,
-                  generator: false,
-                  async: false,
-                  params: [],
-                  body: {
-                    type: 'BlockStatement',
-                    body: [
-                      {
-                        type: 'ReturnStatement',
-                        argument: {
-                          type: 'Literal',
-                          value: 5,
-                          raw: '5',
+          new Evaluator().createObjectExpression(
+            {
+              type: 'ObjectExpression',
+              properties: [
+                {
+                  type: 'Property',
+                  method: false,
+                  shorthand: false,
+                  computed: false,
+                  key: {
+                    type: 'Identifier',
+                    name: 'x',
+                  },
+                  kind: 'get',
+                  value: {
+                    type: 'FunctionExpression',
+                    id: null,
+                    generator: false,
+                    async: false,
+                    params: [],
+                    body: {
+                      type: 'BlockStatement',
+                      body: [
+                        {
+                          type: 'ReturnStatement',
+                          argument: {
+                            type: 'Literal',
+                            value: 5,
+                            raw: '5',
+                          },
                         },
-                      },
-                    ],
+                      ],
+                    },
                   },
                 },
-              },
-            ],
-          })
+              ],
+            },
+            false
+          )
+        ).toThrowErrorMatchingSnapshot()
+        expect(() =>
+          new Evaluator().createObjectExpression(
+            {
+              type: 'ObjectExpression',
+              properties: [
+                {
+                  type: 'Property',
+                  method: false,
+                  shorthand: false,
+                  computed: false,
+                  key: {
+                    type: 'Identifier',
+                    name: 'x',
+                  },
+                  kind: 'get',
+                  value: {
+                    type: 'FunctionExpression',
+                    id: null,
+                    generator: false,
+                    async: false,
+                    params: [],
+                    body: {
+                      type: 'BlockStatement',
+                      body: [
+                        {
+                          type: 'ReturnStatement',
+                          argument: {
+                            type: 'Literal',
+                            value: 5,
+                            raw: '5',
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+            true
+          )
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -1338,13 +2479,71 @@ describe('Evaluator', () => {
             ],
           },
         }
-        const expr = new Evaluator().createTaggedTemplateExpression(node)
+        const expr = new Evaluator().createTaggedTemplateExpression(node, false)
         expect(typeof expr).toBe('function')
         const foo = jest.fn(
           (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`
         )
         expect(expr({ foo })).toBe('got bar and 1')
+        expect(foo).toHaveBeenCalledWith(
+          Object.assign(['', 'bar'], { raw: ['', 'bar'] }),
+          1
+        )
+      })
+
+      it('should create an async tagged template expression', async () => {
+        const node: ESTree.TaggedTemplateExpression = {
+          type: 'TaggedTemplateExpression',
+          tag: {
+            type: 'Identifier',
+            name: 'foo',
+          },
+          quasi: {
+            type: 'TemplateLiteral',
+            quasis: [
+              {
+                type: 'TemplateElement',
+                value: {
+                  raw: '',
+                  cooked: '',
+                },
+                tail: false,
+              },
+              {
+                type: 'TemplateElement',
+                value: {
+                  raw: 'bar',
+                  cooked: 'bar',
+                },
+                tail: true,
+              },
+            ],
+            expressions: [
+              {
+                type: 'AwaitExpression',
+                argument: {
+                  type: 'CallExpression',
+                  callee: {
+                    type: 'Identifier',
+                    name: 'quuz',
+                  },
+                  arguments: [],
+                  optional: false,
+                },
+              },
+            ],
+          },
+        }
+        const expr = new Evaluator().createTaggedTemplateExpression(node, true)
+        expect(typeof expr).toBe('function')
+        const foo = jest.fn(
+          (strings: TemplateStringsArray, expression: number) =>
+            `got ${strings.join('')} and ${expression}`
+        )
+        expect(await expr({ foo, quuz: async () => 1 })).toEqual({
+          value: 'got bar and 1',
+        })
         expect(foo).toHaveBeenCalledWith(
           Object.assign(['', 'bar'], { raw: ['', 'bar'] }),
           1
@@ -1381,9 +2580,52 @@ describe('Evaluator', () => {
             },
           ],
         }
-        const expr = new Evaluator().createTemplateLiteral(node)
+        const expr = new Evaluator().createTemplateLiteral(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({})).toEqual('foo1bar')
+      })
+
+      it('should create an async template literal', async () => {
+        const node: ESTree.TemplateLiteral = {
+          type: 'TemplateLiteral',
+          quasis: [
+            {
+              type: 'TemplateElement',
+              value: {
+                raw: 'foo',
+                cooked: 'foo',
+              },
+              tail: false,
+            },
+            {
+              type: 'TemplateElement',
+              value: {
+                raw: 'bar',
+                cooked: 'bar',
+              },
+              tail: true,
+            },
+          ],
+          expressions: [
+            {
+              type: 'AwaitExpression',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: 'quuz',
+                },
+                arguments: [],
+                optional: false,
+              },
+            },
+          ],
+        }
+        const expr = new Evaluator().createTemplateLiteral(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ quuz: async () => 1 })).toEqual({
+          value: 'foo1bar',
+        })
       })
     })
 
@@ -1398,22 +2640,48 @@ describe('Evaluator', () => {
           },
           prefix: true,
         }
-        const expr = new Evaluator().createUnaryExpression(node)
+        const expr = new Evaluator().createUnaryExpression(node, false)
         expect(typeof expr).toBe('function')
         expect(expr({ foo: 0 })).toBe(-0)
       })
 
+      it('should create an async unary expression', async () => {
+        const node: ESTree.UnaryExpression = {
+          type: 'UnaryExpression',
+          operator: '-',
+          argument: {
+            type: 'AwaitExpression',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              arguments: [],
+              optional: false,
+            },
+          },
+          prefix: true,
+        }
+        const expr = new Evaluator().createUnaryExpression(node, true)
+        expect(typeof expr).toBe('function')
+        expect(await expr({ foo: async () => 0 })).toEqual({ value: -0 })
+      })
+
       it('should throw when given an invalid operator', () => {
         expect(() =>
-          new Evaluator().createUnaryExpression({
-            type: 'UnaryExpression',
-            operator: 'invalid' as any,
-            argument: {
-              type: 'Identifier',
-              name: 'foo',
+          new Evaluator().createUnaryExpression(
+            {
+              type: 'UnaryExpression',
+              operator: 'invalid' as any,
+              argument: {
+                type: 'Identifier',
+                name: 'foo',
+              },
+              prefix: true,
             },
-            prefix: true,
-          })
+            false
+          )
         ).toThrowErrorMatchingSnapshot()
       })
     })

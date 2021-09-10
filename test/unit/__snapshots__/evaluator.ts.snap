@@ -1,12 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Evaluator Expression creation Await expressions should throw if async is false 1`] = `"await can only be used in async expressions"`;
+
 exports[`Evaluator Expression creation Binary expressions should throw when given an invalid operator 1`] = `"Unsupported binary operator: invalid"`;
 
 exports[`Evaluator Expression creation Logical expressions should throw when given a logical expression with an invalid operator 1`] = `"Unsupported logical operator: invalid"`;
 
 exports[`Evaluator Expression creation Object expressions should throw when given an invalid property kind 1`] = `"Only assignment properties are allowed"`;
 
-exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 1`] = `"Unsupported property type: Identifier"`;
+exports[`Evaluator Expression creation Object expressions should throw when given an invalid property kind 2`] = `"Only assignment properties are allowed"`;
+
+exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 1`] = `"Only assignment properties are allowed"`;
+
+exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 2`] = `"Only assignment properties are allowed"`;
 
 exports[`Evaluator Expression creation Unary expressions should throw when given an invalid operator 1`] = `"Unsupported unary operator: invalid"`;
 

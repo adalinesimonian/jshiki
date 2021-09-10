@@ -1,5 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 1`] = `"Unexpected token (1:16)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 2`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 3`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 4`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 5`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 6`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 7`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 8`] = `"Invalid number (1:13)"`;
+
+exports[`Literals (async) Numeric Literals should throw when the expression contains an invalid numeric literal 9`] = `"Identifier directly after number (1:14)"`;
+
+exports[`Literals (async) Object Literals should throw when the object literal is missing a colon 1`] = `"Unexpected token (1:17)"`;
+
+exports[`Literals (async) Object Literals should throw when the object literal is missing a curly brace 1`] = `"Unexpected token (1:25)"`;
+
+exports[`Literals (async) Object Literals should throw when the object literal is missing a curly brace 2`] = `"Unexpected token (1:14)"`;
+
+exports[`Literals (async) Object Literals should throw when the object literal is missing a key 1`] = `"Unexpected token (1:15)"`;
+
+exports[`Literals (async) Object Literals should throw when the object literal is missing a value 1`] = `"Unexpected token (1:18)"`;
+
+exports[`Literals (async) Object Literals should throw when using a getter 1`] = `"Only assignment properties are allowed"`;
+
+exports[`Literals (async) Object Literals should throw when using a method 1`] = `"Unsupported node type: FunctionExpression"`;
+
+exports[`Literals (async) Object Literals should throw when using a setter 1`] = `"setter should have exactly one param (1:20)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an invalid escape sequence 1`] = `"Bad character escape sequence (1:16)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an invalid escape sequence 2`] = `"Bad character escape sequence (1:16)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an invalid escape sequence 3`] = `"Bad character escape sequence (1:17)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an invalid escape sequence 4`] = `"Bad character escape sequence (1:17)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 1`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 2`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 3`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 4`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 5`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal contains an unexpected line break 6`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal is missing a quote 1`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal is missing a quote 2`] = `"Unterminated string constant (1:14)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal is missing a quote 3`] = `"Unterminated string constant (1:13)"`;
+
+exports[`Literals (async) String Literals should throw when the string literal is missing a quote 4`] = `"Unterminated string constant (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the string literal contains an invalid escape sequence 1`] = `"Bad escape sequence in untagged template literal (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the string literal contains an invalid escape sequence 2`] = `"Bad escape sequence in untagged template literal (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the string literal contains an invalid escape sequence 3`] = `"Bad escape sequence in untagged template literal (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the string literal contains an invalid escape sequence 4`] = `"Bad escape sequence in untagged template literal (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the template literal is missing a backtick 1`] = `"Unterminated template (1:14)"`;
+
+exports[`Literals (async) Template Literals should throw when the template literal is missing a backtick 2`] = `"Unterminated template (1:15)"`;
+
 exports[`Literals Numeric Literals should throw when the expression contains an invalid numeric literal 1`] = `"Unexpected token (1:10)"`;
 
 exports[`Literals Numeric Literals should throw when the expression contains an invalid numeric literal 2`] = `"Invalid number (1:7)"`;

@@ -27,6 +27,10 @@ describe('Invalid/Illegal syntax', () => {
     expect(() => parse('void a')).toThrowErrorMatchingSnapshot()
   })
 
+  it('should throw when using `await` outside of an async context', () => {
+    expect(() => parse('await a()')).toThrowErrorMatchingSnapshot()
+  })
+
   it('should throw when using a sequence expression', () => {
     expect(() => parse('(a, b)')).toThrowErrorMatchingSnapshot()
   })

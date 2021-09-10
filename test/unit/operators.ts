@@ -317,7 +317,7 @@ describe('Operators', () => {
         ).toBe('')
       })
 
-      it('should only evaluate the first argument if it is falsy', () => {
+      it('should evaluate both arguments if the first is truthy', () => {
         const right = jest.fn(() => true)
 
         const leftBool = jest.fn(() => true)
@@ -347,7 +347,7 @@ describe('Operators', () => {
         expect(right).toHaveBeenCalledTimes(1)
       })
 
-      it('should evaluate both arguments if the first is truthy', () => {
+      it('should only evaluate the first argument if it is falsy', () => {
         const right = jest.fn(() => false)
 
         const leftBool = jest.fn(() => false)
@@ -656,6 +656,429 @@ describe('Operators', () => {
 
         const leftUndefined = jest.fn(() => undefined)
         operators.logical['??'](leftUndefined, right)
+        expect(leftUndefined).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  describe('Logical operators (async)', () => {
+    describe('&& — Logical AND', () => {
+      it('should export &&', async () => {
+        expect(operators.logical['&&']).toHaveProperty('async')
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: false }),
+            async () => ({ value: false })
+          )
+        ).toEqual({ result: false })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: false }),
+            async () => ({ value: true })
+          )
+        ).toEqual({ result: false })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: true }),
+            async () => ({ value: false })
+          )
+        ).toEqual({ result: false })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: true }),
+            async () => ({ value: true })
+          )
+        ).toEqual({ result: true })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: 0 }),
+            async () => ({ value: 0 })
+          )
+        ).toEqual({ result: 0 })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: 0 }),
+            async () => ({ value: 1 })
+          )
+        ).toEqual({ result: 0 })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: 1 }),
+            async () => ({ value: 0 })
+          )
+        ).toEqual({ result: 0 })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: 1 }),
+            async () => ({ value: 1 })
+          )
+        ).toEqual({ result: 1 })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: undefined }),
+            async () => ({ value: '1' })
+          )
+        ).toEqual({ result: undefined })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: '' }),
+            async () => ({ value: '1' })
+          )
+        ).toEqual({ result: '' })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: '1' }),
+            async () => ({ value: undefined })
+          )
+        ).toEqual({ result: undefined })
+        expect(
+          await operators.logical['&&'].async(
+            async () => ({ value: '1' }),
+            async () => ({ value: '' })
+          )
+        ).toEqual({ result: '' })
+      })
+
+      it('should evaluate both arguments if the first is truthy', async () => {
+        const right = jest.fn(async () => ({ value: true }))
+
+        const leftBool = jest.fn(async () => ({ value: true }))
+        await operators.logical['&&'].async(leftBool, right)
+        expect(leftBool).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftNum = jest.fn(async () => ({ value: 1 }))
+        await operators.logical['&&'].async(leftNum, right)
+        expect(leftNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftBigInt = jest.fn(async () => ({ value: 1n }))
+        await operators.logical['&&'].async(leftBigInt, right)
+        expect(leftBigInt).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftStr = jest.fn(async () => ({ value: 'x' }))
+        await operators.logical['&&'].async(leftStr, right)
+        expect(leftStr).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+      })
+
+      it('should only evaluate the first argument if it is falsy', async () => {
+        const right = jest.fn(async () => ({ value: false }))
+
+        const leftBool = jest.fn(async () => ({ value: false }))
+        await operators.logical['&&'].async(leftBool, right)
+        expect(leftBool).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNum = jest.fn(async () => ({ value: 0 }))
+        await operators.logical['&&'].async(leftNum, right)
+        expect(leftNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        await operators.logical['&&'].async(leftNegNum, right)
+        expect(leftNegNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        await operators.logical['&&'].async(leftBigInt, right)
+        expect(leftBigInt).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftStr = jest.fn(async () => ({ value: '' }))
+        await operators.logical['&&'].async(leftStr, right)
+        expect(leftStr).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        await operators.logical['&&'].async(leftUndefined, right)
+        expect(leftUndefined).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNull = jest.fn(async () => ({ value: null }))
+        await operators.logical['&&'].async(leftNull, right)
+        expect(leftNull).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNaN = jest.fn(async () => ({ value: NaN }))
+        await operators.logical['&&'].async(leftNaN, right)
+        expect(leftNaN).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    describe('|| — Logical OR', () => {
+      it('should export ||', async () => {
+        expect(operators.logical['||']).toHaveProperty('async')
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: false }),
+            async () => ({ value: false })
+          )
+        ).toEqual({ result: false })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: false }),
+            async () => ({ value: true })
+          )
+        ).toEqual({ result: true })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: true }),
+            async () => ({ value: false })
+          )
+        ).toEqual({ result: true })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: true }),
+            async () => ({ value: true })
+          )
+        ).toEqual({ result: true })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: 0 }),
+            async () => ({ value: 1 })
+          )
+        ).toEqual({ result: 1 })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: 1 }),
+            async () => ({ value: 0 })
+          )
+        ).toEqual({ result: 1 })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: undefined }),
+            async () => ({ value: '1' })
+          )
+        ).toEqual({ result: '1' })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: '' }),
+            async () => ({ value: '1' })
+          )
+        ).toEqual({ result: '1' })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: '1' }),
+            async () => ({ value: undefined })
+          )
+        ).toEqual({ result: '1' })
+        expect(
+          await operators.logical['||'].async(
+            async () => ({ value: '1' }),
+            async () => ({ value: '' })
+          )
+        ).toEqual({ result: '1' })
+      })
+
+      it('should only evaluate the first argument if it is truthy', async () => {
+        const right = jest.fn(async () => ({ value: false }))
+
+        const leftBool = jest.fn(async () => ({ value: true }))
+        await operators.logical['||'].async(leftBool, right)
+        expect(leftBool).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNum = jest.fn(async () => ({ value: 1 }))
+        await operators.logical['||'].async(leftNum, right)
+        expect(leftNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftBigInt = jest.fn(async () => ({ value: 1n }))
+        await operators.logical['||'].async(leftBigInt, right)
+        expect(leftBigInt).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftStr = jest.fn(async () => ({ value: 'x' }))
+        await operators.logical['||'].async(leftStr, right)
+        expect(leftStr).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+      })
+
+      it('should evaluate both arguments if the first is falsy', async () => {
+        const right = jest.fn(async () => ({ value: false }))
+
+        const leftBool = jest.fn(async () => ({ value: false }))
+        await operators.logical['||'].async(leftBool, right)
+        expect(leftBool).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftNum = jest.fn(async () => ({ value: 0 }))
+        await operators.logical['||'].async(leftNum, right)
+        expect(leftNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        await operators.logical['||'].async(leftNegNum, right)
+        expect(leftNegNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        await operators.logical['||'].async(leftBigInt, right)
+        expect(leftBigInt).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftStr = jest.fn(async () => ({ value: '' }))
+        await operators.logical['||'].async(leftStr, right)
+        expect(leftStr).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        await operators.logical['||'].async(leftUndefined, right)
+        expect(leftUndefined).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftNull = jest.fn(async () => ({ value: null }))
+        await operators.logical['||'].async(leftNull, right)
+        expect(leftNull).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftNaN = jest.fn(async () => ({ value: NaN }))
+        await operators.logical['||'].async(leftNaN, right)
+        expect(leftNaN).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('?? — Nullish Coalescing', () => {
+      it('should export ??', async () => {
+        expect(operators.logical['??']).toHaveProperty('async')
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: 1 }),
+            async () => ({ value: 2 })
+          )
+        ).toEqual({ result: 1 })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: null }),
+            async () => ({ value: 2 })
+          )
+        ).toEqual({ result: 2 })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: undefined }),
+            async () => ({ value: 2 })
+          )
+        ).toEqual({ result: 2 })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: null }),
+            async () => ({ value: null })
+          )
+        ).toEqual({ result: null })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: undefined }),
+            async () => ({ value: null })
+          )
+        ).toEqual({ result: null })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: null }),
+            async () => ({ value: undefined })
+          )
+        ).toEqual({ result: undefined })
+        expect(
+          await operators.logical['??'].async(
+            async () => ({ value: undefined }),
+            async () => ({ value: undefined })
+          )
+        ).toEqual({ result: undefined })
+      })
+
+      it('should only evaluate the first argument if it is not nullish', async () => {
+        const right = jest.fn(async () => ({ value: null }))
+
+        const leftBool = jest.fn(async () => ({ value: false }))
+        await operators.logical['??'].async(leftBool, right)
+        expect(leftBool).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNum = jest.fn(async () => ({ value: 0 }))
+        await operators.logical['??'].async(leftNum, right)
+        expect(leftNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        await operators.logical['??'].async(leftNegNum, right)
+        expect(leftNegNum).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        await operators.logical['??'].async(leftBigInt, right)
+        expect(leftBigInt).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+
+        right.mockClear()
+
+        const leftStr = jest.fn(async () => ({ value: '' }))
+        await operators.logical['??'].async(leftStr, right)
+        expect(leftStr).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(0)
+      })
+
+      it('should evaluate both arguments if the first is nullish', async () => {
+        const right = jest.fn(async () => ({ value: 2 }))
+
+        const leftNull = jest.fn(async () => ({ value: null }))
+        await operators.logical['??'].async(leftNull, right)
+        expect(leftNull).toHaveBeenCalledTimes(1)
+        expect(right).toHaveBeenCalledTimes(1)
+
+        right.mockClear()
+
+        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        await operators.logical['??'].async(leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
       })
