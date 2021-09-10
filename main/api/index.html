@@ -92,6 +92,7 @@
 								<li class="tsd-kind-type-alias"><a href="index.html#AllowAccessRule" class="tsd-kind-icon">Allow<wbr>Access<wbr>Rule</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#BinaryOperatorOptions" class="tsd-kind-icon">Binary<wbr>Operator<wbr>Options</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#BlockAccessRule" class="tsd-kind-icon">Block<wbr>Access<wbr>Rule</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#JshikiAsyncExpression" class="tsd-kind-icon">Jshiki<wbr>Async<wbr>Expression</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#JshikiExpression" class="tsd-kind-icon">Jshiki<wbr>Expression</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#LogicalOperatorOptions" class="tsd-kind-icon">Logical<wbr>Operator<wbr>Options</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#UnaryOperatorOptions" class="tsd-kind-icon">Unary<wbr>Operator<wbr>Options</a></li>
@@ -107,7 +108,9 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function"><a href="index.html#evaluate" class="tsd-kind-icon">evaluate</a></li>
+								<li class="tsd-kind-function"><a href="index.html#evaluateAsync" class="tsd-kind-icon">evaluate<wbr>Async</a></li>
 								<li class="tsd-kind-function"><a href="index.html#parse" class="tsd-kind-icon">parse</a></li>
+								<li class="tsd-kind-function"><a href="index.html#parseAsync" class="tsd-kind-icon">parse<wbr>Async</a></li>
 							</ul>
 						</section>
 					</div>
@@ -171,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">Binary<wbr>Operator<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in evaluator.ts:50</li>
+							<li>Defined in evaluator.ts:55</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -210,6 +213,54 @@
 										<p>The path to the property to which access should be blocked.</p>
 									</div>
 								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="JshikiAsyncExpression" class="tsd-anchor"></a>
+					<h3>Jshiki<wbr>Async<wbr>Expression</h3>
+					<div class="tsd-signature tsd-kind-icon">Jshiki<wbr>Async<wbr>Expression<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in index.ts:131</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>scope<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography tsd-comment-shorttext">
+											<div class="lead">
+												<p>A compiled, executable async expression.</p>
+											</div>
+											</div><div class="tsd-comment tsd-typography tsd-comment-text">
+											<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">expression</span><span style="color: #000000"> = </span><span style="color: #001080">jshiki</span><span style="color: #000000">.</span><span style="color: #795E26">parseAsync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;await foo.bar()&#039;</span><span style="color: #000000">)</span>
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">expression</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">foo:</span><span style="color: #000000"> { </span><span style="color: #795E26">bar</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;baz&#039;</span><span style="color: #000000"> },</span>
+<span style="color: #000000">}) </span><span style="color: #008000">// =&gt; &#039;baz&#039;</span>
+</code></pre>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> scope: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+												<div class="tsd-comment tsd-typography tsd-comment-shorttext">
+													<div class="lead">
+														<p>The scope to use when evaluating the expression. The expression
+														will be limited to accessing the properties of the scope.</p>
+													</div>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</div>
@@ -268,7 +319,7 @@
 					<div class="tsd-signature tsd-kind-icon">Logical<wbr>Operator<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in evaluator.ts:79</li>
+							<li>Defined in evaluator.ts:84</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -292,7 +343,7 @@
 					<div class="tsd-signature tsd-kind-icon">Unary<wbr>Operator<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in evaluator.ts:21</li>
+							<li>Defined in evaluator.ts:26</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -424,7 +475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.ts:164</li>
+									<li>Defined in index.ts:210</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -461,6 +512,54 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="evaluateAsync" class="tsd-anchor"></a>
+					<h3>evaluate<wbr>Async</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">evaluate<wbr>Async<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="interfaces/JshikiEvaluateOptions.html" class="tsd-signature-type">JshikiEvaluateOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.ts:229</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography tsd-comment-shorttext">
+								<div class="lead">
+									<p>Evaluates an expression asynchronously.</p>
+								</div>
+								</div><div class="tsd-comment tsd-typography tsd-comment-tags">
+								<dl class="tsd-comment-tags"><dt>example</dt>
+									<dd><pre><code class="language-js"><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">result</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">jshiki</span><span style="color: #000000">.</span><span style="color: #795E26">evaluateAsync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;1 + 2&#039;</span><span style="color: #000000">)</span>
+<span style="color: #008000">// result =&gt; 3</span>
+<span style="color: #001080">result</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">jshiki</span><span style="color: #000000">.</span><span style="color: #795E26">evaluateAsync</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&#039;await a() + 2&#039;</span><span style="color: #000000">, { </span><span style="color: #001080">scope:</span><span style="color: #000000"> { </span><span style="color: #795E26">a</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #098658">5</span><span style="color: #000000"> } }</span>
+<span style="color: #000000">)</span>
+<span style="color: #008000">// result =&gt; 7</span>
+</code></pre>
+								</dd></dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography tsd-comment-text">
+										<p>The expression to evaluate.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="interfaces/JshikiEvaluateOptions.html" class="tsd-signature-type">JshikiEvaluateOptions</a></h5>
+									<div class="tsd-comment tsd-typography tsd-comment-text">
+										<p>The options to use.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The result of the expression.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="parse" class="tsd-anchor"></a>
 					<h3>parse</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -470,7 +569,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.ts:133</li>
+									<li>Defined in index.ts:147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography tsd-comment-shorttext">
@@ -500,6 +599,50 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="index.html#JshikiExpression" class="tsd-signature-type">JshikiExpression</a></h4>
+							<p>The parsed expression.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="parseAsync" class="tsd-anchor"></a>
+					<h3>parse<wbr>Async</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Async<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, __namedParameters<span class="tsd-signature-symbol">?: </span><a href="interfaces/JshikiParseOptions.html" class="tsd-signature-type">JshikiParseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#JshikiAsyncExpression" class="tsd-signature-type">JshikiAsyncExpression</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.ts:179</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography tsd-comment-shorttext">
+								<div class="lead">
+									<p>Parses an expression into an executable async function.</p>
+								</div>
+								</div><div class="tsd-comment tsd-typography tsd-comment-tags">
+								<dl class="tsd-comment-tags"><dt>example</dt>
+									<dd><pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">expression</span><span style="color: #000000"> = </span><span style="color: #001080">jshiki</span><span style="color: #000000">.</span><span style="color: #795E26">parseAsync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;(await a?.() || 1) + 2&#039;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">result</span><span style="color: #000000"> = </span><span style="color: #795E26">expression</span><span style="color: #000000">()</span>
+<span style="color: #008000">// result =&gt; 3</span>
+<span style="color: #001080">result</span><span style="color: #000000"> = </span><span style="color: #795E26">expression</span><span style="color: #000000">({ </span><span style="color: #795E26">a</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #098658">5</span><span style="color: #000000"> })</span>
+<span style="color: #008000">// result =&gt; 7</span>
+</code></pre>
+								</dd></dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography tsd-comment-text">
+										<p>The expression to parse.</p>
+									</div>
+								</li>
+								<li>
+									<h5>__namedParameters: <a href="interfaces/JshikiParseOptions.html" class="tsd-signature-type">JshikiParseOptions</a><span class="tsd-signature-symbol"> = {}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="index.html#JshikiAsyncExpression" class="tsd-signature-type">JshikiAsyncExpression</a></h4>
 							<p>The parsed expression.</p>
 						</li>
 					</ul>
@@ -538,6 +681,9 @@
 						<a href="index.html#BlockAccessRule" class="tsd-kind-icon">Block<wbr>Access<wbr>Rule</a>
 					</li>
 					<li class=" tsd-kind-type-alias root">
+						<a href="index.html#JshikiAsyncExpression" class="tsd-kind-icon">Jshiki<wbr>Async<wbr>Expression</a>
+					</li>
+					<li class=" tsd-kind-type-alias root">
 						<a href="index.html#JshikiExpression" class="tsd-kind-icon">Jshiki<wbr>Expression</a>
 					</li>
 					<li class=" tsd-kind-type-alias root">
@@ -553,7 +699,13 @@
 						<a href="index.html#evaluate" class="tsd-kind-icon">evaluate</a>
 					</li>
 					<li class=" tsd-kind-function root">
+						<a href="index.html#evaluateAsync" class="tsd-kind-icon">evaluate<wbr>Async</a>
+					</li>
+					<li class=" tsd-kind-function root">
 						<a href="index.html#parse" class="tsd-kind-icon">parse</a>
+					</li>
+					<li class=" tsd-kind-function root">
+						<a href="index.html#parseAsync" class="tsd-kind-icon">parse<wbr>Async</a>
 					</li>
 				</ul>
 			</nav>
