@@ -17,29 +17,49 @@
 
 jshiki provides a safe and simple way to evaluate expressions without worrying about external data being overwritten or accessed in unexpected ways. jshiki only has one lightweight dependency, [acorn], which it uses parse expressions.
 
+### Basic Usage
+
 ```js
 const jshiki = require('jshiki')
-
-// Basic usage
 
 let result = jshiki.evaluate('(5 + 7) / 3') // result => 4
 // or
 let expression = jshiki.parse('(5 + 7) / 3')
 result = expression() // result => 4
+```
 
-// Accessing data
+### Accessing data
 
-const expressionSource = "`Hello! My name's ${name.trim()}`"
+```js
+const code = "`Hello! My name's ${name.trim()}`"
 
-expression = jshiki.parse(expressionSource)
+expression = jshiki.parse(code)
 result = expression({ name: ' Azumi ' })
 // result => "Hello! My name's Azumi"
 
 // or
-result = jshiki.evaluate(expressionSource, {
+result = jshiki.evaluate(code, {
   scope: { name: ' Azumi ' },
 })
 // result => "Hello! My name's Azumi"
+```
+
+### Asynchronous evaluation
+
+```js
+const asyncCode = "`I'm ${await status()}...`"
+
+expression = jshiki.parseAsync(asyncCode)
+result = await expression({
+  status: async () => 'waiting',
+})
+// result => "I'm waiting..."
+
+// or
+result = await jshiki.evaluateAsync(asyncCode, {
+  scope: { status: async () => 'waiting' },
+})
+// result => "I'm waiting..."
 ```
 
 For more examples, features, and information on how to use jshiki, see the [documentation].
