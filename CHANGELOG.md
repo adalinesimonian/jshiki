@@ -23,6 +23,7 @@
 ### Fixes
 
 - Fixed bug where calling a method on a property using optional chaining syntax would instead operate as though regular member access was used. Example:
+
   ```js
   // Prior behavior:
   jshiki.evaluate('a?.b?.()') // throws TypeError
