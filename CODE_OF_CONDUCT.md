@@ -30,7 +30,7 @@ We commit to a zero-tolerance policy for harassment and to taking appropriate ac
 
 Political beliefs are not protected and may be used to justify actions. Fascism, racism, sexism, homophobia, transphobia, and other forms of discrimination will result in immediate expulsion from the community.
 
-Offending behaviour outside of the repository's scope, such as in public spaces, social media, or in private communications between users, may still result in a loss of access to the repository.
+Offending behaviour outside of the repository's scope, such as in public spaces, social media, or private communications between users, may still result in a loss of access to the repository.
 
 ## Enforcement
 
