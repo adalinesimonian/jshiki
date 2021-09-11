@@ -37,7 +37,7 @@
     "lint:prettier": "prettier --check .",
     "lint:types": "tsc --noEmit",
     "minify-logo": "svgo assets/logo/*.svg",
-    "prepack": "run-s clean build",
+    "prepack": "yarn build",
     "test": "jest",
     "test:unit": "jest -c unit.local.jest.config.js",
     "test:functional": "jest -c functional.local.jest.config.js",
