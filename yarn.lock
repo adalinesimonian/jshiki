@@ -803,7 +803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:^0.0.50":
+"@types/estree@npm:0.0.50":
   version: 0.0.50
   resolution: "@types/estree@npm:0.0.50"
   checksum: 9a2b6a4a8c117f34d08fbda5e8f69b1dfb109f7d149b60b00fd7a9fb6ac545c078bc590aa4ec2f0a256d680cf72c88b3b28b60c326ee38a7bc8ee1ee95624922
@@ -844,7 +844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.0.1":
+"@types/jest@npm:27.0.1":
   version: 27.0.1
   resolution: "@types/jest@npm:27.0.1"
   dependencies:
@@ -875,7 +875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.17.10":
+"@types/node@npm:14.17.15":
   version: 14.17.15
   resolution: "@types/node@npm:14.17.15"
   checksum: e0840304db236027e822ef1e149de433afd20d2553699cdc2ce651d107a77646c6eaaeaec8c348eabdc05169440dbc2cf069791bef65ca4b6e5ee4412e69c898
@@ -896,7 +896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/svgo@npm:^2.4.1":
+"@types/svgo@npm:2.4.1":
   version: 2.4.1
   resolution: "@types/svgo@npm:2.4.1"
   dependencies:
@@ -2109,7 +2109,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
+"eslint-config-prettier@npm:8.3.0":
   version: 8.3.0
   resolution: "eslint-config-prettier@npm:8.3.0"
   peerDependencies:
@@ -2120,7 +2120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard@npm:^16.0.3":
+"eslint-config-standard@npm:16.0.3":
   version: 16.0.3
   resolution: "eslint-config-standard@npm:16.0.3"
   peerDependencies:
@@ -2164,7 +2164,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.24.2":
+"eslint-plugin-import@npm:2.24.2":
   version: 2.24.2
   resolution: "eslint-plugin-import@npm:2.24.2"
   dependencies:
@@ -2189,7 +2189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-node@npm:^11.1.0":
+"eslint-plugin-node@npm:11.1.0":
   version: 11.1.0
   resolution: "eslint-plugin-node@npm:11.1.0"
   dependencies:
@@ -2205,7 +2205,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^5.1.0":
+"eslint-plugin-promise@npm:5.1.0":
   version: 5.1.0
   resolution: "eslint-plugin-promise@npm:5.1.0"
   peerDependencies:
@@ -2214,7 +2214,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-standard@npm:^5.0.0":
+"eslint-plugin-standard@npm:5.0.0":
   version: 5.0.0
   resolution: "eslint-plugin-standard@npm:5.0.0"
   peerDependencies:
@@ -2267,7 +2267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.32.0":
+"eslint@npm:7.32.0":
   version: 7.32.0
   resolution: "eslint@npm:7.32.0"
   dependencies:
@@ -3791,28 +3791,28 @@ fsevents@^2.3.2:
   version: 0.0.0-use.local
   resolution: "jshiki@workspace:."
   dependencies:
-    "@types/estree": ^0.0.50
-    "@types/jest": ^27.0.1
-    "@types/node": ^14.17.10
-    "@types/svgo": ^2.4.1
+    "@types/estree": 0.0.50
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.15
+    "@types/svgo": 2.4.1
     "@typescript-eslint/eslint-plugin": ^4.31.0
     "@typescript-eslint/parser": ^4.31.0
     acorn: ^8.5.0
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-config-standard: ^16.0.3
-    eslint-plugin-import: ^2.24.2
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^5.1.0
-    eslint-plugin-standard: ^5.0.0
+    eslint: 7.32.0
+    eslint-config-prettier: 8.3.0
+    eslint-config-standard: 16.0.3
+    eslint-plugin-import: 2.24.2
+    eslint-plugin-node: 11.1.0
+    eslint-plugin-promise: 5.1.0
+    eslint-plugin-standard: 5.0.0
     jest: ^27.1.1
-    npm-run-all: ^4.1.5
-    prettier: ^2.3.2
-    svgo: ^2.5.0
-    ts-jest: ^27.0.5
-    typedoc: ^0.21.9
-    typedoc-neo-theme: ^1.1.1
-    typescript: ~4.3.5
+    npm-run-all: 4.1.5
+    prettier: 2.3.2
+    svgo: 2.5.0
+    ts-jest: 27.0.5
+    typedoc: 0.21.9
+    typedoc-neo-theme: 1.1.1
+    typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
@@ -4332,7 +4332,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"npm-run-all@npm:^4.1.5":
+"npm-run-all@npm:4.1.5":
   version: 4.1.5
   resolution: "npm-run-all@npm:4.1.5"
   dependencies:
@@ -4719,7 +4719,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.2":
+"prettier@npm:2.3.2":
   version: 2.3.2
   resolution: "prettier@npm:2.3.2"
   bin:
@@ -5416,7 +5416,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"svgo@npm:^2.5.0":
+"svgo@npm:2.5.0":
   version: 2.5.0
   resolution: "svgo@npm:2.5.0"
   dependencies:
@@ -5546,7 +5546,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^27.0.5":
+"ts-jest@npm:27.0.5":
   version: 27.0.5
   resolution: "ts-jest@npm:27.0.5"
   dependencies:
@@ -5662,7 +5662,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"typedoc-neo-theme@npm:^1.1.1":
+"typedoc-neo-theme@npm:1.1.1":
   version: 1.1.1
   resolution: "typedoc-neo-theme@npm:1.1.1"
   dependencies:
@@ -5672,7 +5672,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.21.9":
+"typedoc@npm:0.21.9":
   version: 0.21.9
   resolution: "typedoc@npm:0.21.9"
   dependencies:
@@ -5715,23 +5715,23 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@~4.3.5#~builtin<compat/typescript>":
-  version: 4.3.5
-  resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=32657b"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 4e2edec3c9b7b9a22ad9cbf9371339d9e13bfe44731f0e2d6a5287f991c3b0e3e0ac0c0ebbf9bf6fc2051e30559c789bfc9cf572cd6b836a0222ae141fac1dba
-  languageName: node
-  linkType: hard
-
-typescript@~4.3.5:
+typescript@4.3.5:
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: bab033b5e2b0790dd35b77fd005df976ef80b8d84fd2c6e63cc31808151875beae9216e5a315fe7068e8499905c3c354248fe83272cdfc13b7705635f0c66c97
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>":
+  version: 4.3.5
+  resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=32657b"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 4e2edec3c9b7b9a22ad9cbf9371339d9e13bfe44731f0e2d6a5287f991c3b0e3e0ac0c0ebbf9bf6fc2051e30559c789bfc9cf572cd6b836a0222ae141fac1dba
   languageName: node
   linkType: hard
 
