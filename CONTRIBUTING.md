@@ -65,7 +65,7 @@ All code in jshiki should be linted and formatted with [ESLint] and [Prettier]. 
 - `yarn lint`: Lints all files in the repository using ESLint and Prettier and checks types using Typescript — in that order. It fails if it encounters any linting errors or type errors.
 - `yarn format`: Formats all files in the repository using ESLint and Prettier. Fails if ESLint finds any errors.
 
-Make sure to lint and format your code before submitting a pull request. CI is configured to run these scripts automatically, so it will fail the build if you miss a linting or formatting error.
+Make sure to lint and format your code before submitting a pull request. CI is configured to run these scripts automatically, failing the build if you miss a linting or formatting error.
 
 ## Documentation
 
