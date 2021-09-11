@@ -15,7 +15,7 @@
 
 ---
 
-jshiki provides a safe and simple way to evaluate expressions without worrying about external data being overwritten or accessed in unexpected ways. jshiki only has one lightweight dependency, [acorn], which it uses parse expressions.
+jshiki provides a safe and easy way to evaluate expressions without worrying about external data being overwritten or accessed in unexpected ways. jshiki only has one lightweight dependency, [acorn], which it uses to parse expressions.
 
 ### Basic Usage
 
