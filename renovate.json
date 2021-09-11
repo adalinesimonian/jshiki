@@ -4,6 +4,10 @@
     {
       "matchPackageNames": ["typescript"],
       "allowedVersions": "^4.3.5"
+    },
+    {
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "^14.17.10"
     }
   ]
 }
