@@ -5,9 +5,9 @@ jshiki lets you limit what syntax is allowed in expressions by letting you:
 
 ## Disallowing operators
 
-jshiki lets you block specific unary operators, binary operators, logical operators, and the ternary/conditional operator.
+jshiki lets you block specific unary, binary, and logical operators, as well as the ternary/conditional operator.
 
-For each type of operator aside from the ternay operator, you can either use an allow list, which will only allow the operators you specify, or a block list, which will block all operators you specify.
+For each type of operator aside from the ternary operator, you can either use an allow list, which will only allow the operators you specify, or a block list, which will block all operators you specify.
 
 Here's an example in which we block the use of the binary `+` operator (not to be confused with the unary `+` operator, e.g. `:::js +1`):
 
