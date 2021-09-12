@@ -3,7 +3,7 @@
   "packageRules": [
     {
       "matchPackageNames": ["typescript"],
-      "allowedVersions": "^4.3.5"
+      "allowedVersions": "~4.3.5"
     },
     {
       "matchPackageNames": ["@types/node"],
