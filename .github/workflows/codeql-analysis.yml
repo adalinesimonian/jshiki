@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.png'
+      - '**/*.svg'
+      - '**/*.ai'
+      - '**/*.css'
   schedule:
     - cron: '45 9 * * 4'
 
