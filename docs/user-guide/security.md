@@ -1,3 +1,5 @@
+> **IMPORTANT!** jshiki is not a true sandbox. If you need to be able to evaluate arbitrary code of unknown origin, you may want to consider using [vm2] or a similar library.
+
 > **NOTE:** Many factors can affect the security of your application. Though jshiki prevents most avenues through which expressions can gain unwanted access to or modify data, using jshiki alone does not guarantee that every expression you evaluate will be safe.
 >
 > This section is not an exhaustive list of all security concerns but rather a high-level overview of some of the most common problems to consider when using jshiki. The [OWASP NodeJS security cheat sheet] is a good place to start for a more in-depth look at security in Javascript applications.
@@ -48,5 +50,6 @@ So, how do we use jshiki while avoiding common pitfalls? We can take a few steps
 
 Even with these precautions in place, never assume that your code is safe. Any code that you run that you do not write or have direct control over carries with it the risk of an attack — even with an expression evaluator like jshiki.
 
+[vm2]: https://github.com/patriksimek/vm2
 [OWASP NodeJS security cheat sheet]: https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html
 [scope object]: accessing-data.md

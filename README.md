@@ -17,6 +17,8 @@
 
 jshiki provides a safe and easy way to evaluate expressions without worrying about external data being overwritten or accessed in unexpected ways. jshiki only has one lightweight dependency, [acorn], which it uses to parse expressions.
 
+> **IMPORTANT!** jshiki is not a true sandbox. If you need to be able to evaluate arbitrary code of unknown origin, you may want to consider using [vm2] or a similar library.
+
 ### Basic Usage
 
 ```js
@@ -77,6 +79,7 @@ If you're looking for a way to contribute to jshiki, see the [contribution guide
 [MIT](LICENCE)
 
 [acorn]: https://github.com/acornjs/acorn
+[vm2]: https://github.com/patriksimek/vm2
 [documentation]: https://jshiki.io/latest/user-guide/
 [github discussions]: https://github.com/adalinesimonian/jshiki/discussions
 [code of conduct]: CODE_OF_CONDUCT.md
