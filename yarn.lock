@@ -879,10 +879,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.23":
-  version: 14.17.23
-  resolution: "@types/node@npm:14.17.23"
-  checksum: 58bc0147f4dfbe512bcf02031728e6b8007f7356d23a58d47328fd923d0fceffcaf6073e9dd4709c4bc8d5a8b7f36755961d176fff5741340b75f1a7efde7e5a
+"@types/node@npm:14.17.25":
+  version: 14.17.25
+  resolution: "@types/node@npm:14.17.25"
+  checksum: 2fdf3f782546e500fd92d129a19a2e194fee811af0dad17e396a53a6355477c201ecdf3185af8a79dbcf1db2244a92feb0d5a0ab529f7050fa8e520613ad13d3
   languageName: node
   linkType: hard
 
@@ -3878,7 +3878,7 @@ fsevents@^2.3.2:
   dependencies:
     "@types/estree": 0.0.50
     "@types/jest": 27.0.2
-    "@types/node": 14.17.23
+    "@types/node": 14.17.25
     "@types/svgo": 2.6.0
     "@typescript-eslint/eslint-plugin": 5.0.0
     "@typescript-eslint/parser": 5.0.0
