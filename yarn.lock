@@ -888,10 +888,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.21":
-  version: 14.17.21
-  resolution: "@types/node@npm:14.17.21"
-  checksum: f5fc54b1a857f6a3a266c25521cddda28c711979ec6e443187076b0c99df08b8578c5c0bef64af35f13fc1475f8fd8a71619dd708219b855a8f28629f7880bbb
+"@types/node@npm:14.17.23":
+  version: 14.17.23
+  resolution: "@types/node@npm:14.17.23"
+  checksum: 58bc0147f4dfbe512bcf02031728e6b8007f7356d23a58d47328fd923d0fceffcaf6073e9dd4709c4bc8d5a8b7f36755961d176fff5741340b75f1a7efde7e5a
   languageName: node
   linkType: hard
 
@@ -3810,7 +3810,7 @@ fsevents@^2.3.2:
   dependencies:
     "@types/estree": 0.0.50
     "@types/jest": 27.0.2
-    "@types/node": 14.17.21
+    "@types/node": 14.17.23
     "@types/svgo": 2.6.0
     "@typescript-eslint/eslint-plugin": 5.0.0
     "@typescript-eslint/parser": 5.0.0
