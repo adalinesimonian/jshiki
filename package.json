@@ -62,6 +62,7 @@
     "email": "adalinesimonian@gmail.com",
     "url": "https://github.com/adalinesimonian"
   },
+  "funding": "https://github.com/sponsors/adalinesimonian",
   "license": "MIT",
   "packageManager": "yarn@3.1.0",
   "devDependencies": {
