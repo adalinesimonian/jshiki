@@ -900,12 +900,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/svgo@npm:2.6.0":
-  version: 2.6.0
-  resolution: "@types/svgo@npm:2.6.0"
+"@types/svgo@npm:2.6.4":
+  version: 2.6.4
+  resolution: "@types/svgo@npm:2.6.4"
   dependencies:
     "@types/node": "*"
-  checksum: 2f42e70765d64812a23babf8ce80af947898935219dce858b92863fd0c2276936650ed34d72a7af0e03161646d2ff9cc7275447e04ec6753735f05318e66c422
+  checksum: 8af0a5e1896c4d9c6725a7ba41e4d220c1b2cd25a0252872ce12c4c1d939b91ae7d03e074b8afd61bebd363facde89ab3e55123245f7ad273b2837945c6ceeef
   languageName: node
   linkType: hard
 
@@ -3910,7 +3910,7 @@ fsevents@^2.3.2:
     "@types/estree": 0.0.50
     "@types/jest": 27.0.3
     "@types/node": 14.18.0
-    "@types/svgo": 2.6.0
+    "@types/svgo": 2.6.4
     "@typescript-eslint/eslint-plugin": 5.7.0
     "@typescript-eslint/parser": 5.7.0
     acorn: ^8.5.0
