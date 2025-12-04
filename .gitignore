@@ -3,6 +3,7 @@ dist
 coverage
 site
 docs/api
+docs/assets/js
 package.tgz
 node_modules
 .yarn/*

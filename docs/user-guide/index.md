@@ -22,7 +22,7 @@ Then, get going! jshiki's API is simple:
 - The **`:::js parse()`** function takes an expression and returns a function that evaluates that expression.
 
     ```js
-    const jshiki = require('jshiki')
+    import * as jshiki from 'jshiki'
 
     const expression = jshiki.parse('(5 + 7) / 3')
     const result = expression()
@@ -32,7 +32,7 @@ Then, get going! jshiki's API is simple:
 - The **`:::js evaluate()`** function takes an expression and returns the result of evaluating that expression.
 
     ```js
-    const jshiki = require('jshiki')
+    import * as jshiki from 'jshiki'
 
     const result = jshiki.evaluate('(5 + 7) / 3')
     // result => 4
@@ -43,7 +43,7 @@ You can use asynchronous expressions, too!
 - The **`:::js parseAsync()`** function creates an asynchronous expression.
 
     ```js
-    const jshiki = require('jshiki')
+    import * as jshiki from 'jshiki'
 
     const expression = jshiki.parseAsync('(await b() + 7) / 3')
     const result = await expression({ b: async () => 5 })
@@ -53,7 +53,7 @@ You can use asynchronous expressions, too!
 - The **`:::js evaluateAsync()`** function evaluates an asynchronous expression.
 
     ```js
-    const jshiki = require('jshiki')
+    import * as jshiki from 'jshiki'
 
     const result = await jshiki.evaluateAsync('(await b() + 7) / 3', {
       scope: { b: async () => 5 }

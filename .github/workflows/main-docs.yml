@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -44,6 +47,7 @@ jobs:
 
       - name: Build docs
         run: |
+          yarn build-docs:assets
           yarn build-docs:api
           mike deploy main stage
 

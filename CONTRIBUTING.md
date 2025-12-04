@@ -33,7 +33,7 @@ Generally, the process of contributing to jshiki is as follows:
   - This package provides types for the jshiki library, so pay mind to the code you write and any changes to the types that a consumer of the package will use.
 - The package manager used is [Yarn].
   - You can use npm if you prefer, but we only accept Yarn lock files into the repository, and all scripts should work when run using Yarn. Therefore, we recommend you use Yarn.
-- Tests are run using [Jest].
+- Tests are run using [Vitest].
   - _See [testing](#testing) for more information._
 - Code is linted with [ESLint] and formatted with [Prettier].
   - _See [linting and formatting](#linting-and-formatting) for more information._
@@ -73,14 +73,16 @@ You should document any user-facing change in the user guide and in any related 
 
 Documentation is stored in the `docs` directory, The user guide is kept in the `docs/user-guide` directory, and API documentation is generated in the `docs/api` directory.
 
-mkdocs runs on Python, so you'll need to install Python and pip to generate documentation. Once you've installed Python and pip, you can run `yarn install-docs-deps` to install the necessary dependencies to generate documentation (this script runs `pip install --upgrade -r requirements.txt`).
+mkdocs runs on Python, so you'll need to install Python and pip to generate documentation. You'll also need to install [uv], the package manager. Once you've installed Python, pip, and uv, you can run `yarn install-docs-deps` to install the necessary dependencies to generate documentation (this script runs `uv pip install --upgrade -r requirements.txt`).
 
 Once you have installed all dependencies, you can use these scripts to generate the documentation site:
 
-- `yarn build-docs`: Builds documentation and API docs for development and outputs them to the `site` directory. Equivalent to running both of the following scripts in sequence:
+- `yarn build-docs`: Builds the browser playground bundle, documentation, and API docs for development and outputs them to the `site` directory. Equivalent to running the following scripts in sequence:
+  - `yarn build-docs:assets`: Bundles the browser-friendly jshiki build that powers the docs playground.
   - `yarn build-docs:api`: Builds API documentation and outputs it to the `docs/api` directory.
   - `yarn build-docs:docs`: Builds user guide documentation and outputs it to the `site` directory, along with a copy of whatever API docs are in the `docs/api` directory.
-- `yarn watch-docs`: Watches code and the `docs` directory and rebuilds documentation and API docs when it detects changes. It serves the documentation at `http://localhost:8000`. Equivalent to running both of the following scripts in parallel:
+- `yarn watch-docs`: Watches code and the `docs` directory and rebuilds documentation, API docs, and the playground bundle when it detects changes. It serves the documentation at `http://localhost:8000`. Equivalent to running the following scripts in parallel:
+  - `yarn watch-docs:assets`: Rebuilds the playground browser bundle when it detects changes.
   - `yarn watch-docs:api`: Watches code and rebuilds API docs in `docs/api` when it detects changes.
   - `yarn watch-docs:docs`: Watches the `docs` directory and rebuilds the documentation website in `site` when changes are detected.
 
@@ -91,10 +93,11 @@ Versioning is handled using [mike]; however, you don't need to run it manually. 
 [pull requests]: https://github.com/adalinesimonian/jshiki/pulls
 [typescript]: https://www.typescriptlang.org/
 [yarn]: https://yarnpkg.com/
-[jest]: https://jestjs.io/
+[vitest]: https://vitest.dev/
 [eslint]: https://eslint.org/
 [prettier]: https://prettier.io/
 [mkdocs]: https://www.mkdocs.org/
 [mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
 [typedoc]: https://typedoc.org/
+[uv]: https://docs.astral.sh/uv/
 [mike]: https://github.com/jimporter/mike

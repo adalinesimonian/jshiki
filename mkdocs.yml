@@ -4,7 +4,7 @@ repo_url: https://github.com/adalinesimonian/jshiki
 repo_name: adalinesimonian/jshiki
 edit_uri: edit/main/docs/
 
-copyright: Copyright &copy; 2016 — 2021 Adaline Simonian
+copyright: Copyright &copy; 2016 — 2025 Adaline Simonian
 
 theme:
   name: material
@@ -44,6 +44,11 @@ nav:
 
 extra_css:
   - css/extra.css
+  - css/home.css
+
+watch:
+  - docs
+  - docs-theme
 
 extra:
   version:

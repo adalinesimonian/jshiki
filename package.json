@@ -25,11 +25,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "yarn clean && tsc",
-    "build-docs": "run-s \"build-docs:*\"",
+    "build-docs": "run-s build-docs:assets build-docs:api build-docs:docs",
     "build-docs:api": "typedoc",
-    "build-docs:docs": "mkdocs build",
+    "build-docs:assets": "esbuild docs/assets/playground/main.ts --bundle --tsconfig=tsconfig.json --outfile=docs/assets/js/playground.js --platform=browser --target=es2020 --format=esm --sourcemap",
+    "build-docs:docs": "uv run mkdocs build",
     "clean": "tsc --build --clean",
-    "install-docs-deps": "pip install --upgrade -r requirements.txt",
+    "install-docs-deps": "uv pip install --upgrade -r requirements.txt",
     "format": "run-s \"format:*\"",
     "format:eslint": "eslint --ext .js,.ts --fix .",
     "format:prettier": "prettier --write .",
@@ -46,9 +47,10 @@
     "test-ci": "run-s \"test-ci:*\"",
     "test-ci:unit": "CI=true vitest run --project unit --coverage --coverage.reportsDirectory=./coverage/unit --maxWorkers=2",
     "test-ci:functional": "CI=true vitest run --project functional --coverage --coverage.reportsDirectory=./coverage/functional --maxWorkers=2",
-    "watch-docs": "run-p \"watch-docs:*\"",
+    "watch-docs": "run-p watch-docs:assets watch-docs:apidocs watch-docs:docs",
+    "watch-docs:assets": "esbuild docs/assets/playground/main.ts --bundle --tsconfig=tsconfig.json --outfile=docs/assets/js/playground.js --platform=browser --target=es2020 --format=esm --sourcemap --watch",
     "watch-docs:apidocs": "typedoc --preserveWatchOutput --watch",
-    "watch-docs:docs": "mkdocs serve"
+    "watch-docs:docs": "uv run mkdocs serve --livereload"
   },
   "engines": {
     "node": ">=24.0"
@@ -67,12 +69,17 @@
   "license": "MIT",
   "packageManager": "yarn@4.12.0",
   "devDependencies": {
+    "@codemirror/lang-javascript": "^6.2.4",
+    "@codemirror/lang-json": "^6.0.2",
     "@eslint/js": "^9.39.1",
     "@types/estree": "1.0.8",
     "@types/node": "24.10.1",
     "@vitest/coverage-v8": "4.0.15",
     "@vitest/eslint-plugin": "1.5.1",
+    "codemirror": "^6.0.2",
+    "esbuild": "^0.27.1",
     "eslint": "^9.39.1",
+    "highlight.js": "^11.11.1",
     "npm-run-all2": "8.0.4",
     "prettier": "3.7.4",
     "svgo": "4.0.0",

@@ -22,7 +22,7 @@ jshiki provides a safe and easy way to evaluate expressions without worrying abo
 ### Basic Usage
 
 ```js
-const jshiki = require('jshiki')
+import * as jshiki from 'jshiki'
 
 let result = jshiki.evaluate('(5 + 7) / 3') // result => 4
 // or

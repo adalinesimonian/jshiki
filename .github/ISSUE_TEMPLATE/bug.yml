@@ -31,7 +31,7 @@ body:
       label: Code Snippet
       description: Provide a code snippet that reproduces the bug.
       placeholder: |
-        const jshiki = require('jshiki')
+        import * as jshiki from 'jshiki'
 
         jshiki.parse('{}') // throws an error
       render: typescript
