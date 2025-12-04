@@ -1,13 +1,11 @@
 {
-  "extends": ["config:base"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
   "packageRules": [
     {
-      "matchPackageNames": ["typescript"],
-      "allowedVersions": "~4.3.5"
-    },
-    {
-      "matchPackageNames": ["@types/node"],
-      "allowedVersions": "^14.17.10"
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
     }
   ]
 }
