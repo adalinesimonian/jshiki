@@ -53,11 +53,17 @@ jobs:
           yarn build-docs:api
           mike deploy main stage
 
+      - name: Check commit
+        run: git log -1 --show-signature
+
       - name: Sign commit
         run: |
           git checkout gh-pages
           git commit --amend -S --no-edit
           git checkout ${{ github.ref }}
+
+      - name: Check commit
+        run: git log -1 --show-signature
 
       - name: Deploy docs
         run: git push origin gh-pages
