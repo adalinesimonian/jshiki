@@ -29,13 +29,13 @@ jobs:
         run: yarn test-ci
 
       - name: Upload unit test coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: coverage/unit
           flags: unit
 
       - name: Upload functional test coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: coverage/functional
           flags: functional
