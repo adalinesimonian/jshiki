@@ -879,10 +879,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.0":
-  version: 14.18.0
-  resolution: "@types/node@npm:14.18.0"
-  checksum: 10/bb0381ded8443a373b6cc6beafe6a1f07b780bd99fddfadece164f472198ca703ed6760d2250222d46fed62bcd04c36e2eb3248baa2b400f29fa34874435f47b
+"@types/node@npm:14.18.63":
+  version: 14.18.63
+  resolution: "@types/node@npm:14.18.63"
+  checksum: 10/82a7775898c2ea6db0b610a463512206fb2c7adc1af482c7eb44b99d94375fff51c74f67ae75a63c5532971159f30c866a4d308000624ef02fd9a7175e277019
   languageName: node
   linkType: hard
 
@@ -3909,7 +3909,7 @@ __metadata:
   dependencies:
     "@types/estree": "npm:0.0.50"
     "@types/jest": "npm:27.0.3"
-    "@types/node": "npm:14.18.0"
+    "@types/node": "npm:14.18.63"
     "@types/svgo": "npm:2.6.0"
     "@typescript-eslint/eslint-plugin": "npm:5.7.0"
     "@typescript-eslint/parser": "npm:5.7.0"
