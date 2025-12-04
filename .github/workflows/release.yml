@@ -3,6 +3,10 @@ name: Publish package
 on:
   create:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   release:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -105,5 +109,4 @@ jobs:
       - name: Publish to registry
         run: |
           yarn config set npmAlwaysAuth true
-          yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
           yarn npm publish
