@@ -3925,7 +3925,7 @@ __metadata:
     npm-run-all: "npm:4.1.5"
     prettier: "npm:2.5.1"
     svgo: "npm:2.8.0"
-    ts-jest: "npm:27.1.1"
+    ts-jest: "npm:27.1.5"
     typedoc: "npm:0.22.10"
     typescript: "npm:4.3.5"
   languageName: unknown
@@ -5580,9 +5580,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:27.1.1":
-  version: 27.1.1
-  resolution: "ts-jest@npm:27.1.1"
+"ts-jest@npm:27.1.5":
+  version: 27.1.5
+  resolution: "ts-jest@npm:27.1.5"
   dependencies:
     bs-logger: "npm:0.x"
     fast-json-stable-stringify: "npm:2.x"
@@ -5596,7 +5596,6 @@ __metadata:
     "@babel/core": ">=7.0.0-beta.0 <8"
     "@types/jest": ^27.0.0
     babel-jest: ">=27.0.0 <28"
-    esbuild: ~0.14.0
     jest: ^27.0.0
     typescript: ">=3.8 <5.0"
   peerDependenciesMeta:
@@ -5610,7 +5609,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: 10/7f970e27d92a96f78a2923f166b8989108e33d99a9a98c491ff749bb5318114ad04aebc6de2899536eeb6cfb27f7b25a1a9b73696143109c827c5bace10be3fe
+  checksum: 10/7675946cefc8c652ec35f2fd600ffb99c8e5db5ac355ceb8317707862c586ee46f7ddd589bd206fa8be2598bc4a87c5a53eb4198af78723f5661c90e32200ba3
   languageName: node
   linkType: hard
 
