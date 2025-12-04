@@ -807,10 +807,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:0.0.50":
-  version: 0.0.50
-  resolution: "@types/estree@npm:0.0.50"
-  checksum: 10/188e022eec2da0e1bcf5f569314d1fd16fc28fb3758fed9843b9581ba131b78443b08d6e9ea9daed36c04e493234f47e98cdef8f081c9e9eb0845b2d80f5f8da
+"@types/estree@npm:0.0.52":
+  version: 0.0.52
+  resolution: "@types/estree@npm:0.0.52"
+  checksum: 10/1f3c5a157e798072e7ba1331b575d5c3df0d1ce3420651b468dd66c2b2ec6ae1a98dbc94aec43cdf223fea1904e96caa182b3dc36ccd817bd9c3b8b23869371a
   languageName: node
   linkType: hard
 
@@ -3907,7 +3907,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "jshiki@workspace:."
   dependencies:
-    "@types/estree": "npm:0.0.50"
+    "@types/estree": "npm:0.0.52"
     "@types/jest": "npm:27.0.3"
     "@types/node": "npm:14.18.0"
     "@types/svgo": "npm:2.6.0"
