@@ -54,7 +54,7 @@ jobs:
           mike deploy main stage
 
       - name: Check commit
-        run: git log -1 --show-signature
+        run: git log -1 --show-signature gh-pages
 
       - name: Sign commit
         run: |
@@ -63,7 +63,7 @@ jobs:
           git checkout ${{ github.ref }}
 
       - name: Check commit
-        run: git log -1 --show-signature
+        run: git log -1 --show-signature gh-pages
 
       - name: Deploy docs
         run: git push origin gh-pages
