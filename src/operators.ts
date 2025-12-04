@@ -17,10 +17,10 @@ export const binary: { [operator: string]: (l: any, r: any) => any } = {
   '>': (l: any, r: any): boolean => l > r,
   '<=': (l: any, r: any): boolean => l <= r,
   '>=': (l: any, r: any): boolean => l >= r,
-  /* eslint-disable eqeqeq */
+
   '==': (l: any, r: any): boolean => l == r,
   '!=': (l: any, r: any): boolean => l != r,
-  /* eslint-enable eqeqeq */
+
   '===': (l: any, r: any): boolean => l === r,
   '!==': (l: any, r: any): boolean => l !== r,
   '|': (l: any, r: any): number => l | r,

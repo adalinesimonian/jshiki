@@ -499,17 +499,16 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
       expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
       expect(
-        // eslint-disable-next-line no-template-curly-in-string
         evaluator.createExpression('tag`a${b}`')({
           b: 1,
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         }),
       ).toBe('got a and 1')
-      // eslint-disable-next-line no-template-curly-in-string
+
       expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
       expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
-      // eslint-disable-next-line no-sparse-arrays
+
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
       expect(evaluator.createExpression('/x/g')()).toEqual(/x/g)
     })
@@ -542,17 +541,16 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
       expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
       expect(
-        // eslint-disable-next-line no-template-curly-in-string
         evaluator.createExpression('tag`a${b}`')({
           b: 1,
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         }),
       ).toBe('got a and 1')
-      // eslint-disable-next-line no-template-curly-in-string
+
       expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
       expect(evaluator.createExpression('{ a: 1 }')()).toEqual({ a: 1 })
-      // eslint-disable-next-line no-sparse-arrays
+
       expect(evaluator.createExpression('[1, , 3]')()).toEqual([1, , 3])
       expect(evaluator.createExpression('/x/g')()).toEqual(/x/g)
     })
@@ -589,11 +587,9 @@ describe('Evaluator', () => {
         evaluator.createExpression('a?.()'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        // eslint-disable-next-line no-template-curly-in-string
         evaluator.createExpression('tag`a${b}`'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        // eslint-disable-next-line no-template-curly-in-string
         evaluator.createExpression('`a ${b}`'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
@@ -641,7 +637,7 @@ describe('Evaluator', () => {
 
         expect(typeof expr).toBe('function')
         const result: any = expr({})
-        // eslint-disable-next-line no-sparse-arrays
+
         expect(result).toEqual([1, , 2, 3])
         const result2: any[] = []
         result.forEach((item: any) => result2.push(item))
@@ -694,7 +690,7 @@ describe('Evaluator', () => {
 
         expect(typeof expr).toBe('function')
         const result = await expr({ foo: async () => 2, bar: async () => 3 })
-        // eslint-disable-next-line no-sparse-arrays
+
         expect(result).toEqual({ value: [1, , 2, 3] })
         const result2: any[] = []
         ;(result.value as any[]).forEach((item: any) => result2.push(item))

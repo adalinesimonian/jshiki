@@ -124,19 +124,16 @@ describe('Literals', () => {
     })
 
     it('should parse template literals with expressions', () => {
-      // eslint-disable-next-line no-template-curly-in-string
       expect(evaluate('`x${1}y${a}z`', { scope: { a: 2 } })).toBe('x1y2z')
     })
 
     it('should parse template literals with multi-line expressions', () => {
-      // eslint-disable-next-line no-template-curly-in-string
       expect(evaluate('`x\n${1}y\n${a}z`', { scope: { a: 2 } })).toBe(
         'x\n1y\n2z',
       )
     })
 
     it('should parse template literals with multi-line expressions and expressions with line breaks', () => {
-      // eslint-disable-next-line no-template-curly-in-string
       expect(evaluate('`x\n${\n1\n}y\n${\na\n}z`', { scope: { a: 2 } })).toBe(
         'x\n1y\n2z',
       )
@@ -148,7 +145,7 @@ describe('Literals', () => {
           .map((str, i) => str + (exprs.length > i ? exprs[i] * 2 : ''))
           .join(''),
       )
-      // eslint-disable-next-line no-template-curly-in-string
+
       expect(evaluate('tag`x\\n${1}\\x4F${a}`', { scope: { tag, a: 2 } })).toBe(
         'x\n2\x4F4',
       )
@@ -321,7 +318,7 @@ describe('Literals', () => {
 
     it('should parse sparse array literals', () => {
       const result = evaluate('[1,,2]')
-      // eslint-disable-next-line no-sparse-arrays
+
       expect(result).toEqual([1, , 2])
       const result2: any[] = []
       result.forEach((element: any) => {
@@ -505,7 +502,6 @@ describe('Literals (async)', () => {
     })
 
     it('should parse template literals with expressions', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
       expect(await evaluateAsync('`x${1}y${a}z`', { scope: { a: 2 } })).toBe(
         'x1y2z',
       )
@@ -513,14 +509,12 @@ describe('Literals (async)', () => {
 
     it('should parse template literals with multi-line expressions', async () => {
       expect(
-        // eslint-disable-next-line no-template-curly-in-string
         await evaluateAsync('`x\n${1}y\n${a}z`', { scope: { a: 2 } }),
       ).toBe('x\n1y\n2z')
     })
 
     it('should parse template literals with multi-line expressions and expressions with line breaks', async () => {
       expect(
-        // eslint-disable-next-line no-template-curly-in-string
         await evaluateAsync('`x\n${\n1\n}y\n${\na\n}z`', { scope: { a: 2 } }),
       ).toBe('x\n1y\n2z')
     })
@@ -532,7 +526,6 @@ describe('Literals (async)', () => {
           .join(''),
       )
       expect(
-        // eslint-disable-next-line no-template-curly-in-string
         await evaluateAsync('tag`x\\n${1}\\x4F${a}`', { scope: { tag, a: 2 } }),
       ).toBe('x\n2\x4F4')
       expect(tag).toHaveBeenCalledTimes(1)
@@ -734,7 +727,7 @@ describe('Literals (async)', () => {
 
     it('should parse sparse array literals', async () => {
       const result = await evaluateAsync('[1,,2]')
-      // eslint-disable-next-line no-sparse-arrays
+
       expect(result).toEqual([1, , 2])
       const result2: any[] = []
       result.forEach((element: any) => {

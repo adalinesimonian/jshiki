@@ -568,7 +568,6 @@ export default class Evaluator {
     if (async) {
       const elements = node.elements.map(element => {
         if (!element) {
-          // eslint-disable-next-line no-sparse-arrays
           return (arr: any[]) => arr.concat([,])
         }
         if (element.type === 'SpreadElement') {
@@ -597,7 +596,6 @@ export default class Evaluator {
     }
     const elements = node.elements.map(element => {
       if (!element) {
-        // eslint-disable-next-line no-sparse-arrays
         return (arr: any[]) => arr.concat([,])
       }
       if (element.type === 'SpreadElement') {
