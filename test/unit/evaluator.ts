@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import Evaluator from '../../src/evaluator'
+import Evaluator from '../../src/evaluator.js'
 import * as ESTree from 'estree'
 
 describe('Evaluator', () => {

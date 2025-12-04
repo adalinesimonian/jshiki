@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
+import { evaluate, evaluateAsync, parse, parseAsync } from '../../src/index.js'
 
 describe('Syntax options', () => {
   it('should allow all supported syntax by default', () => {

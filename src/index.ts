@@ -5,14 +5,14 @@ import Evaluator, {
   OperatorOptions,
   SyntaxOptions,
   EvaluatorOptions,
-} from './evaluator'
-import getRuleProxy from './rule-proxy'
+} from './evaluator.js'
+import getRuleProxy from './rule-proxy.js'
 import RuleTree, {
   AccessPath,
   AccessRule,
   AllowAccessRule,
   BlockAccessRule,
-} from './rule-tree'
+} from './rule-tree.js'
 
 export {
   AccessPath,

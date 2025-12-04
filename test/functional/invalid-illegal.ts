@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parse } from '../../src/index'
+import { parse } from '../../src/index.js'
 
 describe('Invalid/Illegal syntax', () => {
   it('should throw when the expression contains a variable declaration', () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import getRuleProxy from '../../src/rule-proxy'
-import RuleTree from '../../src/rule-tree'
+import getRuleProxy from '../../src/rule-proxy.js'
+import RuleTree from '../../src/rule-tree.js'
 
 const symbolBeta = Symbol('beta')
 function getTestObject() {

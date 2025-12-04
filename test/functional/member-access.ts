@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { evaluate, evaluateAsync } from '../../src'
+import { evaluate, evaluateAsync } from '../../src/index.js'
 
 describe('Member Access', () => {
   describe('. accessor', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { evaluateAsync } from '../../src'
+import { evaluateAsync } from '../../src/index.js'
 
 describe('Async expressions', () => {
   it('should not resolve promises without await', async () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
+import { evaluate, evaluateAsync, parse, parseAsync } from '../../src/index.js'
 
 describe('Literals', () => {
   it('should parse null', () => {

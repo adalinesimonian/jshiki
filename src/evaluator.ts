@@ -1,6 +1,6 @@
 import * as ESTree from 'estree'
-import * as acorn from 'acorn' // does not work as default import
-import operators from './operators'
+import * as acorn from 'acorn'
+import operators from './operators.js'
 
 type Expression<T extends ESTree.Node> = {
   (scope: unknown): unknown

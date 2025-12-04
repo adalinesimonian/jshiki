@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parse, parseAsync, evaluate, evaluateAsync } from '../../src'
+import { parse, parseAsync, evaluate, evaluateAsync } from '../../src/index.js'
 
 describe('Entry point', () => {
   describe('parse()', () => {

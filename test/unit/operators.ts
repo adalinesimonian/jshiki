@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import operators from '../../src/operators'
+import operators from '../../src/operators.js'
 
 describe('Operators', () => {
   it('should export a set of unary operators', () => {

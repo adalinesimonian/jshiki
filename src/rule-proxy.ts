@@ -1,4 +1,4 @@
-import RuleTree, { AccessPathArray, AccessPathPart } from './rule-tree'
+import RuleTree, { AccessPathArray, AccessPathPart } from './rule-tree.js'
 
 function hasAccess(
   ruleTree: RuleTree,

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import RuleTree from '../../src/rule-tree'
+import RuleTree from '../../src/rule-tree.js'
 
 describe('Rule Tree', () => {
   it('should be able to create a rule tree', () => {
