@@ -233,4 +233,4 @@ export function evaluateAsync(
   return parseAsync(str, options)(options?.scope)
 }
 
-export default { parse, evaluate }
+export default { parse, evaluate, parseAsync, evaluateAsync }
