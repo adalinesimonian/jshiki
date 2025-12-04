@@ -51,6 +51,8 @@
     
       <link rel="stylesheet" href="../css/extra.css">
     
+      <link rel="stylesheet" href="../css/home.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -638,7 +640,7 @@
 <ul>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">parse</span><span class="p">()</span></code></strong> function takes an expression and returns a function that evaluates that expression.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jshiki&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;(5 + 7) / 3&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">expression</span><span class="p">()</span>
@@ -647,7 +649,7 @@
 </li>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">evaluate</span><span class="p">()</span></code></strong> function takes an expression and returns the result of evaluating that expression.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jshiki&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;(5 + 7) / 3&#39;</span><span class="p">)</span>
 <span class="c1">// result =&gt; 4</span>
@@ -658,7 +660,7 @@
 <ul>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">parseAsync</span><span class="p">()</span></code></strong> function creates an asynchronous expression.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jshiki&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parseAsync</span><span class="p">(</span><span class="s1">&#39;(await b() + 7) / 3&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">expression</span><span class="p">({</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="p">})</span>
@@ -667,7 +669,7 @@
 </li>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">evaluateAsync</span><span class="p">()</span></code></strong> function evaluates an asynchronous expression.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jshiki&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluateAsync</span><span class="p">(</span><span class="s1">&#39;(await b() + 7) / 3&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="p">}</span>
@@ -724,7 +726,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2016 — 2021 Adaline Simonian
+      Copyright &copy; 2016 — 2025 Adaline Simonian
     </div>
   
   

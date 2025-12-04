@@ -50,6 +50,8 @@
     
       <link rel="stylesheet" href="css/extra.css">
     
+      <link rel="stylesheet" href="css/home.css">
+    
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -57,6 +59,11 @@
     
     
 <link rel="stylesheet" href="css/home.css" />
+<script
+  type="module"
+  src="assets/js/playground.js"
+  defer
+></script>
 <!-- prettier-ignore -->
 
   </head>
@@ -283,10 +290,6 @@
         
       
 <style>
-  .md-header {
-    position: initial;
-  }
-
   .md-main__inner {
     margin: 0;
   }
@@ -312,38 +315,42 @@
   <div class="md-grid md-typeset">
     <div class="homepage-hero">
       <div id="homepage-playground">
-        <div id="playground-placeholder">
-          <pre class="placeholder-code">
-              <div class="gutter"></div>
-<span>const jshiki = require(&#39;jshiki&#39;)</span><br />
-<span></span><br />
-<span>const expressionSource = &#39;`Hello! My name\&#39;s ${name}`&#39;</span><br />
-<span></span><br />
-<span>const expression = jshiki.parse(expressionSource)</span><br />
-<span></span><br />
-<span>expression({ name: &#39;Azumi&#39; })</span>
-            </pre>
+        <div class="playground" data-playground-root>
+          <div class="playground-grid">
+            <label class="playground-field">
+              <span>Expression</span>
+              <div
+                class="playground-editor"
+                data-playground="expression"
+                aria-label="Expression source"
+              ></div>
+            </label>
+            <label class="playground-field">
+              <span>Context (JSON)</span>
+              <div
+                class="playground-editor"
+                data-playground="context"
+                aria-label="Context JSON"
+              ></div>
+            </label>
+          </div>
+
+          <div class="playground-result-wrapper">
+            <div class="playground-result-label">Result</div>
+            <pre
+              class="playground-result"
+              aria-live="assertive"
+            ><code data-playground="result"></code></pre>
+          </div>
+
+          <div class="playground-snippet-wrapper">
+            <div class="playground-snippet-label">Snippet</div>
+            <pre
+              class="playground-snippet"
+            ><code data-playground="snippet"></code></pre>
+          </div>
         </div>
       </div>
-
-      <script src="https://embed.runkit.com"></script>
-      <script>
-        ;(() => {
-          const playground = document.getElementById('homepage-playground')
-          const placeholder = document.getElementById('playground-placeholder')
-          RunKit.createNotebook({
-            element: playground,
-            gutterStyle: 'inside',
-            source: placeholder.innerText.trim(),
-            evaluateOnLoad: true,
-            nodeVersion: '> 14.x',
-            onLoad: embed => {
-              placeholder.remove()
-              embed.width = '100%'
-            },
-          })
-        })()
-      </script>
 
       <div class="homepage-hero-content">
         <h1>Lightweight and safe expression evaluation</h1>
@@ -763,7 +770,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2016 — 2021 Adaline Simonian
+      Copyright &copy; 2016 — 2025 Adaline Simonian
     </div>
   
   
