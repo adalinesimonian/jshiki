@@ -24,13 +24,13 @@ function normalizePath(path: AccessPath): AccessPathArray {
   }
   if (!Array.isArray(path)) {
     throw new Error(
-      `Path must be a string or an array of strings and/or symbols, got ${typeof path}`
+      `Path must be a string or an array of strings and/or symbols, got ${typeof path}`,
     )
   }
   return path.map(part => {
     if (typeof part !== 'symbol' && typeof part !== 'string') {
       throw new Error(
-        `Path part must be a string or a symbol, got ${typeof part}`
+        `Path part must be a string or a symbol, got ${typeof part}`,
       )
     }
     return typeof part === 'symbol' ? part : `${part}`

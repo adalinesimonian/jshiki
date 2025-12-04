@@ -152,7 +152,7 @@ describe('Member Access (async)', () => {
 
     it('should properly await evaluateAsync computed properties', async () => {
       expect(
-        await evaluateAsync('({ x: 1, y: 2 })[x]', { scope: { x: 'y' } })
+        await evaluateAsync('({ x: 1, y: 2 })[x]', { scope: { x: 'y' } }),
       ).toBe(2)
     })
   })

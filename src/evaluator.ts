@@ -257,7 +257,7 @@ type AsyncIfSpecified<
   T extends boolean,
   N extends ESTree.Node = ESTree.Node,
   A extends AsyncExpression<N> = AsyncExpression<N>,
-  S extends Expression<N> = Expression<N>
+  S extends Expression<N> = Expression<N>,
 > = T extends true ? A : S
 
 function assert(condition: boolean): asserts condition {
@@ -265,7 +265,7 @@ function assert(condition: boolean): asserts condition {
 }
 
 function* iterateThroughTemplateLiteral(
-  node: ESTree.TemplateLiteral
+  node: ESTree.TemplateLiteral,
 ): Generator<ESTree.TemplateElement | ESTree.Expression> {
   let expressionIndex = 0
   let quasiIndex = 0
@@ -286,13 +286,13 @@ function* iterateThroughTemplateLiteral(
 function filterOperators<
   V,
   R extends Record<string, V>,
-  O extends { allow: (keyof R)[] } | { block: (keyof R)[] }
+  O extends { allow: (keyof R)[] } | { block: (keyof R)[] },
 >(options: O, unfiltered: R): Partial<R> {
   // Allow only specified operators
   if ('allow' in options) {
     if ('block' in options) {
       throw new Error(
-        'Cannot specify both an allow list and block list of operators'
+        'Cannot specify both an allow list and block list of operators',
       )
     }
     const { allow } = options
@@ -319,18 +319,21 @@ function filterOperators<
       throw new Error('Operator block list must be an array')
     }
 
-    return block.reduce<Partial<R>>((filtered, operator) => {
-      if (!(operator in unfiltered)) {
-        throw new Error(`Operator ${operator} is not supported`)
-      }
+    return block.reduce<Partial<R>>(
+      (filtered, operator) => {
+        if (!(operator in unfiltered)) {
+          throw new Error(`Operator ${operator} is not supported`)
+        }
 
-      delete filtered[operator]
-      return filtered
-    }, Object.assign({}, unfiltered))
+        delete filtered[operator]
+        return filtered
+      },
+      Object.assign({}, unfiltered),
+    )
   }
 
   throw new Error(
-    'Operator options must specify either an allow list or a block list'
+    'Operator options must specify either an allow list or a block list',
   )
 }
 
@@ -403,11 +406,11 @@ export default class Evaluator {
   createExpression(code: string): (scope?: any) => any
   createExpression<T extends boolean>(
     code: string,
-    async: T
+    async: T,
   ): T extends true ? (scope?: any) => Promise<any> : (scope?: any) => any
   createExpression<T extends boolean>(
     code: string,
-    async?: T
+    async?: T,
   ): T extends true ? (scope?: any) => Promise<any> : (scope?: any) => any {
     // Wrapping in an arrow function to allow use of expressions that would
     // otherwise be invalid as a statement.
@@ -416,7 +419,7 @@ export default class Evaluator {
       {
         sourceType: 'module',
         ecmaVersion: 'latest',
-      }
+      },
     ) as unknown as ESTree.Program
     assert(ast.body.length === 1)
     const statement = ast.body[0]
@@ -433,7 +436,7 @@ export default class Evaluator {
 
   createExpressionForNode<T extends boolean>(
     node: ESTree.Node,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.Node> {
     switch (node.type) {
       case 'ArrayExpression':
@@ -471,7 +474,7 @@ export default class Evaluator {
 
   evaluateIfIdentifier<T extends boolean>(
     node: ESTree.Node,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.Node> {
     if (node.type === 'Identifier') {
       const { name } = node
@@ -479,24 +482,24 @@ export default class Evaluator {
         case 'undefined':
           return Object.assign(
             async ? async () => ({ value: undefined }) : (): any => undefined,
-            { node }
+            { node },
           )
         case 'NaN':
           return Object.assign(
             async ? async () => ({ value: NaN }) : (): any => NaN,
-            { node }
+            { node },
           )
         case 'Infinity':
           return Object.assign(
             async ? async () => ({ value: Infinity }) : (): any => Infinity,
-            { node }
+            { node },
           )
         default:
           return Object.assign(
             async
               ? async (scope: any) => ({ value: scope[name] })
               : (scope: any) => scope[name],
-            { node }
+            { node },
           )
       }
     }
@@ -506,7 +509,7 @@ export default class Evaluator {
 
   parseCallArgs<T extends boolean>(
     args: (ESTree.Expression | ESTree.SpreadElement)[],
-    async: T
+    async: T,
   ): T extends true ? (scope: any) => Promise<any[]> : (scope: any) => any[] {
     if (async) {
       const argFuncs = args.map(argument => {
@@ -557,7 +560,7 @@ export default class Evaluator {
 
   createArrayExpression<T extends boolean>(
     node: ESTree.ArrayExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.ArrayExpression> {
     if (!this.allowArrays) {
       throw new Error('Array literals are not allowed')
@@ -589,7 +592,7 @@ export default class Evaluator {
           }
           return { value: arr }
         },
-        { node }
+        { node },
       )
     }
     const elements = node.elements.map(element => {
@@ -613,13 +616,13 @@ export default class Evaluator {
     return Object.assign(
       (scope: any): any =>
         elements.reduce<any[]>((arr, fn) => fn(arr, scope), []),
-      { node }
+      { node },
     )
   }
 
   createAwaitExpression(
     node: ESTree.AwaitExpression,
-    async: boolean
+    async: boolean,
   ): AsyncExpression<ESTree.AwaitExpression> {
     if (!async) {
       throw new Error('await can only be used in async expressions')
@@ -627,13 +630,13 @@ export default class Evaluator {
     const expression = this.evaluateIfIdentifier(node.argument, async)
     return Object.assign(
       async (scope: any) => ({ value: await (await expression(scope)).value }),
-      { node }
+      { node },
     )
   }
 
   createBinaryExpression<T extends boolean>(
     node: ESTree.BinaryExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.BinaryExpression> {
     const operator = this.operators.binary[node.operator]
     if (!operator) {
@@ -651,10 +654,10 @@ export default class Evaluator {
         async (scope: any) => ({
           value: operator(
             (await left(scope)).value,
-            (await right(scope)).value
+            (await right(scope)).value,
           ),
         }),
-        { node }
+        { node },
       )
     }
 
@@ -668,7 +671,7 @@ export default class Evaluator {
 
   createCallExpression<T extends boolean>(
     node: ESTree.SimpleCallExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.SimpleCallExpression> {
     if (!this.allowCalls) {
       throw new Error('Function calls are not allowed')
@@ -682,15 +685,15 @@ export default class Evaluator {
           node.optional
             ? async (scope: any) => ({
                 value: ((await callee(scope)).value as any)?.(
-                  ...(await args(scope))
+                  ...(await args(scope)),
                 ),
               })
             : async (scope: any) => ({
                 value: ((await callee(scope)).value as any)(
-                  ...(await args(scope))
+                  ...(await args(scope)),
                 ),
               }),
-          { node }
+          { node },
         )
       }
 
@@ -701,7 +704,7 @@ export default class Evaluator {
         node.optional
           ? (scope: any) => (callee(scope) as any)?.(...args(scope))
           : (scope: any) => (callee(scope) as any)(...args(scope)),
-        { node }
+        { node },
       )
     }
 
@@ -721,7 +724,7 @@ export default class Evaluator {
               const prop: any = (await property(scope)).value
               return { value: obj?.[prop]?.(...(await args(scope))) }
             },
-            { node }
+            { node },
           )
         }
         return Object.assign(
@@ -730,7 +733,7 @@ export default class Evaluator {
             const prop: any = (await property(scope)).value
             return { value: obj?.[prop](...(await args(scope))) }
           },
-          { node }
+          { node },
         )
       }
 
@@ -741,7 +744,7 @@ export default class Evaluator {
             const prop: any = (await property(scope)).value
             return { value: obj[prop]?.(...(await args(scope))) }
           },
-          { node }
+          { node },
         )
       }
 
@@ -751,7 +754,7 @@ export default class Evaluator {
           const prop: any = (await property(scope)).value
           return { value: obj[prop](...(await args(scope))) }
         },
-        { node }
+        { node },
       )
     }
 
@@ -768,7 +771,7 @@ export default class Evaluator {
             const evaluatedObject: any = object(scope)
             return evaluatedObject?.[property(scope) as any]?.(...args(scope))
           },
-          { node }
+          { node },
         )
       }
 
@@ -777,7 +780,7 @@ export default class Evaluator {
           const evaluatedObject: any = object(scope)
           return evaluatedObject?.[property(scope) as any](...args(scope))
         },
-        { node }
+        { node },
       )
     }
 
@@ -787,7 +790,7 @@ export default class Evaluator {
           const evaluatedObject: any = object(scope)
           return evaluatedObject[property(scope) as any]?.(...args(scope))
         },
-        { node }
+        { node },
       )
     }
 
@@ -796,13 +799,13 @@ export default class Evaluator {
         const evaluatedObject: any = object(scope)
         return evaluatedObject[property(scope) as any](...args(scope))
       },
-      { node }
+      { node },
     )
   }
 
   createChainExpression<T extends boolean>(
     node: ESTree.ChainExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.ChainExpression> {
     const expression = this.createExpressionForNode(node.expression, async)
     return Object.assign((scope: any): any => expression(scope), { node })
@@ -810,7 +813,7 @@ export default class Evaluator {
 
   createConditionalExpression<T extends boolean>(
     node: ESTree.ConditionalExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.ConditionalExpression> {
     if (!this.allowTernary) {
       throw new Error('Conditional/ternary operator is not allowed')
@@ -827,7 +830,7 @@ export default class Evaluator {
             ? (await consequent(scope)).value
             : (await alternate(scope)).value,
         }),
-        { node }
+        { node },
       )
     }
     const test = this.evaluateIfIdentifier(node.test, false)
@@ -836,13 +839,13 @@ export default class Evaluator {
 
     return Object.assign(
       (scope: any): any => (test(scope) ? consequent(scope) : alternate(scope)),
-      { node }
+      { node },
     )
   }
 
   createIdentifier<T extends boolean>(
     node: ESTree.Identifier,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.Identifier> {
     if (async) {
       return Object.assign(async () => ({ value: node.name }), { node })
@@ -852,7 +855,7 @@ export default class Evaluator {
 
   createLiteral<T extends boolean>(
     node: ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral,
-    async: T
+    async: T,
   ): AsyncIfSpecified<
     T,
     ESTree.SimpleLiteral | ESTree.RegExpLiteral | ESTree.BigIntLiteral
@@ -868,7 +871,7 @@ export default class Evaluator {
 
   createLogicalExpression<T extends boolean>(
     node: ESTree.LogicalExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.LogicalExpression> {
     const operator = this.operators.logical[node.operator]
     if (!operator) {
@@ -887,11 +890,11 @@ export default class Evaluator {
           value: (
             await operator.async(
               async (): Promise<any> => await left(scope),
-              async (): Promise<any> => await right(scope)
+              async (): Promise<any> => await right(scope),
             )
           ).result,
         }),
-        { node }
+        { node },
       )
     }
 
@@ -902,15 +905,15 @@ export default class Evaluator {
       (scope: any) =>
         operator(
           () => left(scope),
-          () => right(scope)
+          () => right(scope),
         ),
-      { node }
+      { node },
     )
   }
 
   createMemberExpression<T extends boolean>(
     node: ESTree.MemberExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.MemberExpression> {
     if (!this.allowMemberAccess) {
       throw new Error('Member access is not allowed')
@@ -934,7 +937,7 @@ export default class Evaluator {
                 (await property(scope)).value as any
               ],
             }),
-        { node }
+        { node },
       )
     }
 
@@ -948,17 +951,17 @@ export default class Evaluator {
           (scope: any) => (object(scope) as any)?.[property(scope) as any],
           {
             node,
-          }
+          },
         )
       : Object.assign(
           (scope: any) => (object(scope) as any)[property(scope) as any],
-          { node }
+          { node },
         )
   }
 
   createObjectExpression<T extends boolean>(
     node: ESTree.ObjectExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.ObjectExpression> {
     if (!this.allowObjects) {
       throw new Error('Object literals are not allowed')
@@ -997,7 +1000,7 @@ export default class Evaluator {
           }
           return { value: obj }
         },
-        { node }
+        { node },
       )
     }
 
@@ -1026,13 +1029,13 @@ export default class Evaluator {
     })
     return Object.assign(
       (scope: any): any => properties.reduce((obj, fn) => fn(obj, scope), {}),
-      { node }
+      { node },
     )
   }
 
   createTaggedTemplateExpression<T extends boolean>(
     node: ESTree.TaggedTemplateExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.TaggedTemplateExpression> {
     if (!this.allowTaggedTemplates) {
       throw new Error('Tagged template literals are not allowed')
@@ -1042,14 +1045,17 @@ export default class Evaluator {
 
     const strings: TemplateStringsArray = node.quasi.quasis.reduce<
       string[] & { raw: string[] }
-    >((strs, quasi) => {
-      strs.push(quasi.value.cooked!)
-      strs.raw.push(quasi.value.raw)
-      return strs
-    }, Object.assign([], { raw: [] }))
+    >(
+      (strs, quasi) => {
+        strs.push(quasi.value.cooked!)
+        strs.raw.push(quasi.value.raw)
+        return strs
+      },
+      Object.assign([], { raw: [] }),
+    )
 
     const expressions = node.quasi.expressions.map(expression =>
-      this.evaluateIfIdentifier(expression, async)
+      this.evaluateIfIdentifier(expression, async),
     )
 
     if (async) {
@@ -1067,10 +1073,10 @@ export default class Evaluator {
             (await (tag as AsyncExpression<ESTree.Node>)(scope)).value as any
           )(
             Object.assign(strings.slice(), { raw: strings.raw.slice() }),
-            ...(await evalExpressions(scope))
+            ...(await evalExpressions(scope)),
           ),
         }),
-        { node }
+        { node },
       )
     }
 
@@ -1078,15 +1084,15 @@ export default class Evaluator {
       (scope: any) =>
         ((tag as Expression<ESTree.Node>)(scope) as any)(
           Object.assign(strings.slice(), { raw: strings.raw.slice() }),
-          ...expressions.map(expr => expr(scope))
+          ...expressions.map(expr => expr(scope)),
         ),
-      { node }
+      { node },
     )
   }
 
   createTemplateLiteral<T extends boolean>(
     node: ESTree.TemplateLiteral,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.TemplateLiteral> {
     if (!this.allowTemplates) {
       throw new Error('Template literals are not allowed')
@@ -1101,7 +1107,7 @@ export default class Evaluator {
         } else {
           const expression = this.evaluateIfIdentifier(element, true)
           expressions.push(
-            async (scope: any) => `${(await expression(scope)).value}`
+            async (scope: any) => `${(await expression(scope)).value}`,
           )
         }
       }
@@ -1113,7 +1119,7 @@ export default class Evaluator {
           }
           return { value: str }
         },
-        { node }
+        { node },
       )
     }
 
@@ -1130,13 +1136,13 @@ export default class Evaluator {
     return Object.assign(
       (scope: any): any =>
         expressions.reduce((str, elem) => str + elem(scope), ''),
-      { node }
+      { node },
     )
   }
 
   createUnaryExpression<T extends boolean>(
     node: ESTree.UnaryExpression,
-    async: T
+    async: T,
   ): AsyncIfSpecified<T, ESTree.UnaryExpression> {
     const operator = this.operators.unary[node.operator]
     if (!operator) {
@@ -1153,7 +1159,7 @@ export default class Evaluator {
         async (scope: any) => ({
           value: operator((await argument(scope)).value),
         }),
-        { node }
+        { node },
       )
     }
 

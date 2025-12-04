@@ -146,7 +146,7 @@ export type JshikiAsyncExpression = (scope?: Record<any, any>) => Promise<any>
  */
 export function parse(
   str: string,
-  { rules, explicitAllow, operators, syntax }: JshikiParseOptions = {}
+  { rules, explicitAllow, operators, syntax }: JshikiParseOptions = {},
 ): JshikiExpression {
   const ruleTree = rules ? new RuleTree(rules) : undefined
   const expression = new Evaluator({
@@ -178,7 +178,7 @@ export function parse(
  */
 export function parseAsync(
   str: string,
-  { rules, explicitAllow, operators, syntax }: JshikiParseOptions = {}
+  { rules, explicitAllow, operators, syntax }: JshikiParseOptions = {},
 ): JshikiAsyncExpression {
   const ruleTree = rules ? new RuleTree(rules) : undefined
   const expression = new Evaluator({
@@ -228,7 +228,7 @@ export function evaluate(str: string, options?: JshikiEvaluateOptions): any {
  */
 export function evaluateAsync(
   str: string,
-  options?: JshikiEvaluateOptions
+  options?: JshikiEvaluateOptions,
 ): Promise<any> {
   return parseAsync(str, options)(options?.scope)
 }

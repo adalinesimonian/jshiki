@@ -3,7 +3,7 @@ import RuleTree, { AccessPathArray, AccessPathPart } from './rule-tree'
 function hasAccess(
   ruleTree: RuleTree,
   explicitAllow: boolean,
-  propertyScope: AccessPathArray
+  propertyScope: AccessPathArray,
 ) {
   const match = ruleTree.match(propertyScope)
   return explicitAllow
@@ -14,7 +14,7 @@ function hasAccess(
 function getProxyHandler<T extends object>(
   ruleTree: RuleTree,
   explicitAllow: boolean,
-  scope: AccessPathArray = []
+  scope: AccessPathArray = [],
 ): ProxyHandler<T> {
   const cache = new Map<AccessPathPart, any>()
 
@@ -37,7 +37,7 @@ function getProxyHandler<T extends object>(
         typeof propValue === 'function'
           ? new Proxy(
               (target as any)[property],
-              getProxyHandler(ruleTree, explicitAllow, propertyScope)
+              getProxyHandler(ruleTree, explicitAllow, propertyScope),
             )
           : propValue
       cache.set(property, returnValue)
@@ -53,7 +53,7 @@ function getProxyHandler<T extends object>(
 export default function getRuleProxy<T extends object>(
   target: T,
   ruleTree: RuleTree,
-  explicitAllow?: boolean
+  explicitAllow?: boolean,
 ): T {
   return (target && typeof target === 'object') || typeof target === 'function'
     ? new Proxy(target, getProxyHandler(ruleTree, Boolean(explicitAllow)))

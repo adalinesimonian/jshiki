@@ -246,10 +246,10 @@ describe('Rules', () => {
       expect(evaluate('a.b.c', options)).toBeUndefined()
       expect(evaluate('a.b', options)).toEqual({ c: undefined })
       expect(
-        evaluate('shallow.deep.deeper.deepest.grault', options)
+        evaluate('shallow.deep.deeper.deepest.grault', options),
       ).toBeUndefined()
       expect(evaluate('shallow.deep.deeper.deepest.waldo', options)).toBe(
-        'fred'
+        'fred',
       )
     })
 
@@ -281,13 +281,13 @@ describe('Rules (async)', () => {
       }
       expect(await evaluateAsync('foo', options)).toBeUndefined()
       expect(async () =>
-        evaluateAsync('foo.bar', options)
+        evaluateAsync('foo.bar', options),
       ).rejects.toThrowError()
       expect(async () =>
-        evaluateAsync('foo["b" + "a" + "r"]', options)
+        evaluateAsync('foo["b" + "a" + "r"]', options),
       ).rejects.toThrowError()
       expect(async () =>
-        evaluateAsync('alpha[symbolBeta]', options)
+        evaluateAsync('alpha[symbolBeta]', options),
       ).rejects.toThrowError()
     })
 
@@ -323,7 +323,7 @@ describe('Rules (async)', () => {
       expect(await evaluateAsync('a["b"]', options)).toBeUndefined()
       expect(async () => evaluateAsync('a.b.c', options)).rejects.toThrowError()
       expect(async () =>
-        evaluateAsync('a["b"]["c"]', options)
+        evaluateAsync('a["b"]["c"]', options),
       ).rejects.toThrowError()
       expect(await evaluateAsync('alpha[symbolBeta]', options)).toBeUndefined()
     })
@@ -403,7 +403,7 @@ describe('Rules (async)', () => {
       expect(await evaluateAsync('a["b"]', options)).toBeUndefined()
       expect(async () => evaluateAsync('a.b.c', options)).rejects.toThrowError()
       expect(async () =>
-        evaluateAsync('a["b"]["c"]', options)
+        evaluateAsync('a["b"]["c"]', options),
       ).rejects.toThrowError()
       expect(await evaluateAsync('alpha[symbolBeta]', options)).toBeUndefined()
     })
@@ -489,10 +489,10 @@ describe('Rules (async)', () => {
       expect(await evaluateAsync('a.b.c', options)).toBeUndefined()
       expect(await evaluateAsync('a.b', options)).toEqual({ c: undefined })
       expect(
-        await evaluateAsync('shallow.deep.deeper.deepest.grault', options)
+        await evaluateAsync('shallow.deep.deeper.deepest.grault', options),
       ).toBeUndefined()
       expect(
-        await evaluateAsync('shallow.deep.deeper.deepest.waldo', options)
+        await evaluateAsync('shallow.deep.deeper.deepest.waldo', options),
       ).toBe('fred')
     })
 
@@ -502,7 +502,7 @@ describe('Rules (async)', () => {
         scope: getTestObject(),
       }
       expect(async () =>
-        evaluateAsync('x.y.z', options)
+        evaluateAsync('x.y.z', options),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
@@ -512,7 +512,7 @@ describe('Rules (async)', () => {
         scope: getTestObject(),
       }
       expect(async () =>
-        evaluateAsync('x.y.z', options)
+        evaluateAsync('x.y.z', options),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
   })

@@ -6,7 +6,7 @@ describe('Syntax options', () => {
     expect(evaluate('a?.b?.c', { scope: { a: { b: { c: 1 } } } })).toBe(1)
     expect(evaluate('a["b"]["c"]', { scope: { a: { b: { c: 1 } } } })).toBe(1)
     expect(evaluate('a?.["b"]?.["c"]', { scope: { a: { b: { c: 1 } } } })).toBe(
-      1
+      1,
     )
     expect(evaluate('a()', { scope: { a: () => 1 } })).toBe(1)
     expect(evaluate('a?.()', { scope: { a: () => 1 } })).toBe(1)
@@ -18,7 +18,7 @@ describe('Syntax options', () => {
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         },
-      })
+      }),
     ).toBe('got a and 1')
     // eslint-disable-next-line no-template-curly-in-string
     expect(evaluate('`a ${b}`', { scope: { b: 1 } })).toBe('a 1')
@@ -42,19 +42,19 @@ describe('Syntax options', () => {
     }
 
     expect(
-      evaluate('a.b.c', { ...options, scope: { a: { b: { c: 1 } } } })
+      evaluate('a.b.c', { ...options, scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
-      evaluate('a?.b?.c', { ...options, scope: { a: { b: { c: 1 } } } })
+      evaluate('a?.b?.c', { ...options, scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
-      evaluate('a["b"]["c"]', { ...options, scope: { a: { b: { c: 1 } } } })
+      evaluate('a["b"]["c"]', { ...options, scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
       evaluate('a?.["b"]?.["c"]', {
         ...options,
         scope: { a: { b: { c: 1 } } },
-      })
+      }),
     ).toBe(1)
     expect(evaluate('a()', { ...options, scope: { a: () => 1 } })).toBe(1)
     expect(evaluate('a?.()', { ...options, scope: { a: () => 1 } })).toBe(1)
@@ -67,7 +67,7 @@ describe('Syntax options', () => {
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         },
-      })
+      }),
     ).toBe('got a and 1')
     // eslint-disable-next-line no-template-curly-in-string
     expect(evaluate('`a ${b}`', { ...options, scope: { b: 1 } })).toBe('a 1')
@@ -94,17 +94,17 @@ describe('Syntax options', () => {
     expect(() => parse('a?.b?.c', options)).toThrowErrorMatchingSnapshot()
     expect(() => parse('a["b"]["c"]', options)).toThrowErrorMatchingSnapshot()
     expect(() =>
-      parse('a?.["b"]?.["c"]', options)
+      parse('a?.["b"]?.["c"]', options),
     ).toThrowErrorMatchingSnapshot()
     expect(() => parse('a()', options)).toThrowErrorMatchingSnapshot()
     expect(() => parse('a?.()', options)).toThrowErrorMatchingSnapshot()
     expect(() =>
       // eslint-disable-next-line no-template-curly-in-string
-      parse('tag`a${b}`', options)
+      parse('tag`a${b}`', options),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       // eslint-disable-next-line no-template-curly-in-string
-      parse('`a ${b}`', options)
+      parse('`a ${b}`', options),
     ).toThrowErrorMatchingSnapshot()
     expect(() => parse('{ a: 1 }', options)).toThrowErrorMatchingSnapshot()
     expect(() => parse('[1, , 3]', options)).toThrowErrorMatchingSnapshot()
@@ -115,16 +115,16 @@ describe('Syntax options', () => {
 describe('Syntax options (async)', () => {
   it('should allow all supported syntax by default', async () => {
     expect(
-      await evaluateAsync('a.b.c', { scope: { a: { b: { c: 1 } } } })
+      await evaluateAsync('a.b.c', { scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
-      await evaluateAsync('a?.b?.c', { scope: { a: { b: { c: 1 } } } })
+      await evaluateAsync('a?.b?.c', { scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
-      await evaluateAsync('a["b"]["c"]', { scope: { a: { b: { c: 1 } } } })
+      await evaluateAsync('a["b"]["c"]', { scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(
-      await evaluateAsync('a?.["b"]?.["c"]', { scope: { a: { b: { c: 1 } } } })
+      await evaluateAsync('a?.["b"]?.["c"]', { scope: { a: { b: { c: 1 } } } }),
     ).toBe(1)
     expect(await evaluateAsync('a()', { scope: { a: () => 1 } })).toBe(1)
     expect(await evaluateAsync('a?.()', { scope: { a: () => 1 } })).toBe(1)
@@ -136,7 +136,7 @@ describe('Syntax options (async)', () => {
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         },
-      })
+      }),
     ).toBe('got a and 1')
     // eslint-disable-next-line no-template-curly-in-string
     expect(await evaluateAsync('`a ${b}`', { scope: { b: 1 } })).toBe('a 1')
@@ -163,31 +163,31 @@ describe('Syntax options (async)', () => {
       await evaluateAsync('a.b.c', {
         ...options,
         scope: { a: { b: { c: 1 } } },
-      })
+      }),
     ).toBe(1)
     expect(
       await evaluateAsync('a?.b?.c', {
         ...options,
         scope: { a: { b: { c: 1 } } },
-      })
+      }),
     ).toBe(1)
     expect(
       await evaluateAsync('a["b"]["c"]', {
         ...options,
         scope: { a: { b: { c: 1 } } },
-      })
+      }),
     ).toBe(1)
     expect(
       await evaluateAsync('a?.["b"]?.["c"]', {
         ...options,
         scope: { a: { b: { c: 1 } } },
-      })
+      }),
     ).toBe(1)
     expect(
-      await evaluateAsync('a()', { ...options, scope: { a: () => 1 } })
+      await evaluateAsync('a()', { ...options, scope: { a: () => 1 } }),
     ).toBe(1)
     expect(
-      await evaluateAsync('a?.()', { ...options, scope: { a: () => 1 } })
+      await evaluateAsync('a?.()', { ...options, scope: { a: () => 1 } }),
     ).toBe(1)
     expect(
       // eslint-disable-next-line no-template-curly-in-string
@@ -198,11 +198,11 @@ describe('Syntax options (async)', () => {
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         },
-      })
+      }),
     ).toBe('got a and 1')
     expect(
       // eslint-disable-next-line no-template-curly-in-string
-      await evaluateAsync('`a ${b}`', { ...options, scope: { b: 1 } })
+      await evaluateAsync('`a ${b}`', { ...options, scope: { b: 1 } }),
     ).toBe('a 1')
     expect(await evaluateAsync('{ a: 1 }', options)).toEqual({ a: 1 })
     // eslint-disable-next-line no-sparse-arrays
@@ -224,39 +224,39 @@ describe('Syntax options (async)', () => {
     }
 
     expect(async () =>
-      parseAsync('a.b.c', options)
+      parseAsync('a.b.c', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('a?.b?.c', options)
+      parseAsync('a?.b?.c', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('a["b"]["c"]', options)
+      parseAsync('a["b"]["c"]', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('a?.["b"]?.["c"]', options)
+      parseAsync('a?.["b"]?.["c"]', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('a()', options)
+      parseAsync('a()', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('a?.()', options)
-    ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
-      // eslint-disable-next-line no-template-curly-in-string
-      parseAsync('tag`a${b}`', options)
+      parseAsync('a?.()', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       // eslint-disable-next-line no-template-curly-in-string
-      parseAsync('`a ${b}`', options)
+      parseAsync('tag`a${b}`', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('{ a: 1 }', options)
+      // eslint-disable-next-line no-template-curly-in-string
+      parseAsync('`a ${b}`', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('[1, , 3]', options)
+      parseAsync('{ a: 1 }', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('/x/g', options)
+      parseAsync('[1, , 3]', options),
+    ).rejects.toThrowErrorMatchingSnapshot()
+    expect(async () =>
+      parseAsync('/x/g', options),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 })

@@ -207,13 +207,13 @@ describe('Operators', () => {
       expect(operators.binary.in('x', { y: 1 })).toBe(false)
       expect(() => operators.binary.in('x', 5)).toThrowErrorMatchingSnapshot()
       expect(() =>
-        operators.binary.in('x', 'string')
+        operators.binary.in('x', 'string'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        operators.binary.in('x', null)
+        operators.binary.in('x', null),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        operators.binary.in('x', undefined)
+        operators.binary.in('x', undefined),
       ).toThrowErrorMatchingSnapshot()
     })
 
@@ -231,10 +231,10 @@ describe('Operators', () => {
       expect(operators.binary.instanceof(5, Number)).toBe(false)
       expect(operators.binary.instanceof('string', String)).toBe(false)
       expect(() =>
-        operators.binary.instanceof(5, null)
+        operators.binary.instanceof(5, null),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        operators.binary.instanceof(5, undefined)
+        operators.binary.instanceof(5, undefined),
       ).toThrowErrorMatchingSnapshot()
     })
   })
@@ -246,74 +246,74 @@ describe('Operators', () => {
         expect(
           operators.logical['&&'](
             () => false,
-            () => false
-          )
+            () => false,
+          ),
         ).toBe(false)
         expect(
           operators.logical['&&'](
             () => false,
-            () => true
-          )
+            () => true,
+          ),
         ).toBe(false)
         expect(
           operators.logical['&&'](
             () => true,
-            () => false
-          )
+            () => false,
+          ),
         ).toBe(false)
         expect(
           operators.logical['&&'](
             () => true,
-            () => true
-          )
+            () => true,
+          ),
         ).toBe(true)
         expect(
           operators.logical['&&'](
             () => 0,
-            () => 0
-          )
+            () => 0,
+          ),
         ).toBe(0)
         expect(
           operators.logical['&&'](
             () => 0,
-            () => 1
-          )
+            () => 1,
+          ),
         ).toBe(0)
         expect(
           operators.logical['&&'](
             () => 1,
-            () => 0
-          )
+            () => 0,
+          ),
         ).toBe(0)
         expect(
           operators.logical['&&'](
             () => 1,
-            () => 1
-          )
+            () => 1,
+          ),
         ).toBe(1)
         expect(
           operators.logical['&&'](
             () => undefined,
-            () => '1'
-          )
+            () => '1',
+          ),
         ).toBe(undefined)
         expect(
           operators.logical['&&'](
             () => '',
-            () => '1'
-          )
+            () => '1',
+          ),
         ).toBe('')
         expect(
           operators.logical['&&'](
             () => '1',
-            () => undefined
-          )
+            () => undefined,
+          ),
         ).toBe(undefined)
         expect(
           operators.logical['&&'](
             () => '1',
-            () => ''
-          )
+            () => '',
+          ),
         ).toBe('')
       })
 
@@ -412,62 +412,62 @@ describe('Operators', () => {
         expect(
           operators.logical['||'](
             () => false,
-            () => false
-          )
+            () => false,
+          ),
         ).toBe(false)
         expect(
           operators.logical['||'](
             () => false,
-            () => true
-          )
+            () => true,
+          ),
         ).toBe(true)
         expect(
           operators.logical['||'](
             () => true,
-            () => false
-          )
+            () => false,
+          ),
         ).toBe(true)
         expect(
           operators.logical['||'](
             () => true,
-            () => true
-          )
+            () => true,
+          ),
         ).toBe(true)
         expect(
           operators.logical['||'](
             () => 0,
-            () => 1
-          )
+            () => 1,
+          ),
         ).toBe(1)
         expect(
           operators.logical['||'](
             () => 1,
-            () => 0
-          )
+            () => 0,
+          ),
         ).toBe(1)
         expect(
           operators.logical['||'](
             () => undefined,
-            () => '1'
-          )
+            () => '1',
+          ),
         ).toBe('1')
         expect(
           operators.logical['||'](
             () => '',
-            () => '1'
-          )
+            () => '1',
+          ),
         ).toBe('1')
         expect(
           operators.logical['||'](
             () => '1',
-            () => undefined
-          )
+            () => undefined,
+          ),
         ).toBe('1')
         expect(
           operators.logical['||'](
             () => '1',
-            () => ''
-          )
+            () => '',
+          ),
         ).toBe('1')
       })
 
@@ -566,44 +566,44 @@ describe('Operators', () => {
         expect(
           operators.logical['??'](
             () => 1,
-            () => 2
-          )
+            () => 2,
+          ),
         ).toBe(1)
         expect(
           operators.logical['??'](
             () => null,
-            () => 2
-          )
+            () => 2,
+          ),
         ).toBe(2)
         expect(
           operators.logical['??'](
             () => undefined,
-            () => 2
-          )
+            () => 2,
+          ),
         ).toBe(2)
         expect(
           operators.logical['??'](
             () => null,
-            () => null
-          )
+            () => null,
+          ),
         ).toBe(null)
         expect(
           operators.logical['??'](
             () => undefined,
-            () => null
-          )
+            () => null,
+          ),
         ).toBe(null)
         expect(
           operators.logical['??'](
             () => null,
-            () => undefined
-          )
+            () => undefined,
+          ),
         ).toBe(undefined)
         expect(
           operators.logical['??'](
             () => undefined,
-            () => undefined
-          )
+            () => undefined,
+          ),
         ).toBe(undefined)
       })
 
@@ -669,74 +669,74 @@ describe('Operators', () => {
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: false }),
-            async () => ({ value: false })
-          )
+            async () => ({ value: false }),
+          ),
         ).toEqual({ result: false })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: false }),
-            async () => ({ value: true })
-          )
+            async () => ({ value: true }),
+          ),
         ).toEqual({ result: false })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: true }),
-            async () => ({ value: false })
-          )
+            async () => ({ value: false }),
+          ),
         ).toEqual({ result: false })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: true }),
-            async () => ({ value: true })
-          )
+            async () => ({ value: true }),
+          ),
         ).toEqual({ result: true })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: 0 }),
-            async () => ({ value: 0 })
-          )
+            async () => ({ value: 0 }),
+          ),
         ).toEqual({ result: 0 })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: 0 }),
-            async () => ({ value: 1 })
-          )
+            async () => ({ value: 1 }),
+          ),
         ).toEqual({ result: 0 })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: 1 }),
-            async () => ({ value: 0 })
-          )
+            async () => ({ value: 0 }),
+          ),
         ).toEqual({ result: 0 })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: 1 }),
-            async () => ({ value: 1 })
-          )
+            async () => ({ value: 1 }),
+          ),
         ).toEqual({ result: 1 })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: undefined }),
-            async () => ({ value: '1' })
-          )
+            async () => ({ value: '1' }),
+          ),
         ).toEqual({ result: undefined })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: '' }),
-            async () => ({ value: '1' })
-          )
+            async () => ({ value: '1' }),
+          ),
         ).toEqual({ result: '' })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: '1' }),
-            async () => ({ value: undefined })
-          )
+            async () => ({ value: undefined }),
+          ),
         ).toEqual({ result: undefined })
         expect(
           await operators.logical['&&'].async(
             async () => ({ value: '1' }),
-            async () => ({ value: '' })
-          )
+            async () => ({ value: '' }),
+          ),
         ).toEqual({ result: '' })
       })
 
@@ -835,62 +835,62 @@ describe('Operators', () => {
         expect(
           await operators.logical['||'].async(
             async () => ({ value: false }),
-            async () => ({ value: false })
-          )
+            async () => ({ value: false }),
+          ),
         ).toEqual({ result: false })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: false }),
-            async () => ({ value: true })
-          )
+            async () => ({ value: true }),
+          ),
         ).toEqual({ result: true })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: true }),
-            async () => ({ value: false })
-          )
+            async () => ({ value: false }),
+          ),
         ).toEqual({ result: true })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: true }),
-            async () => ({ value: true })
-          )
+            async () => ({ value: true }),
+          ),
         ).toEqual({ result: true })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: 0 }),
-            async () => ({ value: 1 })
-          )
+            async () => ({ value: 1 }),
+          ),
         ).toEqual({ result: 1 })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: 1 }),
-            async () => ({ value: 0 })
-          )
+            async () => ({ value: 0 }),
+          ),
         ).toEqual({ result: 1 })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: undefined }),
-            async () => ({ value: '1' })
-          )
+            async () => ({ value: '1' }),
+          ),
         ).toEqual({ result: '1' })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: '' }),
-            async () => ({ value: '1' })
-          )
+            async () => ({ value: '1' }),
+          ),
         ).toEqual({ result: '1' })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: '1' }),
-            async () => ({ value: undefined })
-          )
+            async () => ({ value: undefined }),
+          ),
         ).toEqual({ result: '1' })
         expect(
           await operators.logical['||'].async(
             async () => ({ value: '1' }),
-            async () => ({ value: '' })
-          )
+            async () => ({ value: '' }),
+          ),
         ).toEqual({ result: '1' })
       })
 
@@ -989,44 +989,44 @@ describe('Operators', () => {
         expect(
           await operators.logical['??'].async(
             async () => ({ value: 1 }),
-            async () => ({ value: 2 })
-          )
+            async () => ({ value: 2 }),
+          ),
         ).toEqual({ result: 1 })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: null }),
-            async () => ({ value: 2 })
-          )
+            async () => ({ value: 2 }),
+          ),
         ).toEqual({ result: 2 })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: undefined }),
-            async () => ({ value: 2 })
-          )
+            async () => ({ value: 2 }),
+          ),
         ).toEqual({ result: 2 })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: null }),
-            async () => ({ value: null })
-          )
+            async () => ({ value: null }),
+          ),
         ).toEqual({ result: null })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: undefined }),
-            async () => ({ value: null })
-          )
+            async () => ({ value: null }),
+          ),
         ).toEqual({ result: null })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: null }),
-            async () => ({ value: undefined })
-          )
+            async () => ({ value: undefined }),
+          ),
         ).toEqual({ result: undefined })
         expect(
           await operators.logical['??'].async(
             async () => ({ value: undefined }),
-            async () => ({ value: undefined })
-          )
+            async () => ({ value: undefined }),
+          ),
         ).toEqual({ result: undefined })
       })
 

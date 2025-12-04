@@ -38,26 +38,26 @@ export const logical: {
     (l: () => any, r: () => any): any
     async: (
       l: () => Promise<{ value: any }>,
-      r: () => Promise<{ value: any }>
+      r: () => Promise<{ value: any }>,
     ) => Promise<{ result: any }>
   }
 } = {
   '||': Object.assign((l: () => any, r: () => any): any => l() || r(), {
     async: async (
       l: () => Promise<{ value: any }>,
-      r: () => Promise<{ value: any }>
+      r: () => Promise<{ value: any }>,
     ) => ({ result: (await l()).value || (await r()).value }),
   }),
   '&&': Object.assign((l: () => any, r: () => any): any => l() && r(), {
     async: async (
       l: () => Promise<{ value: any }>,
-      r: () => Promise<{ value: any }>
+      r: () => Promise<{ value: any }>,
     ) => ({ result: (await l()).value && (await r()).value }),
   }),
   '??': Object.assign((l: () => any, r: () => any): any => l() ?? r(), {
     async: async (
       l: () => Promise<{ value: any }>,
-      r: () => Promise<{ value: any }>
+      r: () => Promise<{ value: any }>,
     ) => ({ result: (await l()).value ?? (await r()).value }),
   }),
 }

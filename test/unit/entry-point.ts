@@ -97,7 +97,7 @@ describe('Entry point', () => {
     it('should evaluate a simple expression with a variable', async () => {
       expect(await evaluateAsync('await a?.() + 2')).toBeNaN()
       expect(
-        await evaluateAsync('await a?.() + 2', { scope: { a: async () => 1 } })
+        await evaluateAsync('await a?.() + 2', { scope: { a: async () => 1 } }),
       ).toBe(3)
     })
 
@@ -111,7 +111,7 @@ describe('Entry point', () => {
 
       expect(await evaluateAsync('await x?.() || y', options)).toBeUndefined()
       expect(
-        await evaluateAsync('await x?.() || y', optionsWithX)
+        await evaluateAsync('await x?.() || y', optionsWithX),
       ).toBeUndefined()
       expect(await evaluateAsync('await x?.() || y', optionsWithY)).toBe('1')
     })

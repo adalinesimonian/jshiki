@@ -16,24 +16,24 @@ describe('Evaluator', () => {
       const expr2 = new Evaluator().createExpression('y(await x())', true)
       expect(expr2).toBeDefined()
       expect(
-        await expr2({ x: async () => 5, y: async (x: any) => typeof x })
+        await expr2({ x: async () => 5, y: async (x: any) => typeof x }),
       ).toBe('number')
       const expr3 = new Evaluator().createExpression('y(x())', true)
       expect(expr3).toBeDefined()
       expect(
-        await expr3({ x: async () => 5, y: async (x: any) => typeof x })
+        await expr3({ x: async () => 5, y: async (x: any) => typeof x }),
       ).toBe('object')
     })
 
     it('should throw an error if the expression is invalid', () => {
       expect(() =>
-        new Evaluator().createExpression('1 +')
+        new Evaluator().createExpression('1 +'),
       ).toThrowErrorMatchingSnapshot()
     })
 
     it('should throw an error if the expression is unsupported', () => {
       expect(() =>
-        new Evaluator().createExpression('("x", 5)')
+        new Evaluator().createExpression('("x", 5)'),
       ).toThrowErrorMatchingSnapshot()
     })
   })
@@ -47,7 +47,7 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('!2')()).toBe(false)
       expect(evaluator.createExpression('~2')()).toBe(-3)
       expect(() =>
-        evaluator.createExpression('typeof 2')()
+        evaluator.createExpression('typeof 2')(),
       ).toThrowErrorMatchingSnapshot()
 
       // Binary operators
@@ -72,10 +72,10 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 >> 2')()).toBe(1)
       expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
       expect(() =>
-        evaluator.createExpression('"x" in {x: 5}')()
+        evaluator.createExpression('"x" in {x: 5}')(),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('{} instanceof Object')({ Object })
+        evaluator.createExpression('{} instanceof Object')({ Object }),
       ).toThrowErrorMatchingSnapshot()
 
       // Logical operators
@@ -125,7 +125,7 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
       expect(evaluator.createExpression('"x" in {x: 5}')()).toBe(true)
       expect(
-        evaluator.createExpression('{} instanceof Object')({ Object })
+        evaluator.createExpression('{} instanceof Object')({ Object }),
       ).toBe(true)
 
       // Logical operators
@@ -148,86 +148,86 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('+2')()).toBe(2)
       expect(evaluator.createExpression('-2')()).toBe(-2)
       expect(() =>
-        evaluator.createExpression('!2')
+        evaluator.createExpression('!2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('~2')
+        evaluator.createExpression('~2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('typeof 2')
+        evaluator.createExpression('typeof 2'),
       ).toThrowErrorMatchingSnapshot()
 
       // Binary operators
       expect(() =>
-        evaluator.createExpression('4 + 2')
+        evaluator.createExpression('4 + 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 - 2')
+        evaluator.createExpression('4 - 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 * 2')
+        evaluator.createExpression('4 * 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 ** 2')()).toBe(16)
       expect(() =>
-        evaluator.createExpression('4 / 2')
+        evaluator.createExpression('4 / 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 % 2')()).toBe(0)
       expect(() =>
-        evaluator.createExpression('4 < 2')
+        evaluator.createExpression('4 < 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 > 2')
+        evaluator.createExpression('4 > 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 <= 2')
+        evaluator.createExpression('4 <= 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >= 2')
+        evaluator.createExpression('4 >= 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 == 2')
+        evaluator.createExpression('4 == 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 != 2')
+        evaluator.createExpression('4 != 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 === 2')
+        evaluator.createExpression('4 === 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 !== 2')
+        evaluator.createExpression('4 !== 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 | 2')
+        evaluator.createExpression('4 | 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 ^ 2')
+        evaluator.createExpression('4 ^ 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 & 2')
+        evaluator.createExpression('4 & 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 << 2')
+        evaluator.createExpression('4 << 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >> 2')
+        evaluator.createExpression('4 >> 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('4 >>> 2')
+        evaluator.createExpression('4 >>> 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('"x" in {x: 5}')()
+        evaluator.createExpression('"x" in {x: 5}')(),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('{} instanceof Object')({ Object })
+        evaluator.createExpression('{} instanceof Object')({ Object }),
       ).toThrowErrorMatchingSnapshot()
 
       // Logical operators
       expect(evaluator.createExpression('null && true')()).toBe(null)
       expect(() =>
-        evaluator.createExpression('null || true')
+        evaluator.createExpression('null || true'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('null ?? true')
+        evaluator.createExpression('null ?? true'),
       ).toThrowErrorMatchingSnapshot()
 
       // Conditional operator
@@ -246,10 +246,10 @@ describe('Evaluator', () => {
 
       // Unary operators
       expect(() =>
-        evaluator.createExpression('+2')
+        evaluator.createExpression('+2'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('-2')
+        evaluator.createExpression('-2'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('!2')()).toBe(false)
       expect(evaluator.createExpression('~2')()).toBe(-3)
@@ -260,11 +260,11 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 - 2')()).toBe(2)
       expect(evaluator.createExpression('4 * 2')()).toBe(8)
       expect(() =>
-        evaluator.createExpression('4 ** 2')
+        evaluator.createExpression('4 ** 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 / 2')()).toBe(2)
       expect(() =>
-        evaluator.createExpression('4 % 2')
+        evaluator.createExpression('4 % 2'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('4 < 2')()).toBe(false)
       expect(evaluator.createExpression('4 > 2')()).toBe(true)
@@ -282,19 +282,19 @@ describe('Evaluator', () => {
       expect(evaluator.createExpression('4 >>> 2')()).toBe(1)
       expect(evaluator.createExpression('"x" in {x: 5}')()).toBe(true)
       expect(
-        evaluator.createExpression('{} instanceof Object')({ Object })
+        evaluator.createExpression('{} instanceof Object')({ Object }),
       ).toBe(true)
 
       // Logical operators
       expect(() =>
-        evaluator.createExpression('null && true')
+        evaluator.createExpression('null && true'),
       ).toThrowErrorMatchingSnapshot()
       expect(evaluator.createExpression('null || true')()).toBe(true)
       expect(evaluator.createExpression('null ?? true')()).toBe(true)
 
       // Conditional operator
       expect(() =>
-        evaluator.createExpression('false ? 5 : 3')
+        evaluator.createExpression('false ? 5 : 3'),
       ).toThrowErrorMatchingSnapshot()
     })
 
@@ -305,7 +305,7 @@ describe('Evaluator', () => {
             operators: {
               unary: { allow: ['+', '-'], block: ['+', '-'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -313,7 +313,7 @@ describe('Evaluator', () => {
             operators: {
               binary: { allow: ['+', '-'], block: ['+', '-'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -321,7 +321,7 @@ describe('Evaluator', () => {
             operators: {
               logical: { allow: ['&&', '??'], block: ['&&', '??'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
     })
 
@@ -332,7 +332,7 @@ describe('Evaluator', () => {
             operators: {
               unary: { allow: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -340,7 +340,7 @@ describe('Evaluator', () => {
             operators: {
               unary: { block: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -348,7 +348,7 @@ describe('Evaluator', () => {
             operators: {
               binary: { allow: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -356,7 +356,7 @@ describe('Evaluator', () => {
             operators: {
               binary: { block: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -364,7 +364,7 @@ describe('Evaluator', () => {
             operators: {
               logical: { allow: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -372,7 +372,7 @@ describe('Evaluator', () => {
             operators: {
               logical: { block: ['invalid'] },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
     })
 
@@ -383,7 +383,7 @@ describe('Evaluator', () => {
             operators: {
               unary: { allow: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -391,7 +391,7 @@ describe('Evaluator', () => {
             operators: {
               unary: { block: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -399,7 +399,7 @@ describe('Evaluator', () => {
             operators: {
               binary: { allow: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -407,7 +407,7 @@ describe('Evaluator', () => {
             operators: {
               binary: { block: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -415,7 +415,7 @@ describe('Evaluator', () => {
             operators: {
               logical: { allow: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -423,7 +423,7 @@ describe('Evaluator', () => {
             operators: {
               logical: { block: 'invalid' as any },
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
     })
 
@@ -434,7 +434,7 @@ describe('Evaluator', () => {
             operators: {
               unary: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -442,7 +442,7 @@ describe('Evaluator', () => {
             operators: {
               unary: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -450,7 +450,7 @@ describe('Evaluator', () => {
             operators: {
               binary: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -458,7 +458,7 @@ describe('Evaluator', () => {
             operators: {
               binary: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -466,7 +466,7 @@ describe('Evaluator', () => {
             operators: {
               logical: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
       expect(
         () =>
@@ -474,7 +474,7 @@ describe('Evaluator', () => {
             operators: {
               logical: {} as any,
             },
-          })
+          }),
       ).toThrowErrorMatchingSnapshot()
     })
   })
@@ -484,16 +484,16 @@ describe('Evaluator', () => {
       const evaluator = new Evaluator()
 
       expect(evaluator.createExpression('a.b.c')({ a: { b: { c: 1 } } })).toBe(
-        1
+        1,
       )
       expect(
-        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(
-        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(
-        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
       expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
@@ -503,7 +503,7 @@ describe('Evaluator', () => {
           b: 1,
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
-        })
+        }),
       ).toBe('got a and 1')
       // eslint-disable-next-line no-template-curly-in-string
       expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
@@ -527,16 +527,16 @@ describe('Evaluator', () => {
       })
 
       expect(evaluator.createExpression('a.b.c')({ a: { b: { c: 1 } } })).toBe(
-        1
+        1,
       )
       expect(
-        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a?.b?.c')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(
-        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a["b"]["c"]')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(
-        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } })
+        evaluator.createExpression('a?.["b"]?.["c"]')({ a: { b: { c: 1 } } }),
       ).toBe(1)
       expect(evaluator.createExpression('a()')({ a: () => 1 })).toBe(1)
       expect(evaluator.createExpression('a?.()')({ a: () => 1 })).toBe(1)
@@ -546,7 +546,7 @@ describe('Evaluator', () => {
           b: 1,
           tag: (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
-        })
+        }),
       ).toBe('got a and 1')
       // eslint-disable-next-line no-template-curly-in-string
       expect(evaluator.createExpression('`a ${b}`')({ b: 1 })).toBe('a 1')
@@ -570,39 +570,39 @@ describe('Evaluator', () => {
       })
 
       expect(() =>
-        evaluator.createExpression('a.b.c')
+        evaluator.createExpression('a.b.c'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('a?.b?.c')
+        evaluator.createExpression('a?.b?.c'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('a["b"]["c"]')
+        evaluator.createExpression('a["b"]["c"]'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('a?.["b"]?.["c"]')
+        evaluator.createExpression('a?.["b"]?.["c"]'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('a()')
+        evaluator.createExpression('a()'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('a?.()')
-      ).toThrowErrorMatchingSnapshot()
-      expect(() =>
-        // eslint-disable-next-line no-template-curly-in-string
-        evaluator.createExpression('tag`a${b}`')
+        evaluator.createExpression('a?.()'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
         // eslint-disable-next-line no-template-curly-in-string
-        evaluator.createExpression('`a ${b}`')
+        evaluator.createExpression('tag`a${b}`'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('{ a: 1 }')
+        // eslint-disable-next-line no-template-curly-in-string
+        evaluator.createExpression('`a ${b}`'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('[1, , 3]')
+        evaluator.createExpression('{ a: 1 }'),
       ).toThrowErrorMatchingSnapshot()
       expect(() =>
-        evaluator.createExpression('/x/g')
+        evaluator.createExpression('[1, , 3]'),
+      ).toThrowErrorMatchingSnapshot()
+      expect(() =>
+        evaluator.createExpression('/x/g'),
       ).toThrowErrorMatchingSnapshot()
     })
   })
@@ -736,7 +736,7 @@ describe('Evaluator', () => {
           },
         }
         expect(() =>
-          new Evaluator().createAwaitExpression(node, false)
+          new Evaluator().createAwaitExpression(node, false),
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -802,7 +802,7 @@ describe('Evaluator', () => {
           },
         }
         expect(() =>
-          new Evaluator().createBinaryExpression(node, false)
+          new Evaluator().createBinaryExpression(node, false),
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -851,7 +851,7 @@ describe('Evaluator', () => {
             foo(a: number, b: number, c: number, d: number) {
               return a + b + c + d
             },
-          })
+          }),
         ).toBe(10)
       })
 
@@ -907,7 +907,7 @@ describe('Evaluator', () => {
               return a + b + c + d
             },
             bar: async () => 2,
-          })
+          }),
         ).toEqual({ value: 10 })
       })
 
@@ -954,7 +954,7 @@ describe('Evaluator', () => {
             foo(a: number, b: number, c: number, d: number) {
               return a + b + c + d
             },
-          })
+          }),
         ).toBe(10)
         expect(expr({})).toBe(undefined)
       })
@@ -1011,7 +1011,7 @@ describe('Evaluator', () => {
               return a + b + c + d
             },
             bar: async () => 1,
-          })
+          }),
         ).toEqual({ value: 10 })
         expect(await expr({ bar: async () => 1 })).toEqual({ value: undefined })
       })
@@ -1070,7 +1070,7 @@ describe('Evaluator', () => {
                 return a + b + c + d
               },
             },
-          })
+          }),
         ).toBe(10)
       })
 
@@ -1137,7 +1137,7 @@ describe('Evaluator', () => {
               },
             },
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: 10 })
       })
 
@@ -1195,7 +1195,7 @@ describe('Evaluator', () => {
                 return a + b + c + d
               },
             },
-          })
+          }),
         ).toBe(10)
       })
 
@@ -1262,7 +1262,7 @@ describe('Evaluator', () => {
               },
             },
             baz: async () => 'bar',
-          })
+          }),
         ).toEqual({ value: 10 })
       })
 
@@ -1320,7 +1320,7 @@ describe('Evaluator', () => {
                 return a + b + c + d
               },
             },
-          })
+          }),
         ).toBe(10)
         expect(expr({})).toBeUndefined()
       })
@@ -1388,7 +1388,7 @@ describe('Evaluator', () => {
               },
             },
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: 10 })
         expect(await expr({ baz: async () => 1 })).toEqual({ value: undefined })
       })
@@ -1447,7 +1447,7 @@ describe('Evaluator', () => {
                 return a + b + c + d
               },
             },
-          })
+          }),
         ).toBe(10)
         expect(expr({ foo: {} })).toBeUndefined()
       })
@@ -1515,13 +1515,13 @@ describe('Evaluator', () => {
               },
             },
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: 10 })
         expect(
           await expr({
             foo: {},
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: undefined })
       })
 
@@ -1579,12 +1579,12 @@ describe('Evaluator', () => {
                 return a + b + c + d
               },
             },
-          })
+          }),
         ).toBe(10)
         expect(
           expr({
             foo: {},
-          })
+          }),
         ).toBe(undefined)
         expect(expr({})).toBe(undefined)
       })
@@ -1652,18 +1652,18 @@ describe('Evaluator', () => {
               },
             },
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: 10 })
         expect(
           await expr({
             foo: {},
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: undefined })
         expect(
           await expr({
             baz: async () => 1,
-          })
+          }),
         ).toEqual({ value: undefined })
       })
     })
@@ -1715,7 +1715,7 @@ describe('Evaluator', () => {
             foo(a: number, b: number, c: number, d: number) {
               return a + b + c + d
             },
-          })
+          }),
         ).toBe(10)
       })
 
@@ -1775,7 +1775,7 @@ describe('Evaluator', () => {
             foo: async () => (a: number, b: number, c: number, d: number) => {
               return a + b + c + d
             },
-          })
+          }),
         ).toEqual({ value: 10 })
       })
     })
@@ -2053,8 +2053,8 @@ describe('Evaluator', () => {
                 name: 'b',
               },
             },
-            false
-          )
+            false,
+          ),
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -2316,7 +2316,7 @@ describe('Evaluator', () => {
         const expr = new Evaluator().createObjectExpression(node, true)
         expect(typeof expr).toBe('function')
         expect(
-          await expr({ bar: 'qux', baz: { quux: 3 }, quuz: async () => 1 })
+          await expr({ bar: 'qux', baz: { quux: 3 }, quuz: async () => 1 }),
         ).toEqual({
           value: {
             foo: 1,
@@ -2338,8 +2338,8 @@ describe('Evaluator', () => {
                 } as any,
               ],
             },
-            false
-          )
+            false,
+          ),
         ).toThrowErrorMatchingSnapshot()
         expect(() =>
           new Evaluator().createObjectExpression(
@@ -2352,8 +2352,8 @@ describe('Evaluator', () => {
                 } as any,
               ],
             },
-            true
-          )
+            true,
+          ),
         ).toThrowErrorMatchingSnapshot()
       })
 
@@ -2396,8 +2396,8 @@ describe('Evaluator', () => {
                 },
               ],
             },
-            false
-          )
+            false,
+          ),
         ).toThrowErrorMatchingSnapshot()
         expect(() =>
           new Evaluator().createObjectExpression(
@@ -2437,8 +2437,8 @@ describe('Evaluator', () => {
                 },
               ],
             },
-            true
-          )
+            true,
+          ),
         ).toThrowErrorMatchingSnapshot()
       })
     })
@@ -2483,12 +2483,12 @@ describe('Evaluator', () => {
         expect(typeof expr).toBe('function')
         const foo = jest.fn(
           (strings: TemplateStringsArray, expression: number) =>
-            `got ${strings.join('')} and ${expression}`
+            `got ${strings.join('')} and ${expression}`,
         )
         expect(expr({ foo })).toBe('got bar and 1')
         expect(foo).toHaveBeenCalledWith(
           Object.assign(['', 'bar'], { raw: ['', 'bar'] }),
-          1
+          1,
         )
       })
 
@@ -2539,14 +2539,14 @@ describe('Evaluator', () => {
         expect(typeof expr).toBe('function')
         const foo = jest.fn(
           (strings: TemplateStringsArray, expression: number) =>
-            `got ${strings.join('')} and ${expression}`
+            `got ${strings.join('')} and ${expression}`,
         )
         expect(await expr({ foo, quuz: async () => 1 })).toEqual({
           value: 'got bar and 1',
         })
         expect(foo).toHaveBeenCalledWith(
           Object.assign(['', 'bar'], { raw: ['', 'bar'] }),
-          1
+          1,
         )
       })
     })
@@ -2680,8 +2680,8 @@ describe('Evaluator', () => {
               },
               prefix: true,
             },
-            false
-          )
+            false,
+          ),
         ).toThrowErrorMatchingSnapshot()
       })
     })

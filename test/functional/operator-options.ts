@@ -139,21 +139,21 @@ describe('Operator options', () => {
         operators: {
           unary: { allow: ['+', '-'], block: ['+', '-'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: { allow: ['+', '-'], block: ['+', '-'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: { allow: ['&&', '??'], block: ['&&', '??'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -163,42 +163,42 @@ describe('Operator options', () => {
         operators: {
           unary: { allow: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           unary: { block: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: { allow: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: { block: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: { allow: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: { block: ['invalid'] },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -208,42 +208,42 @@ describe('Operator options', () => {
         operators: {
           unary: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           unary: { block: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: { block: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: { block: 'invalid' as any },
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -253,42 +253,42 @@ describe('Operator options', () => {
         operators: {
           unary: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           unary: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           binary: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
     expect(() =>
       parse('1 + 2', {
         operators: {
           logical: {} as any,
         },
-      })
+      }),
     ).toThrowErrorMatchingSnapshot()
   })
 })
@@ -346,77 +346,77 @@ describe('Operator options (async)', () => {
     expect(await evaluateAsync('+2', options)).toBe(2)
     expect(await evaluateAsync('-2', options)).toBe(-2)
     expect(async () =>
-      parseAsync('!2', options)
+      parseAsync('!2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('~2', options)
+      parseAsync('~2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
     // Binary operators
     expect(async () =>
-      parseAsync('4 + 2', options)
+      parseAsync('4 + 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 - 2', options)
+      parseAsync('4 - 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 * 2', options)
+      parseAsync('4 * 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 ** 2', options)).toBe(16)
     expect(async () =>
-      parseAsync('4 / 2', options)
+      parseAsync('4 / 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 % 2', options)).toBe(0)
     expect(async () =>
-      parseAsync('4 < 2', options)
+      parseAsync('4 < 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 > 2', options)
+      parseAsync('4 > 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 <= 2', options)
+      parseAsync('4 <= 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 >= 2', options)
+      parseAsync('4 >= 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 == 2', options)
+      parseAsync('4 == 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 != 2', options)
+      parseAsync('4 != 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 === 2', options)
+      parseAsync('4 === 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 !== 2', options)
+      parseAsync('4 !== 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 | 2', options)
+      parseAsync('4 | 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 ^ 2', options)
+      parseAsync('4 ^ 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 & 2', options)
+      parseAsync('4 & 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 << 2', options)
+      parseAsync('4 << 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 >> 2', options)
+      parseAsync('4 >> 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('4 >>> 2', options)
+      parseAsync('4 >>> 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
     // Logical operators
     expect(await evaluateAsync('null && true', options)).toBe(null)
     expect(async () =>
-      parseAsync('null || true', options)
+      parseAsync('null || true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('null ?? true', options)
+      parseAsync('null ?? true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
     // Conditional operator
@@ -435,10 +435,10 @@ describe('Operator options (async)', () => {
 
     // Unary operators
     expect(async () =>
-      parseAsync('+2', options)
+      parseAsync('+2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
-      parseAsync('-2', options)
+      parseAsync('-2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('!2', options)).toBe(false)
     expect(await evaluateAsync('~2', options)).toBe(-3)
@@ -448,11 +448,11 @@ describe('Operator options (async)', () => {
     expect(await evaluateAsync('4 - 2', options)).toBe(2)
     expect(await evaluateAsync('4 * 2', options)).toBe(8)
     expect(async () =>
-      parseAsync('4 ** 2', options)
+      parseAsync('4 ** 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 / 2', options)).toBe(2)
     expect(async () =>
-      parseAsync('4 % 2', options)
+      parseAsync('4 % 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 < 2', options)).toBe(false)
     expect(await evaluateAsync('4 > 2', options)).toBe(true)
@@ -471,14 +471,14 @@ describe('Operator options (async)', () => {
 
     // Logical operators
     expect(async () =>
-      parseAsync('null && true', options)
+      parseAsync('null && true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('null || true', options)).toBe(true)
     expect(await evaluateAsync('null ?? true', options)).toBe(true)
 
     // Conditional operator
     expect(async () =>
-      parseAsync('false ? 5 : 3', options)
+      parseAsync('false ? 5 : 3', options),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 
@@ -488,21 +488,21 @@ describe('Operator options (async)', () => {
         operators: {
           unary: { allow: ['+', '-'], block: ['+', '-'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: ['+', '-'], block: ['+', '-'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: ['&&', '??'], block: ['&&', '??'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 
@@ -512,42 +512,42 @@ describe('Operator options (async)', () => {
         operators: {
           unary: { allow: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { block: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { block: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { block: ['invalid'] },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 
@@ -557,42 +557,42 @@ describe('Operator options (async)', () => {
         operators: {
           unary: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { block: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { block: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { block: 'invalid' as any },
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 
@@ -602,42 +602,42 @@ describe('Operator options (async)', () => {
         operators: {
           unary: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: {} as any,
         },
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 })

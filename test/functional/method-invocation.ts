@@ -3,7 +3,7 @@ import { evaluate, evaluateAsync } from '../../src/index'
 describe('Method invocation', () => {
   it('should be able to invoke methods', () => {
     expect(
-      evaluate('method(5)', { scope: { method: (x: number) => x + 5 } })
+      evaluate('method(5)', { scope: { method: (x: number) => x + 5 } }),
     ).toBe(10)
   })
 
@@ -18,7 +18,7 @@ describe('Method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -33,7 +33,7 @@ describe('Method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
     expect(evaluate('obj?.method(5)')).toBeUndefined()
   })
@@ -42,7 +42,7 @@ describe('Method invocation', () => {
     expect(
       evaluate('method(5)(5)', {
         scope: { method: (x: number) => (y: number) => x + y },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -50,7 +50,7 @@ describe('Method invocation', () => {
     expect(
       evaluate('method(...[1, 2, 3])', {
         scope: { method: (x: number, y: number, z: number) => x + y + z },
-      })
+      }),
     ).toBe(6)
   })
 })
@@ -58,7 +58,7 @@ describe('Method invocation', () => {
 describe('Optional method invocation', () => {
   it('should be able to invoke methods', () => {
     expect(
-      evaluate('method?.(5)', { scope: { method: (x: number) => x + 5 } })
+      evaluate('method?.(5)', { scope: { method: (x: number) => x + 5 } }),
     ).toBe(10)
   })
 
@@ -77,7 +77,7 @@ describe('Optional method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -96,7 +96,7 @@ describe('Optional method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
     expect(evaluate('obj?.method?.(5)')).toBeUndefined()
   })
@@ -109,7 +109,7 @@ describe('Optional method invocation', () => {
     expect(
       evaluate('method?.(5)?.(5)', {
         scope: { method: (x: number) => (y: number) => x + y },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -117,7 +117,7 @@ describe('Optional method invocation', () => {
     expect(
       evaluate('method?.(...[1, 2, 3])', {
         scope: { method: (x: number, y: number, z: number) => x + y + z },
-      })
+      }),
     ).toBe(6)
   })
 })
@@ -127,7 +127,7 @@ describe('Method invocation (async)', () => {
     expect(
       await evaluateAsync('method(5)', {
         scope: { method: (x: number) => x + 5 },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -142,7 +142,7 @@ describe('Method invocation (async)', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -157,7 +157,7 @@ describe('Method invocation (async)', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
     expect(await evaluateAsync('obj?.method(5)')).toBeUndefined()
   })
@@ -166,7 +166,7 @@ describe('Method invocation (async)', () => {
     expect(
       await evaluateAsync('method(5)(5)', {
         scope: { method: (x: number) => (y: number) => x + y },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -174,7 +174,7 @@ describe('Method invocation (async)', () => {
     expect(
       await evaluateAsync('method(...[1, 2, 3])', {
         scope: { method: (x: number, y: number, z: number) => x + y + z },
-      })
+      }),
     ).toBe(6)
   })
 })
@@ -184,7 +184,7 @@ describe('Optional method invocation', () => {
     expect(
       await evaluateAsync('method?.(5)', {
         scope: { method: (x: number) => x + 5 },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -203,13 +203,13 @@ describe('Optional method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
   })
 
   it("shouldn't invoke member methods if the method is not defined", async () => {
     expect(
-      await evaluateAsync('obj.method?.(5)', { scope: { obj: {} } })
+      await evaluateAsync('obj.method?.(5)', { scope: { obj: {} } }),
     ).toBeUndefined()
   })
 
@@ -224,14 +224,14 @@ describe('Optional method invocation', () => {
             },
           },
         },
-      })
+      }),
     ).toBe(10)
     expect(await evaluateAsync('obj?.method?.(5)')).toBeUndefined()
   })
 
   it("shouldn't invoke optional member methods if the method is not defined", async () => {
     expect(
-      await evaluateAsync('obj?.method?.(5)', { scope: { obj: {} } })
+      await evaluateAsync('obj?.method?.(5)', { scope: { obj: {} } }),
     ).toBeUndefined()
   })
 
@@ -239,7 +239,7 @@ describe('Optional method invocation', () => {
     expect(
       await evaluateAsync('method?.(5)?.(5)', {
         scope: { method: (x: number) => (y: number) => x + y },
-      })
+      }),
     ).toBe(10)
   })
 
@@ -247,7 +247,7 @@ describe('Optional method invocation', () => {
     expect(
       await evaluateAsync('method?.(...[1, 2, 3])', {
         scope: { method: (x: number, y: number, z: number) => x + y + z },
-      })
+      }),
     ).toBe(6)
   })
 })
