@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import RuleTree from '../../src/rule-tree'
 
 describe('Rule Tree', () => {

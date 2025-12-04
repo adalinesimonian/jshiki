@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
 
 describe('Operator options', () => {
@@ -345,77 +346,77 @@ describe('Operator options (async)', () => {
     // Unary operators
     expect(await evaluateAsync('+2', options)).toBe(2)
     expect(await evaluateAsync('-2', options)).toBe(-2)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('!2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('~2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
     // Binary operators
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 + 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 - 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 * 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 ** 2', options)).toBe(16)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 / 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 % 2', options)).toBe(0)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 < 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 > 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 <= 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 >= 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 == 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 != 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 === 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 !== 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 | 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 ^ 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 & 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 << 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 >> 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 >>> 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
     // Logical operators
     expect(await evaluateAsync('null && true', options)).toBe(null)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('null || true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('null ?? true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
 
@@ -434,10 +435,10 @@ describe('Operator options (async)', () => {
     }
 
     // Unary operators
-    expect(async () =>
+    await expect(async () =>
       parseAsync('+2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('-2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('!2', options)).toBe(false)
@@ -447,11 +448,11 @@ describe('Operator options (async)', () => {
     expect(await evaluateAsync('4 + 2', options)).toBe(6)
     expect(await evaluateAsync('4 - 2', options)).toBe(2)
     expect(await evaluateAsync('4 * 2', options)).toBe(8)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 ** 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 / 2', options)).toBe(2)
-    expect(async () =>
+    await expect(async () =>
       parseAsync('4 % 2', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('4 < 2', options)).toBe(false)
@@ -470,34 +471,34 @@ describe('Operator options (async)', () => {
     expect(await evaluateAsync('4 >>> 2', options)).toBe(1)
 
     // Logical operators
-    expect(async () =>
+    await expect(async () =>
       parseAsync('null && true', options),
     ).rejects.toThrowErrorMatchingSnapshot()
     expect(await evaluateAsync('null || true', options)).toBe(true)
     expect(await evaluateAsync('null ?? true', options)).toBe(true)
 
     // Conditional operator
-    expect(async () =>
+    await expect(async () =>
       parseAsync('false ? 5 : 3', options),
     ).rejects.toThrowErrorMatchingSnapshot()
   })
 
   it('should throw if providing both an allow and block list', async () => {
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { allow: ['+', '-'], block: ['+', '-'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: ['+', '-'], block: ['+', '-'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: ['&&', '??'], block: ['&&', '??'] },
@@ -507,42 +508,42 @@ describe('Operator options (async)', () => {
   })
 
   it('should throw if providing an unsupported operator', async () => {
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { allow: ['invalid'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { block: ['invalid'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: ['invalid'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { block: ['invalid'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: ['invalid'] },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { block: ['invalid'] },
@@ -552,42 +553,42 @@ describe('Operator options (async)', () => {
   })
 
   it('should throw if the list is not an array', async () => {
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { allow: 'invalid' as any },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: { block: 'invalid' as any },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { allow: 'invalid' as any },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: { block: 'invalid' as any },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { allow: 'invalid' as any },
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: { block: 'invalid' as any },
@@ -597,42 +598,42 @@ describe('Operator options (async)', () => {
   })
 
   it('should throw if the options do not contain a list', async () => {
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: {} as any,
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           unary: {} as any,
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: {} as any,
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           binary: {} as any,
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: {} as any,
         },
       }),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('1 + 2', {
         operators: {
           logical: {} as any,

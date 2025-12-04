@@ -1,45 +1,45 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 1`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 2`] = `"Member access is not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 2`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 3`] = `"Member access is not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 3`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 4`] = `"Member access is not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 4`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 5`] = `[Error: Function calls are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 6`] = `[Error: Function calls are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 7`] = `[Error: Tagged template literals are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 8`] = `[Error: Template literals are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 9`] = `[Error: Object literals are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 10`] = `[Error: Array literals are not allowed]`;
 
-exports[`Syntax options (async) should block syntax when corresponding option is set to false 11`] = `"Regular expressions are not allowed"`;
+exports[`Syntax options (async) > should block syntax when corresponding option is set to false 11`] = `[Error: Regular expressions are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 1`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 2`] = `"Member access is not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 2`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 3`] = `"Member access is not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 3`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 4`] = `"Member access is not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 4`] = `[Error: Member access is not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 5`] = `[Error: Function calls are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 6`] = `[Error: Function calls are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 7`] = `[Error: Tagged template literals are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 8`] = `[Error: Template literals are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 9`] = `[Error: Object literals are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 10`] = `[Error: Array literals are not allowed]`;
 
-exports[`Syntax options should block syntax when corresponding option is set to false 11`] = `"Regular expressions are not allowed"`;
+exports[`Syntax options > should block syntax when corresponding option is set to false 11`] = `[Error: Regular expressions are not allowed]`;

@@ -246,7 +246,7 @@ export default class RuleTree {
     if (actions.size > 0) {
       if (actions.size === 1) {
         const action = actions.values().next().value
-        return action[1] === normalized.length - 1
+        return action?.[1] === normalized.length - 1
           ? action[2]
           : hasAllowDescendant
       }

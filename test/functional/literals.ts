@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
 
 describe('Literals', () => {
@@ -142,7 +143,7 @@ describe('Literals', () => {
     })
 
     it('should parse tagged template literals', () => {
-      const tag = jest.fn((strs: TemplateStringsArray, ...exprs: any[]) =>
+      const tag = vi.fn((strs: TemplateStringsArray, ...exprs: any[]) =>
         strs
           .map((str, i) => str + (exprs.length > i ? exprs[i] * 2 : ''))
           .join(''),
@@ -382,31 +383,31 @@ describe('Literals (async)', () => {
     })
 
     it('should throw when the expression contains an invalid numeric literal', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('1.2.3'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('05'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5ex'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5e-x'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5e+x'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5e'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5e+'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5e-'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('5x'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
@@ -447,52 +448,52 @@ describe('Literals (async)', () => {
     })
 
     it('should throw when the string literal is missing a quote', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"x'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('x"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync("'x"),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync("x'"),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the string literal contains an unexpected line break', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"x\n"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"x\r"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"x\r\n"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync("'x\n'"),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync("'x\r'"),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync("'x\r\n'"),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the string literal contains an invalid escape sequence', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"\\x"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"\\u"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"\\u{}"'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('"\\u{"'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
@@ -525,7 +526,7 @@ describe('Literals (async)', () => {
     })
 
     it('should parse tagged template literals', async () => {
-      const tag = jest.fn((strs: TemplateStringsArray, ...exprs: any[]) =>
+      const tag = vi.fn((strs: TemplateStringsArray, ...exprs: any[]) =>
         strs
           .map((str, i) => str + (exprs.length > i ? exprs[i] * 2 : ''))
           .join(''),
@@ -562,25 +563,25 @@ describe('Literals (async)', () => {
     })
 
     it('should throw when the template literal is missing a backtick', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('`x'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('x`'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the string literal contains an invalid escape sequence', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('`\\x`'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('`\\u`'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('`\\u{}`'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('`\\u{`'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
@@ -642,46 +643,46 @@ describe('Literals (async)', () => {
     })
 
     it('should throw when the object literal is missing a curly brace', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ x: 1, y: 2'),
       ).rejects.toThrowErrorMatchingSnapshot()
-      expect(async () =>
+      await expect(async () =>
         parseAsync('x: 1, y: 2}'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the object literal is missing a colon', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ x 1, y: 2 }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the object literal is missing a value', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ x: }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when the object literal is missing a key', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ : 1 }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when using a getter', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ get x() {} }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when using a setter', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ set x() {} }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
     it('should throw when using a method', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('{ x() {} }'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })

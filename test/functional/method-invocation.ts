@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync } from '../../src/index'
 
 describe('Method invocation', () => {

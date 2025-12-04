@@ -1,13 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Operators Binary operators should export in 1`] = `"Cannot use 'in' operator to search for 'x' in 5"`;
+exports[`Operators > Binary operators > should export in 1`] = `[TypeError: Cannot use 'in' operator to search for 'x' in 5]`;
 
-exports[`Operators Binary operators should export in 2`] = `"Cannot use 'in' operator to search for 'x' in string"`;
+exports[`Operators > Binary operators > should export in 2`] = `[TypeError: Cannot use 'in' operator to search for 'x' in string]`;
 
-exports[`Operators Binary operators should export in 3`] = `"Cannot use 'in' operator to search for 'x' in null"`;
+exports[`Operators > Binary operators > should export in 3`] = `[TypeError: Cannot use 'in' operator to search for 'x' in null]`;
 
-exports[`Operators Binary operators should export in 4`] = `"Cannot use 'in' operator to search for 'x' in undefined"`;
+exports[`Operators > Binary operators > should export in 4`] = `[TypeError: Cannot use 'in' operator to search for 'x' in undefined]`;
 
-exports[`Operators Binary operators should export instanceof 1`] = `"Right-hand side of 'instanceof' is not an object"`;
+exports[`Operators > Binary operators > should export instanceof 1`] = `[TypeError: Right-hand side of 'instanceof' is not an object]`;
 
-exports[`Operators Binary operators should export instanceof 2`] = `"Right-hand side of 'instanceof' is not an object"`;
+exports[`Operators > Binary operators > should export instanceof 2`] = `[TypeError: Right-hand side of 'instanceof' is not an object]`;

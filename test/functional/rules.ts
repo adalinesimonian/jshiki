@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync } from '../../src'
 
 const symbolBeta = Symbol('beta')
@@ -280,13 +281,13 @@ describe('Rules (async)', () => {
         scope: getTestObject(),
       }
       expect(await evaluateAsync('foo', options)).toBeUndefined()
-      expect(async () =>
+      await expect(async () =>
         evaluateAsync('foo.bar', options),
       ).rejects.toThrowError()
-      expect(async () =>
+      await expect(async () =>
         evaluateAsync('foo["b" + "a" + "r"]', options),
       ).rejects.toThrowError()
-      expect(async () =>
+      await expect(async () =>
         evaluateAsync('alpha[symbolBeta]', options),
       ).rejects.toThrowError()
     })
@@ -321,8 +322,10 @@ describe('Rules (async)', () => {
       }
       expect(await evaluateAsync('a.b', options)).toBeUndefined()
       expect(await evaluateAsync('a["b"]', options)).toBeUndefined()
-      expect(async () => evaluateAsync('a.b.c', options)).rejects.toThrowError()
-      expect(async () =>
+      await expect(async () =>
+        evaluateAsync('a.b.c', options),
+      ).rejects.toThrowError()
+      await expect(async () =>
         evaluateAsync('a["b"]["c"]', options),
       ).rejects.toThrowError()
       expect(await evaluateAsync('alpha[symbolBeta]', options)).toBeUndefined()
@@ -401,8 +404,10 @@ describe('Rules (async)', () => {
       }
       expect(await evaluateAsync('a.b', options)).toBeUndefined()
       expect(await evaluateAsync('a["b"]', options)).toBeUndefined()
-      expect(async () => evaluateAsync('a.b.c', options)).rejects.toThrowError()
-      expect(async () =>
+      await expect(async () =>
+        evaluateAsync('a.b.c', options),
+      ).rejects.toThrowError()
+      await expect(async () =>
         evaluateAsync('a["b"]["c"]', options),
       ).rejects.toThrowError()
       expect(await evaluateAsync('alpha[symbolBeta]', options)).toBeUndefined()
@@ -453,7 +458,7 @@ describe('Rules (async)', () => {
         rules: [undefined as any],
         scope: getTestObject(),
       }
-      expect(async () => evaluateAsync('x.y.z', options)).not.toThrow()
+      await expect(async () => evaluateAsync('x.y.z', options)).not.toThrow()
     })
 
     it('should ignore rules with empty paths', async () => {
@@ -461,7 +466,7 @@ describe('Rules (async)', () => {
         rules: [{ block: '' }, { block: [] }],
         scope: getTestObject(),
       }
-      expect(async () => evaluateAsync('x.y.z', options)).not.toThrow()
+      await expect(async () => evaluateAsync('x.y.z', options)).not.toThrow()
     })
 
     it('should respect rule order', async () => {
@@ -496,22 +501,22 @@ describe('Rules (async)', () => {
       ).toBe('fred')
     })
 
-    it("should throw an error if a rule's path is not a string or string array", () => {
+    it("should throw an error if a rule's path is not a string or string array", async () => {
       const options = {
         rules: [{ allow: true as any }],
         scope: getTestObject(),
       }
-      expect(async () =>
+      await expect(async () =>
         evaluateAsync('x.y.z', options),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
 
-    it("should throw an error if a rule's path part is not a string or a symbol", () => {
+    it("should throw an error if a rule's path part is not a string or a symbol", async () => {
       const options = {
         rules: [{ allow: ['x', true as any] }],
         scope: getTestObject(),
       }
-      expect(async () =>
+      await expect(async () =>
         evaluateAsync('x.y.z', options),
       ).rejects.toThrowErrorMatchingSnapshot()
     })

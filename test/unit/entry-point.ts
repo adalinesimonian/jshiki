@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { parse, parseAsync, evaluate, evaluateAsync } from '../../src'
 
 describe('Entry point', () => {

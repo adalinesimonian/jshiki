@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import getRuleProxy from '../../src/rule-proxy'
 import RuleTree from '../../src/rule-tree'
 

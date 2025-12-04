@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
 
 describe('Operators', () => {
@@ -694,7 +695,7 @@ describe('Operators (async)', () => {
 
     describe('Unsupported operators', () => {
       it('should throw an error', async () => {
-        expect(
+        await expect(
           async () => await evaluateAsync('delete x.y'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -716,7 +717,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a +'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -732,7 +733,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a -'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -748,7 +749,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a *'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -764,7 +765,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a **'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -782,7 +783,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a /'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -795,7 +796,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a %'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -809,7 +810,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a <'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -823,7 +824,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -837,7 +838,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a <='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -851,7 +852,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -878,7 +879,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a =='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -905,7 +906,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a !='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -932,7 +933,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ==='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -959,7 +960,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a !=='),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -971,7 +972,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -983,7 +984,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a |'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -995,7 +996,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ^'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1007,7 +1008,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a <<'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1019,7 +1020,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1031,7 +1032,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>>'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1050,10 +1051,10 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a in', options),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('in a', options),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1097,10 +1098,10 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a instanceof', baseOptions),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('instanceof a', baseOptions),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1108,121 +1109,121 @@ describe('Operators (async)', () => {
 
     describe('=, +=, -=, ... (Assignment)', () => {
       it('should throw an error', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a = 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a += 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a -= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a *= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a /= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a %= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a **= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a <<= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>>= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ^= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a |= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &&= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ||= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ??= 2'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a++'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a--'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('--a'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('++a'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a +='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a -='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a *='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a /='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a %='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a **='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a <<='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a >>>='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ^='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a |='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &&='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ||='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ??='),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('++'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('--'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1230,25 +1231,25 @@ describe('Operators (async)', () => {
 
     describe('++, -- (Increment, Decrement)', () => {
       it('should throw an error', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a++'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a--'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('--a'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('++a'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('++'),
         ).rejects.toThrowErrorMatchingSnapshot()
-        expect(async () =>
+        await expect(async () =>
           parseAsync('--'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1288,7 +1289,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a &&'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1326,7 +1327,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ||'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1356,7 +1357,7 @@ describe('Operators (async)', () => {
       })
 
       it('should throw when the expression is missing an operand', async () => {
-        expect(async () =>
+        await expect(async () =>
           parseAsync('a ??'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
@@ -1405,7 +1406,7 @@ describe('Operators (async)', () => {
     })
 
     it('should throw when the expression is missing an operand', async () => {
-      expect(async () =>
+      await expect(async () =>
         parseAsync('a ?'),
       ).rejects.toThrowErrorMatchingSnapshot()
     })
@@ -1419,10 +1420,10 @@ describe('Operators (async)', () => {
   })
 
   it('should throw when the expression contains an invalid operator', async () => {
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a /// b'),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a _ b'),
     ).rejects.toThrowErrorMatchingSnapshot()
   })

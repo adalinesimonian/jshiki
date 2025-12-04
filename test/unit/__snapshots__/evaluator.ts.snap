@@ -1,153 +1,153 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Evaluator Expression creation Await expressions should throw if async is false 1`] = `"await can only be used in async expressions"`;
+exports[`Evaluator > Expression creation > Await expressions > should throw if async is false 1`] = `[Error: await can only be used in async expressions]`;
 
-exports[`Evaluator Expression creation Binary expressions should throw when given an invalid operator 1`] = `"Unsupported binary operator: invalid"`;
+exports[`Evaluator > Expression creation > Binary expressions > should throw when given an invalid operator 1`] = `[Error: Unsupported binary operator: invalid]`;
 
-exports[`Evaluator Expression creation Logical expressions should throw when given a logical expression with an invalid operator 1`] = `"Unsupported logical operator: invalid"`;
+exports[`Evaluator > Expression creation > Logical expressions > should throw when given a logical expression with an invalid operator 1`] = `[Error: Unsupported logical operator: invalid]`;
 
-exports[`Evaluator Expression creation Object expressions should throw when given an invalid property kind 1`] = `"Only assignment properties are allowed"`;
+exports[`Evaluator > Expression creation > Object expressions > should throw when given an invalid property kind 1`] = `[Error: Only assignment properties are allowed]`;
 
-exports[`Evaluator Expression creation Object expressions should throw when given an invalid property kind 2`] = `"Only assignment properties are allowed"`;
+exports[`Evaluator > Expression creation > Object expressions > should throw when given an invalid property kind 2`] = `[Error: Only assignment properties are allowed]`;
 
-exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 1`] = `"Only assignment properties are allowed"`;
+exports[`Evaluator > Expression creation > Object expressions > should throw when given an invalid property type 1`] = `[Error: Only assignment properties are allowed]`;
 
-exports[`Evaluator Expression creation Object expressions should throw when given an invalid property type 2`] = `"Only assignment properties are allowed"`;
+exports[`Evaluator > Expression creation > Object expressions > should throw when given an invalid property type 2`] = `[Error: Only assignment properties are allowed]`;
 
-exports[`Evaluator Expression creation Unary expressions should throw when given an invalid operator 1`] = `"Unsupported unary operator: invalid"`;
+exports[`Evaluator > Expression creation > Unary expressions > should throw when given an invalid operator 1`] = `[Error: Unsupported unary operator: invalid]`;
 
-exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 1`] = `"Unary operator typeof is not allowed"`;
+exports[`Evaluator > Operator options > should allow all supported operators except typeof, in, and instanceof by default 1`] = `[Error: Unary operator typeof is not allowed]`;
 
-exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 2`] = `"Binary operator in is not allowed"`;
+exports[`Evaluator > Operator options > should allow all supported operators except typeof, in, and instanceof by default 2`] = `[Error: Binary operator in is not allowed]`;
 
-exports[`Evaluator Operator options should allow all supported operators except typeof, in, and instanceof by default 3`] = `"Binary operator instanceof is not allowed"`;
+exports[`Evaluator > Operator options > should allow all supported operators except typeof, in, and instanceof by default 3`] = `[Error: Binary operator instanceof is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 1`] = `"Unary operator ! is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 1`] = `[Error: Unary operator ! is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 2`] = `"Unary operator ~ is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 2`] = `[Error: Unary operator ~ is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 3`] = `"Unary operator typeof is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 3`] = `[Error: Unary operator typeof is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 4`] = `"Binary operator + is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 4`] = `[Error: Binary operator + is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 5`] = `"Binary operator - is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 5`] = `[Error: Binary operator - is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 6`] = `"Binary operator * is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 6`] = `[Error: Binary operator * is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 7`] = `"Binary operator / is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 7`] = `[Error: Binary operator / is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 8`] = `"Binary operator < is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 8`] = `[Error: Binary operator < is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 9`] = `"Binary operator > is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 9`] = `[Error: Binary operator > is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 10`] = `"Binary operator <= is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 10`] = `[Error: Binary operator <= is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 11`] = `"Binary operator >= is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 11`] = `[Error: Binary operator >= is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 12`] = `"Binary operator == is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 12`] = `[Error: Binary operator == is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 13`] = `"Binary operator != is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 13`] = `[Error: Binary operator != is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 14`] = `"Binary operator === is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 14`] = `[Error: Binary operator === is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 15`] = `"Binary operator !== is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 15`] = `[Error: Binary operator !== is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 16`] = `"Binary operator | is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 16`] = `[Error: Binary operator | is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 17`] = `"Binary operator ^ is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 17`] = `[Error: Binary operator ^ is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 18`] = `"Binary operator & is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 18`] = `[Error: Binary operator & is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 19`] = `"Binary operator << is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 19`] = `[Error: Binary operator << is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 20`] = `"Binary operator >> is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 20`] = `[Error: Binary operator >> is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 21`] = `"Binary operator >>> is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 21`] = `[Error: Binary operator >>> is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 22`] = `"Binary operator in is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 22`] = `[Error: Binary operator in is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 23`] = `"Binary operator instanceof is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 23`] = `[Error: Binary operator instanceof is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 24`] = `"Logical operator || is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 24`] = `[Error: Logical operator || is not allowed]`;
 
-exports[`Evaluator Operator options should support allowing only the specified operators 25`] = `"Logical operator ?? is not allowed"`;
+exports[`Evaluator > Operator options > should support allowing only the specified operators 25`] = `[Error: Logical operator ?? is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 1`] = `"Unary operator + is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 1`] = `[Error: Unary operator + is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 2`] = `"Unary operator - is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 2`] = `[Error: Unary operator - is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 3`] = `"Binary operator ** is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 3`] = `[Error: Binary operator ** is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 4`] = `"Binary operator % is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 4`] = `[Error: Binary operator % is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 5`] = `"Logical operator && is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 5`] = `[Error: Logical operator && is not allowed]`;
 
-exports[`Evaluator Operator options should support blocking specified operators 6`] = `"Conditional/ternary operator is not allowed"`;
+exports[`Evaluator > Operator options > should support blocking specified operators 6`] = `[Error: Conditional/ternary operator is not allowed]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 1`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 1`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 2`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 2`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 3`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 3`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 4`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 4`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 5`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 5`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing an unsupported operator 6`] = `"Operator invalid is not supported"`;
+exports[`Evaluator > Operator options > should throw if providing an unsupported operator 6`] = `[Error: Operator invalid is not supported]`;
 
-exports[`Evaluator Operator options should throw if providing both an allow and block list 1`] = `"Cannot specify both an allow list and block list of operators"`;
+exports[`Evaluator > Operator options > should throw if providing both an allow and block list 1`] = `[Error: Cannot specify both an allow list and block list of operators]`;
 
-exports[`Evaluator Operator options should throw if providing both an allow and block list 2`] = `"Cannot specify both an allow list and block list of operators"`;
+exports[`Evaluator > Operator options > should throw if providing both an allow and block list 2`] = `[Error: Cannot specify both an allow list and block list of operators]`;
 
-exports[`Evaluator Operator options should throw if providing both an allow and block list 3`] = `"Cannot specify both an allow list and block list of operators"`;
+exports[`Evaluator > Operator options > should throw if providing both an allow and block list 3`] = `[Error: Cannot specify both an allow list and block list of operators]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 1`] = `"Operator allow list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 1`] = `[Error: Operator allow list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 2`] = `"Operator block list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 2`] = `[Error: Operator block list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 3`] = `"Operator allow list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 3`] = `[Error: Operator allow list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 4`] = `"Operator block list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 4`] = `[Error: Operator block list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 5`] = `"Operator allow list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 5`] = `[Error: Operator allow list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the list is not an array 6`] = `"Operator block list must be an array"`;
+exports[`Evaluator > Operator options > should throw if the list is not an array 6`] = `[Error: Operator block list must be an array]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 1`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 1`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 2`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 2`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 3`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 3`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 4`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 4`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 5`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 5`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Operator options should throw if the options do not contain a list 6`] = `"Operator options must specify either an allow list or a block list"`;
+exports[`Evaluator > Operator options > should throw if the options do not contain a list 6`] = `[Error: Operator options must specify either an allow list or a block list]`;
 
-exports[`Evaluator Parsing should throw an error if the expression is invalid 1`] = `"Unexpected token (1:10)"`;
+exports[`Evaluator > Parsing > should throw an error if the expression is invalid 1`] = `[SyntaxError: Unexpected token (1:10)]`;
 
-exports[`Evaluator Parsing should throw an error if the expression is unsupported 1`] = `"Unsupported node type: SequenceExpression"`;
+exports[`Evaluator > Parsing > should throw an error if the expression is unsupported 1`] = `[Error: Unsupported node type: SequenceExpression]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 1`] = `"Member access is not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 1`] = `[Error: Member access is not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 2`] = `"Member access is not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 2`] = `[Error: Member access is not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 3`] = `"Member access is not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 3`] = `[Error: Member access is not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 4`] = `"Member access is not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 4`] = `[Error: Member access is not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 5`] = `"Function calls are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 5`] = `[Error: Function calls are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 6`] = `"Function calls are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 6`] = `[Error: Function calls are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 7`] = `"Tagged template literals are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 7`] = `[Error: Tagged template literals are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 8`] = `"Template literals are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 8`] = `[Error: Template literals are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 9`] = `"Object literals are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 9`] = `[Error: Object literals are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 10`] = `"Array literals are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 10`] = `[Error: Array literals are not allowed]`;
 
-exports[`Evaluator Syntax options should block syntax when corresponding option is set to false 11`] = `"Regular expressions are not allowed"`;
+exports[`Evaluator > Syntax options > should block syntax when corresponding option is set to false 11`] = `[Error: Regular expressions are not allowed]`;

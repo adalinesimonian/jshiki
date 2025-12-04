@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import Evaluator from '../../src/evaluator'
 import * as ESTree from 'estree'
 
@@ -2481,7 +2482,7 @@ describe('Evaluator', () => {
         }
         const expr = new Evaluator().createTaggedTemplateExpression(node, false)
         expect(typeof expr).toBe('function')
-        const foo = jest.fn(
+        const foo = vi.fn(
           (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         )
@@ -2537,7 +2538,7 @@ describe('Evaluator', () => {
         }
         const expr = new Evaluator().createTaggedTemplateExpression(node, true)
         expect(typeof expr).toBe('function')
-        const foo = jest.fn(
+        const foo = vi.fn(
           (strings: TemplateStringsArray, expression: number) =>
             `got ${strings.join('')} and ${expression}`,
         )

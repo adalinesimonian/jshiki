@@ -303,7 +303,7 @@ function filterOperators<
 
     return allow.reduce<Partial<R>>((filtered, operator) => {
       if (!(operator in unfiltered)) {
-        throw new Error(`Operator ${operator} is not supported`)
+        throw new Error(`Operator ${String(operator)} is not supported`)
       }
 
       filtered[operator] = unfiltered[operator]
@@ -322,7 +322,7 @@ function filterOperators<
     return block.reduce<Partial<R>>(
       (filtered, operator) => {
         if (!(operator in unfiltered)) {
-          throw new Error(`Operator ${operator} is not supported`)
+          throw new Error(`Operator ${String(operator)} is not supported`)
         }
 
         delete filtered[operator]

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync, parse, parseAsync } from '../../src'
 
 describe('Syntax options', () => {
@@ -223,39 +224,39 @@ describe('Syntax options (async)', () => {
       },
     }
 
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a.b.c', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a?.b?.c', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a["b"]["c"]', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a?.["b"]?.["c"]', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a()', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('a?.()', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       // eslint-disable-next-line no-template-curly-in-string
       parseAsync('tag`a${b}`', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       // eslint-disable-next-line no-template-curly-in-string
       parseAsync('`a ${b}`', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('{ a: 1 }', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('[1, , 3]', options),
     ).rejects.toThrowErrorMatchingSnapshot()
-    expect(async () =>
+    await expect(async () =>
       parseAsync('/x/g', options),
     ).rejects.toThrowErrorMatchingSnapshot()
   })

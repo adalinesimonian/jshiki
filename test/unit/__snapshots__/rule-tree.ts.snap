@@ -1,5 +1,5 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Rule Tree should throw when adding a rule with a path of an invalid type 1`] = `"Path must be a string or an array of strings and/or symbols, got number"`;
+exports[`Rule Tree > should throw when adding a rule with a path of an invalid type 1`] = `[Error: Path must be a string or an array of strings and/or symbols, got number]`;
 
-exports[`Rule Tree should throw when adding a rule with a path part of an invalid type 1`] = `"Path part must be a string or a symbol, got object"`;
+exports[`Rule Tree > should throw when adding a rule with a path part of an invalid type 1`] = `[Error: Path part must be a string or a symbol, got object]`;

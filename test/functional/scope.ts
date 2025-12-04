@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync } from '../../src'
 
 var globalVar = '1' // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import operators from '../../src/operators'
 
 describe('Operators', () => {
@@ -318,88 +319,88 @@ describe('Operators', () => {
       })
 
       it('should evaluate both arguments if the first is truthy', () => {
-        const right = jest.fn(() => true)
+        const right = vi.fn(() => true)
 
-        const leftBool = jest.fn(() => true)
+        const leftBool = vi.fn(() => true)
         operators.logical['&&'](leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNum = jest.fn(() => 1)
+        const leftNum = vi.fn(() => 1)
         operators.logical['&&'](leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(() => 1n)
+        const leftBigInt = vi.fn(() => 1n)
         operators.logical['&&'](leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftStr = jest.fn(() => 'x')
+        const leftStr = vi.fn(() => 'x')
         operators.logical['&&'](leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
       })
 
       it('should only evaluate the first argument if it is falsy', () => {
-        const right = jest.fn(() => false)
+        const right = vi.fn(() => false)
 
-        const leftBool = jest.fn(() => false)
+        const leftBool = vi.fn(() => false)
         operators.logical['&&'](leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(() => 0)
+        const leftNum = vi.fn(() => 0)
         operators.logical['&&'](leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(() => -0)
+        const leftNegNum = vi.fn(() => -0)
         operators.logical['&&'](leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(() => 0n)
+        const leftBigInt = vi.fn(() => 0n)
         operators.logical['&&'](leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(() => '')
+        const leftStr = vi.fn(() => '')
         operators.logical['&&'](leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(() => undefined)
+        const leftUndefined = vi.fn(() => undefined)
         operators.logical['&&'](leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNull = jest.fn(() => null)
+        const leftNull = vi.fn(() => null)
         operators.logical['&&'](leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNaN = jest.fn(() => NaN)
+        const leftNaN = vi.fn(() => NaN)
         operators.logical['&&'](leftNaN, right)
         expect(leftNaN).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
@@ -472,88 +473,88 @@ describe('Operators', () => {
       })
 
       it('should only evaluate the first argument if it is truthy', () => {
-        const right = jest.fn(() => false)
+        const right = vi.fn(() => false)
 
-        const leftBool = jest.fn(() => true)
+        const leftBool = vi.fn(() => true)
         operators.logical['||'](leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(() => 1)
+        const leftNum = vi.fn(() => 1)
         operators.logical['||'](leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(() => 1n)
+        const leftBigInt = vi.fn(() => 1n)
         operators.logical['||'](leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(() => 'x')
+        const leftStr = vi.fn(() => 'x')
         operators.logical['||'](leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
       })
 
       it('should evaluate both arguments if the first is falsy', () => {
-        const right = jest.fn(() => false)
+        const right = vi.fn(() => false)
 
-        const leftBool = jest.fn(() => false)
+        const leftBool = vi.fn(() => false)
         operators.logical['||'](leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNum = jest.fn(() => 0)
+        const leftNum = vi.fn(() => 0)
         operators.logical['||'](leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(() => -0)
+        const leftNegNum = vi.fn(() => -0)
         operators.logical['||'](leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(() => 0n)
+        const leftBigInt = vi.fn(() => 0n)
         operators.logical['||'](leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftStr = jest.fn(() => '')
+        const leftStr = vi.fn(() => '')
         operators.logical['||'](leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(() => undefined)
+        const leftUndefined = vi.fn(() => undefined)
         operators.logical['||'](leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNull = jest.fn(() => null)
+        const leftNull = vi.fn(() => null)
         operators.logical['||'](leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNaN = jest.fn(() => NaN)
+        const leftNaN = vi.fn(() => NaN)
         operators.logical['||'](leftNaN, right)
         expect(leftNaN).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
@@ -608,53 +609,53 @@ describe('Operators', () => {
       })
 
       it('should only evaluate the first argument if it is not nullish', () => {
-        const right = jest.fn(() => null)
+        const right = vi.fn(() => null)
 
-        const leftBool = jest.fn(() => false)
+        const leftBool = vi.fn(() => false)
         operators.logical['??'](leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(() => 0)
+        const leftNum = vi.fn(() => 0)
         operators.logical['??'](leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(() => -0)
+        const leftNegNum = vi.fn(() => -0)
         operators.logical['??'](leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(() => 0n)
+        const leftBigInt = vi.fn(() => 0n)
         operators.logical['??'](leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(() => '')
+        const leftStr = vi.fn(() => '')
         operators.logical['??'](leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
       })
 
       it('should evaluate both arguments if the first is nullish', () => {
-        const right = jest.fn(() => 2)
+        const right = vi.fn(() => 2)
 
-        const leftNull = jest.fn(() => null)
+        const leftNull = vi.fn(() => null)
         operators.logical['??'](leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(() => undefined)
+        const leftUndefined = vi.fn(() => undefined)
         operators.logical['??'](leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
@@ -741,88 +742,88 @@ describe('Operators', () => {
       })
 
       it('should evaluate both arguments if the first is truthy', async () => {
-        const right = jest.fn(async () => ({ value: true }))
+        const right = vi.fn(async () => ({ value: true }))
 
-        const leftBool = jest.fn(async () => ({ value: true }))
+        const leftBool = vi.fn(async () => ({ value: true }))
         await operators.logical['&&'].async(leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNum = jest.fn(async () => ({ value: 1 }))
+        const leftNum = vi.fn(async () => ({ value: 1 }))
         await operators.logical['&&'].async(leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(async () => ({ value: 1n }))
+        const leftBigInt = vi.fn(async () => ({ value: 1n }))
         await operators.logical['&&'].async(leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftStr = jest.fn(async () => ({ value: 'x' }))
+        const leftStr = vi.fn(async () => ({ value: 'x' }))
         await operators.logical['&&'].async(leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
       })
 
       it('should only evaluate the first argument if it is falsy', async () => {
-        const right = jest.fn(async () => ({ value: false }))
+        const right = vi.fn(async () => ({ value: false }))
 
-        const leftBool = jest.fn(async () => ({ value: false }))
+        const leftBool = vi.fn(async () => ({ value: false }))
         await operators.logical['&&'].async(leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(async () => ({ value: 0 }))
+        const leftNum = vi.fn(async () => ({ value: 0 }))
         await operators.logical['&&'].async(leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        const leftNegNum = vi.fn(async () => ({ value: -0 }))
         await operators.logical['&&'].async(leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        const leftBigInt = vi.fn(async () => ({ value: 0n }))
         await operators.logical['&&'].async(leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(async () => ({ value: '' }))
+        const leftStr = vi.fn(async () => ({ value: '' }))
         await operators.logical['&&'].async(leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        const leftUndefined = vi.fn(async () => ({ value: undefined }))
         await operators.logical['&&'].async(leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNull = jest.fn(async () => ({ value: null }))
+        const leftNull = vi.fn(async () => ({ value: null }))
         await operators.logical['&&'].async(leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNaN = jest.fn(async () => ({ value: NaN }))
+        const leftNaN = vi.fn(async () => ({ value: NaN }))
         await operators.logical['&&'].async(leftNaN, right)
         expect(leftNaN).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
@@ -895,88 +896,88 @@ describe('Operators', () => {
       })
 
       it('should only evaluate the first argument if it is truthy', async () => {
-        const right = jest.fn(async () => ({ value: false }))
+        const right = vi.fn(async () => ({ value: false }))
 
-        const leftBool = jest.fn(async () => ({ value: true }))
+        const leftBool = vi.fn(async () => ({ value: true }))
         await operators.logical['||'].async(leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(async () => ({ value: 1 }))
+        const leftNum = vi.fn(async () => ({ value: 1 }))
         await operators.logical['||'].async(leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(async () => ({ value: 1n }))
+        const leftBigInt = vi.fn(async () => ({ value: 1n }))
         await operators.logical['||'].async(leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(async () => ({ value: 'x' }))
+        const leftStr = vi.fn(async () => ({ value: 'x' }))
         await operators.logical['||'].async(leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
       })
 
       it('should evaluate both arguments if the first is falsy', async () => {
-        const right = jest.fn(async () => ({ value: false }))
+        const right = vi.fn(async () => ({ value: false }))
 
-        const leftBool = jest.fn(async () => ({ value: false }))
+        const leftBool = vi.fn(async () => ({ value: false }))
         await operators.logical['||'].async(leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNum = jest.fn(async () => ({ value: 0 }))
+        const leftNum = vi.fn(async () => ({ value: 0 }))
         await operators.logical['||'].async(leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        const leftNegNum = vi.fn(async () => ({ value: -0 }))
         await operators.logical['||'].async(leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        const leftBigInt = vi.fn(async () => ({ value: 0n }))
         await operators.logical['||'].async(leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftStr = jest.fn(async () => ({ value: '' }))
+        const leftStr = vi.fn(async () => ({ value: '' }))
         await operators.logical['||'].async(leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        const leftUndefined = vi.fn(async () => ({ value: undefined }))
         await operators.logical['||'].async(leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNull = jest.fn(async () => ({ value: null }))
+        const leftNull = vi.fn(async () => ({ value: null }))
         await operators.logical['||'].async(leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftNaN = jest.fn(async () => ({ value: NaN }))
+        const leftNaN = vi.fn(async () => ({ value: NaN }))
         await operators.logical['||'].async(leftNaN, right)
         expect(leftNaN).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
@@ -1031,53 +1032,53 @@ describe('Operators', () => {
       })
 
       it('should only evaluate the first argument if it is not nullish', async () => {
-        const right = jest.fn(async () => ({ value: null }))
+        const right = vi.fn(async () => ({ value: null }))
 
-        const leftBool = jest.fn(async () => ({ value: false }))
+        const leftBool = vi.fn(async () => ({ value: false }))
         await operators.logical['??'].async(leftBool, right)
         expect(leftBool).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNum = jest.fn(async () => ({ value: 0 }))
+        const leftNum = vi.fn(async () => ({ value: 0 }))
         await operators.logical['??'].async(leftNum, right)
         expect(leftNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftNegNum = jest.fn(async () => ({ value: -0 }))
+        const leftNegNum = vi.fn(async () => ({ value: -0 }))
         await operators.logical['??'].async(leftNegNum, right)
         expect(leftNegNum).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftBigInt = jest.fn(async () => ({ value: 0n }))
+        const leftBigInt = vi.fn(async () => ({ value: 0n }))
         await operators.logical['??'].async(leftBigInt, right)
         expect(leftBigInt).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
 
         right.mockClear()
 
-        const leftStr = jest.fn(async () => ({ value: '' }))
+        const leftStr = vi.fn(async () => ({ value: '' }))
         await operators.logical['??'].async(leftStr, right)
         expect(leftStr).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(0)
       })
 
       it('should evaluate both arguments if the first is nullish', async () => {
-        const right = jest.fn(async () => ({ value: 2 }))
+        const right = vi.fn(async () => ({ value: 2 }))
 
-        const leftNull = jest.fn(async () => ({ value: null }))
+        const leftNull = vi.fn(async () => ({ value: null }))
         await operators.logical['??'].async(leftNull, right)
         expect(leftNull).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)
 
         right.mockClear()
 
-        const leftUndefined = jest.fn(async () => ({ value: undefined }))
+        const leftUndefined = vi.fn(async () => ({ value: undefined }))
         await operators.logical['??'].async(leftUndefined, right)
         expect(leftUndefined).toHaveBeenCalledTimes(1)
         expect(right).toHaveBeenCalledTimes(1)

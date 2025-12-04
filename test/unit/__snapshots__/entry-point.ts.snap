@@ -1,5 +1,5 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Entry point parse() should throw an error for invalid expressions 1`] = `"Unexpected token (1:9)"`;
+exports[`Entry point > parse() > should throw an error for invalid expressions 1`] = `[SyntaxError: Unexpected token (1:9)]`;
 
-exports[`Entry point parseAsync() should throw an error for invalid expressions 1`] = `"Unexpected token (1:15)"`;
+exports[`Entry point > parseAsync() > should throw an error for invalid expressions 1`] = `[SyntaxError: Unexpected token (1:15)]`;
