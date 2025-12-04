@@ -1,5 +1,12 @@
 # Change Log
 
+## [v4.0.0](https://github.com/adalinesimonian/jshiki/tree/v4.0.0) (2025-12-04)
+
+### BREAKING CHANGES
+
+- The minimum supported Node.js version is now 24.0.0.
+- The `jshiki` package is now published as an ES module only. CommonJS usage is no longer supported.
+
 ## [v3.4.0](https://github.com/adalinesimonian/jshiki/tree/v3.4.0) (2021-09-10)
 
 ### Additions
