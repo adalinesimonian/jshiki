@@ -318,7 +318,7 @@ describe('Literals', () => {
 
     it('should parse sparse array literals', () => {
       const result = evaluate('[1,,2]')
-
+      // eslint-disable-next-line no-sparse-arrays
       expect(result).toEqual([1, , 2])
       const result2: any[] = []
       result.forEach((element: any) => {
@@ -727,7 +727,7 @@ describe('Literals (async)', () => {
 
     it('should parse sparse array literals', async () => {
       const result = await evaluateAsync('[1,,2]')
-
+      // eslint-disable-next-line no-sparse-arrays
       expect(result).toEqual([1, , 2])
       const result2: any[] = []
       result.forEach((element: any) => {

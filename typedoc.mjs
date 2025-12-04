@@ -5,4 +5,4 @@ const options = {
   readme: 'none',
 }
 
-module.exports = options
+export default options

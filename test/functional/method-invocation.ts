@@ -180,7 +180,7 @@ describe('Method invocation (async)', () => {
   })
 })
 
-describe('Optional method invocation', () => {
+describe('Optional method invocation (async)', () => {
   it('should be able to invoke methods', async () => {
     expect(
       await evaluateAsync('method?.(5)', {

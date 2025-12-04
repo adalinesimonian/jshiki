@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { evaluate, evaluateAsync } from '../../src'
 
-var globalVar = '1' // eslint-disable-line @typescript-eslint/no-unused-vars
+var globalVar = '1' // eslint-disable-line @typescript-eslint/no-unused-vars, no-var
 
 describe('Scope', () => {
   it('should be able to access scoped properties', () => {
@@ -18,7 +18,7 @@ describe('Scope', () => {
   })
 
   it('should not be able to access unscoped variables', () => {
-    var z = '1' // eslint-disable-line @typescript-eslint/no-unused-vars
+    var z = '1' // eslint-disable-line @typescript-eslint/no-unused-vars, no-var
     expect(evaluate('z')).toBeUndefined()
   })
 })
@@ -38,7 +38,7 @@ describe('Scope (async)', () => {
   })
 
   it('should not be able to access unscoped variables', async () => {
-    var z = '1' // eslint-disable-line @typescript-eslint/no-unused-vars
+    var z = '1' // eslint-disable-line @typescript-eslint/no-unused-vars, no-var
     expect(await evaluateAsync('z')).toBeUndefined()
   })
 })

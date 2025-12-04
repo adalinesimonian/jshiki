@@ -23,7 +23,7 @@ describe('Syntax options', () => {
 
     expect(evaluate('`a ${b}`', { scope: { b: 1 } })).toBe('a 1')
     expect(evaluate('{ a: 1 }')).toEqual({ a: 1 })
-
+    // eslint-disable-next-line no-sparse-arrays
     expect(evaluate('[1, , 3]')).toEqual([1, , 3])
     expect(evaluate('/x/g')).toEqual(/x/g)
   })
@@ -71,7 +71,7 @@ describe('Syntax options', () => {
 
     expect(evaluate('`a ${b}`', { ...options, scope: { b: 1 } })).toBe('a 1')
     expect(evaluate('{ a: 1 }', options)).toEqual({ a: 1 })
-
+    // eslint-disable-next-line no-sparse-arrays
     expect(evaluate('[1, , 3]', options)).toEqual([1, , 3])
     expect(evaluate('/x/g')).toEqual(/x/g)
   })
@@ -133,7 +133,7 @@ describe('Syntax options (async)', () => {
 
     expect(await evaluateAsync('`a ${b}`', { scope: { b: 1 } })).toBe('a 1')
     expect(await evaluateAsync('{ a: 1 }')).toEqual({ a: 1 })
-
+    // eslint-disable-next-line no-sparse-arrays
     expect(await evaluateAsync('[1, , 3]')).toEqual([1, , 3])
     expect(await evaluateAsync('/x/g')).toEqual(/x/g)
   })
@@ -195,7 +195,7 @@ describe('Syntax options (async)', () => {
       await evaluateAsync('`a ${b}`', { ...options, scope: { b: 1 } }),
     ).toBe('a 1')
     expect(await evaluateAsync('{ a: 1 }', options)).toEqual({ a: 1 })
-
+    // eslint-disable-next-line no-sparse-arrays
     expect(await evaluateAsync('[1, , 3]', options)).toEqual([1, , 3])
     expect(await evaluateAsync('/x/g')).toEqual(/x/g)
   })
