@@ -16,12 +16,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version-file: 'package.json'
+          node-version-file: "package.json"
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v7
@@ -53,17 +53,11 @@ jobs:
           yarn build-docs:api
           mike deploy main stage
 
-      - name: Check commit
-        run: git log -1 --show-signature gh-pages
-
       - name: Sign commit
         run: |
           git checkout gh-pages
           git commit --amend -S --no-edit
           git checkout ${{ github.ref }}
-
-      - name: Check commit
-        run: git log -1 --show-signature gh-pages
 
       - name: Deploy docs
         run: git push origin gh-pages
