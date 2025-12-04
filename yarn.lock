@@ -665,13 +665,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 16.7.13
-  resolution: "@types/node@npm:16.7.13"
-  checksum: 10/5634587d22dc6da5bd925d7128fca4b7aa273660a4e9fed36e11580a5cbf819013160ce4e1373a14e4f51c49f5bd89fd160efd3cc6ea3e86443130e0a9c1a7c9
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:24.10.1":
   version: 24.10.1
   resolution: "@types/node@npm:24.10.1"
@@ -681,12 +674,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/svgo@npm:2.6.0":
-  version: 2.6.0
-  resolution: "@types/svgo@npm:2.6.0"
+"@types/svgo@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@types/svgo@npm:3.0.0"
   dependencies:
-    "@types/node": "npm:*"
-  checksum: 10/a25fba4ea0be5de227e85f3e273270eb7f67539dfe9f97dacc4af26cd328c5faf6ba9d8075c3453269b9f467eee1dc71e20e7fe058cfc30ab611991b1f6c6947
+    svgo: "npm:*"
+  checksum: 10/057509c4def1a4e9ac5d1650961dc0ef2683ec80daf109aad910312ae9657877d07fc0c294df8d59e2746c5030d50f173049a7721972acfc1788c7dfb794927d
   languageName: node
   linkType: hard
 
@@ -2085,7 +2078,7 @@ __metadata:
     "@eslint/js": "npm:^9.39.1"
     "@types/estree": "npm:1.0.8"
     "@types/node": "npm:24.10.1"
-    "@types/svgo": "npm:2.6.0"
+    "@types/svgo": "npm:3.0.0"
     "@vitest/coverage-v8": "npm:4.0.15"
     "@vitest/eslint-plugin": "npm:1.5.1"
     acorn: "npm:^8.15.0"
@@ -3034,7 +3027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svgo@npm:4.0.0":
+"svgo@npm:*, svgo@npm:4.0.0":
   version: 4.0.0
   resolution: "svgo@npm:4.0.0"
   dependencies:
