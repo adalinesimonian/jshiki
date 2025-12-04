@@ -1,0 +1,42 @@
+name: Test build docs
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-build:
+    name: Test build docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          activate-environment: true
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install docs dependencies
+        run: yarn install-docs-deps
+
+      - name: Clean docs directories
+        run: rm -rf site docs/api
+
+      - name: Build docs
+        run: yarn build-docs
