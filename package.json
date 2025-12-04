@@ -50,7 +50,7 @@
     "watch-docs:docs": "mkdocs serve"
   },
   "engines": {
-    "node": ">=14.0"
+    "node": ">=24.0"
   },
   "homepage": "https://jshiki.io",
   "repository": {
@@ -59,12 +59,12 @@
   },
   "author": {
     "name": "Adaline Valentina Simonian",
-    "email": "adalinesimonian@gmail.com",
+    "email": "adalinesimonian@pm.me",
     "url": "https://github.com/adalinesimonian"
   },
   "funding": "https://github.com/sponsors/adalinesimonian",
   "license": "MIT",
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "yarn@4.12.0",
   "devDependencies": {
     "@types/estree": "0.0.50",
     "@types/jest": "27.0.3",
@@ -89,5 +89,9 @@
   },
   "dependencies": {
     "acorn": "^8.5.0"
+  },
+  "volta": {
+    "node": "24.11.1",
+    "yarn": "4.12.0"
   }
 }
