@@ -1184,9 +1184,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/eslint-plugin@npm:1.5.1":
-  version: 1.5.1
-  resolution: "@vitest/eslint-plugin@npm:1.5.1"
+"@vitest/eslint-plugin@npm:1.5.2":
+  version: 1.5.2
+  resolution: "@vitest/eslint-plugin@npm:1.5.2"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.46.1"
     "@typescript-eslint/utils": "npm:^8.46.1"
@@ -1199,7 +1199,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10/1d8d4d89bcbe3df870d0403d020eb9df146b87f31d5e8eb3e42db940a3e3749a5095b828e224c9148bd7452ac7ed652be1bdd956a51d7ace21932b4748def5b5
+  checksum: 10/9db9e4d3b0dee24c30e265ddd811f17d5a74d4040948016964492b1fdbca68dcaf7947d9c03246b9c200fe3ca3726e79b76123c976f3c9cb3c1621e7962de8ae
   languageName: node
   linkType: hard
 
@@ -2532,7 +2532,7 @@ __metadata:
     "@types/estree": "npm:1.0.8"
     "@types/node": "npm:24.10.1"
     "@vitest/coverage-v8": "npm:4.0.15"
-    "@vitest/eslint-plugin": "npm:1.5.1"
+    "@vitest/eslint-plugin": "npm:1.5.2"
     acorn: "npm:^8.15.0"
     codemirror: "npm:^6.0.2"
     esbuild: "npm:^0.27.1"
