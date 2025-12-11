@@ -1007,12 +1007,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.10.2":
-  version: 24.10.2
-  resolution: "@types/node@npm:24.10.2"
+"@types/node@npm:24.10.3":
+  version: 24.10.3
+  resolution: "@types/node@npm:24.10.3"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10/75b34e33087dc707aa76723f7269cd66acd2fae4272d127544ad20f295e7537dbd1e4a4405717b3093aeae2ff8ae35283fdec826a4f593273e326bb3deae588d
+  checksum: 10/b5f3f3431b333d077fe8f656edc2a352597a0c83a21157d7cbf2811d20ba31ecf31182aaf5013f83b72bf94e368ece736e76ff0e578ceee6a30b43a666b5071f
   languageName: node
   linkType: hard
 
@@ -2605,7 +2605,7 @@ __metadata:
     "@codemirror/lang-json": "npm:^6.0.2"
     "@eslint/js": "npm:^9.39.1"
     "@types/estree": "npm:1.0.8"
-    "@types/node": "npm:24.10.2"
+    "@types/node": "npm:24.10.3"
     "@vitest/coverage-v8": "npm:4.0.15"
     "@vitest/eslint-plugin": "npm:1.5.2"
     acorn: "npm:^8.15.0"
