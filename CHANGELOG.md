@@ -1,5 +1,11 @@
 # Change Log
 
+## [v4.0.1](https://github.com/adalinesimonian/jshiki/tree/v4.0.1) (2025-12-22)
+
+### Fixes
+
+- Fixed an issue where `evaluateAsync` would synchronously throw parsing errors instead of returning a rejected promise.
+
 ## [v4.0.0](https://github.com/adalinesimonian/jshiki/tree/v4.0.0) (2025-12-04)
 
 ### BREAKING CHANGES
