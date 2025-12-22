@@ -230,7 +230,11 @@ export function evaluateAsync(
   str: string,
   options?: JshikiEvaluateOptions,
 ): Promise<any> {
-  return parseAsync(str, options)(options?.scope)
+  try {
+    return parseAsync(str, options)(options?.scope)
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export default { parse, evaluate, parseAsync, evaluateAsync }

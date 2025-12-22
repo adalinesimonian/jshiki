@@ -696,7 +696,7 @@ describe('Operators (async)', () => {
     describe('Unsupported operators', () => {
       it('should throw an error', async () => {
         await expect(
-          async () => await evaluateAsync('delete x.y'),
+          evaluateAsync('delete x.y'),
         ).rejects.toThrowErrorMatchingSnapshot()
       })
     })
