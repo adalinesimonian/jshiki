@@ -26131,6 +26131,20 @@ var javascriptLanguage = /* @__PURE__ */ LRLanguage.define({
         "Block ClassBody SwitchBody EnumBody ObjectExpression ArrayExpression ObjectType": foldInside,
         BlockComment(tree) {
           return { from: tree.from + 2, to: tree.to - 2 };
+        },
+        JSXElement(tree) {
+          let open = tree.firstChild;
+          if (!open || open.name == "JSXSelfClosingTag")
+            return null;
+          let close = tree.lastChild;
+          return { from: open.to, to: close.type.isError ? tree.to : close.from };
+        },
+        "JSXSelfClosingTag JSXOpenTag"(tree) {
+          var _a2;
+          let name2 = (_a2 = tree.firstChild) === null || _a2 === void 0 ? void 0 : _a2.nextSibling, close = tree.lastChild;
+          if (!name2 || name2.type.isError)
+            return null;
+          return { from: name2.to, to: close.type.isError ? tree.to : close.from };
         }
       })
     ]
