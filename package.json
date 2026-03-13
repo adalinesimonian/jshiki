@@ -75,7 +75,7 @@
     "@types/estree": "1.0.8",
     "@types/node": "24.12.0",
     "@vitest/coverage-v8": "4.0.18",
-    "@vitest/eslint-plugin": "1.6.11",
+    "@vitest/eslint-plugin": "1.6.12",
     "codemirror": "^6.0.2",
     "esbuild": "^0.27.1",
     "eslint": "^10.0.0",
