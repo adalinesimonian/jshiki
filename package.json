@@ -81,7 +81,7 @@
     "eslint": "^10.0.0",
     "highlight.js": "^11.11.1",
     "npm-run-all2": "8.0.4",
-    "prettier": "3.8.1",
+    "prettier": "3.8.2",
     "svgo": "4.0.1",
     "typedoc": "0.28.18",
     "typescript": "^5.9.3",
