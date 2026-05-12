@@ -73,7 +73,7 @@
     "@codemirror/lang-json": "^6.0.2",
     "@eslint/js": "^10.0.0",
     "@types/estree": "1.0.9",
-    "@types/node": "24.12.3",
+    "@types/node": "24.12.4",
     "@vitest/coverage-v8": "4.1.6",
     "@vitest/eslint-plugin": "1.6.17",
     "codemirror": "^6.0.2",
