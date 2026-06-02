@@ -67,7 +67,7 @@
   },
   "funding": "https://github.com/sponsors/adalinesimonian",
   "license": "MIT",
-  "packageManager": "yarn@4.15.0",
+  "packageManager": "yarn@4.16.0",
   "devDependencies": {
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/lang-json": "^6.0.2",
@@ -93,6 +93,6 @@
   },
   "volta": {
     "node": "24.16.0",
-    "yarn": "4.15.0"
+    "yarn": "4.16.0"
   }
 }
