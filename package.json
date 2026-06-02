@@ -74,7 +74,7 @@
     "@eslint/js": "^10.0.0",
     "@types/estree": "1.0.9",
     "@types/node": "24.12.4",
-    "@vitest/coverage-v8": "4.1.7",
+    "@vitest/coverage-v8": "4.1.8",
     "@vitest/eslint-plugin": "1.6.19",
     "codemirror": "^6.0.2",
     "esbuild": "^0.28.0",
@@ -86,7 +86,7 @@
     "typedoc": "0.28.19",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.48.1",
-    "vitest": "4.1.7"
+    "vitest": "4.1.8"
   },
   "dependencies": {
     "acorn": "^8.15.0"
