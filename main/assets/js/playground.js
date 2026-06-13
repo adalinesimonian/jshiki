@@ -27311,6 +27311,9 @@ var defaultOptions = {
   // Can be either `"script"`, `"module"` or `"commonjs"`. This influences global
   // strict mode and parsing of `import` and `export` declarations.
   sourceType: "script",
+  // When set to true, enable strict parsing mode even if `sourceType`
+  // is `"script"`.
+  strict: false,
   // `onInsertedSemicolon` can be a callback that will be called when
   // a semicolon is automatically inserted. It will be passed the
   // position of the inserted semicolon as an offset, and if
@@ -27505,7 +27508,7 @@ var Parser2 = function Parser3(options, input, startPos) {
   this.context = this.initialContext();
   this.exprAllowed = true;
   this.inModule = options.sourceType === "module";
-  this.strict = this.inModule || this.strictDirective(this.pos);
+  this.strict = this.inModule || options.strict === true || this.strictDirective(this.pos);
   this.potentialArrowAt = -1;
   this.potentialArrowInForAwait = false;
   this.yieldPos = this.awaitPos = this.awaitIdentPos = 0;
@@ -27523,9 +27526,12 @@ var Parser2 = function Parser3(options, input, startPos) {
 };
 var prototypeAccessors = { inFunction: { configurable: true }, inGenerator: { configurable: true }, inAsync: { configurable: true }, canAwait: { configurable: true }, allowReturn: { configurable: true }, allowSuper: { configurable: true }, allowDirectSuper: { configurable: true }, treatFunctionsAsVar: { configurable: true }, allowNewDotTarget: { configurable: true }, allowUsing: { configurable: true }, inClassStaticBlock: { configurable: true } };
 Parser2.prototype.parse = function parse() {
+  var this$1$1 = this;
   var node = this.options.program || this.startNode();
   this.nextToken();
-  return this.parseTopLevel(node);
+  return this.catchStackOverflow(function() {
+    return this$1$1.parseTopLevel(node);
+  });
 };
 prototypeAccessors.inFunction.get = function() {
   return (this.currentVarScope().flags & SCOPE_FUNCTION) > 0;
@@ -27659,6 +27665,17 @@ pp$9.eatContextual = function(name2) {
   this.next();
   return true;
 };
+pp$9.catchStackOverflow = function(f) {
+  try {
+    return f();
+  } catch (e) {
+    if (e instanceof Error && (/\bstack\b.*\b(exceeded|overflow)\b/i.test(e.message) || /\btoo much recursion\b/i.test(e.message))) {
+      this.raise(this.start, "Not enough stack space to parse input");
+    } else {
+      throw e;
+    }
+  }
+};
 pp$9.expectContextual = function(name2) {
   if (!this.eatContextual(name2)) {
     this.unexpected();
@@ -27744,12 +27761,12 @@ pp$9.isSimpleAssignTarget = function(expr) {
 };
 var pp$8 = Parser2.prototype;
 pp$8.parseTopLevel = function(node) {
-  var exports = /* @__PURE__ */ Object.create(null);
+  var exports$1 = /* @__PURE__ */ Object.create(null);
   if (!node.body) {
     node.body = [];
   }
   while (this.type !== types$1.eof) {
-    var stmt = this.parseStatement(null, true, exports);
+    var stmt = this.parseStatement(null, true, exports$1);
     node.body.push(stmt);
   }
   if (this.inModule) {
@@ -27839,8 +27856,17 @@ pp$8.isUsingKeyword = function(isAwaitUsing, isFor) {
     return true;
   }
   var id2 = this.input.slice(idStart, next);
-  if (keywordRelationalOperator.test(id2) || isFor && id2 === "of") {
+  if (keywordRelationalOperator.test(id2)) {
     return false;
+  }
+  if (isFor && !isAwaitUsing && id2 === "of") {
+    skipWhiteSpace.lastIndex = next;
+    var skipAfterOf = skipWhiteSpace.exec(this.input);
+    next = next + skipAfterOf[0].length;
+    if (this.input.charCodeAt(next) !== 61 || // Check for ==, === and => operators
+    (ch = this.input.charCodeAt(next + 1)) === 61 || ch === 62) {
+      return false;
+    }
   }
   return true;
 };
@@ -27850,7 +27876,7 @@ pp$8.isAwaitUsing = function(isFor) {
 pp$8.isUsing = function(isFor) {
   return this.isUsingKeyword(false, isFor);
 };
-pp$8.parseStatement = function(context, topLevel, exports) {
+pp$8.parseStatement = function(context, topLevel, exports$1) {
   var starttype = this.type, node = this.startNode(), kind;
   if (this.isLet(context)) {
     starttype = types$1._var;
@@ -27919,7 +27945,7 @@ pp$8.parseStatement = function(context, topLevel, exports) {
           this.raise(this.start, "'import' and 'export' may appear only with 'sourceType: module'");
         }
       }
-      return starttype === types$1._import ? this.parseImport(node) : this.parseExport(node, exports);
+      return starttype === types$1._import ? this.parseImport(node) : this.parseExport(node, exports$1);
     // If the statement does not start with a statement keyword or a
     // brace, it's an ExpressionStatement or LabeledStatement. We
     // simply start parsing an expression, and afterwards, if the
@@ -27937,6 +27963,9 @@ pp$8.parseStatement = function(context, topLevel, exports) {
       if (usingKind) {
         if (!this.allowUsing) {
           this.raise(this.start, "Using declaration cannot appear in the top level when source type is `script` or in the bare case statement");
+        }
+        if (context) {
+          this.raise(this.start, "Using declaration is not allowed in single-statement positions");
         }
         if (usingKind === "await using") {
           if (!this.canAwait) {
@@ -28072,14 +28101,15 @@ pp$8.parseForStatement = function(node) {
 };
 pp$8.parseForAfterInit = function(node, init2, awaitAt) {
   if ((this.type === types$1._in || this.options.ecmaVersion >= 6 && this.isContextual("of")) && init2.declarations.length === 1) {
-    if (this.options.ecmaVersion >= 9) {
-      if (this.type === types$1._in) {
-        if (awaitAt > -1) {
-          this.unexpected(awaitAt);
-        }
-      } else {
-        node.await = awaitAt > -1;
+    if (this.type === types$1._in) {
+      if ((init2.kind === "using" || init2.kind === "await using") && !init2.declarations[0].init) {
+        this.raise(this.start, "Using declaration is not allowed in for-in loops");
       }
+      if (this.options.ecmaVersion >= 9 && awaitAt > -1) {
+        this.unexpected(awaitAt);
+      }
+    } else if (this.options.ecmaVersion >= 9) {
+      node.await = awaitAt > -1;
     }
     return this.parseForIn(node, init2);
   }
@@ -28597,11 +28627,11 @@ function checkKeyName(node, name2) {
   var key = node.key;
   return !computed && (key.type === "Identifier" && key.name === name2 || key.type === "Literal" && key.value === name2);
 }
-pp$8.parseExportAllDeclaration = function(node, exports) {
+pp$8.parseExportAllDeclaration = function(node, exports$1) {
   if (this.options.ecmaVersion >= 11) {
     if (this.eatContextual("as")) {
       node.exported = this.parseModuleExportName();
-      this.checkExport(exports, node.exported, this.lastTokStart);
+      this.checkExport(exports$1, node.exported, this.lastTokStart);
     } else {
       node.exported = null;
     }
@@ -28617,22 +28647,22 @@ pp$8.parseExportAllDeclaration = function(node, exports) {
   this.semicolon();
   return this.finishNode(node, "ExportAllDeclaration");
 };
-pp$8.parseExport = function(node, exports) {
+pp$8.parseExport = function(node, exports$1) {
   this.next();
   if (this.eat(types$1.star)) {
-    return this.parseExportAllDeclaration(node, exports);
+    return this.parseExportAllDeclaration(node, exports$1);
   }
   if (this.eat(types$1._default)) {
-    this.checkExport(exports, "default", this.lastTokStart);
+    this.checkExport(exports$1, "default", this.lastTokStart);
     node.declaration = this.parseExportDefaultDeclaration();
     return this.finishNode(node, "ExportDefaultDeclaration");
   }
   if (this.shouldParseExportStatement()) {
     node.declaration = this.parseExportDeclaration(node);
     if (node.declaration.type === "VariableDeclaration") {
-      this.checkVariableExport(exports, node.declaration.declarations);
+      this.checkVariableExport(exports$1, node.declaration.declarations);
     } else {
-      this.checkExport(exports, node.declaration.id, node.declaration.id.start);
+      this.checkExport(exports$1, node.declaration.id, node.declaration.id.start);
     }
     node.specifiers = [];
     node.source = null;
@@ -28641,7 +28671,7 @@ pp$8.parseExport = function(node, exports) {
     }
   } else {
     node.declaration = null;
-    node.specifiers = this.parseExportSpecifiers(exports);
+    node.specifiers = this.parseExportSpecifiers(exports$1);
     if (this.eatContextual("from")) {
       if (this.type !== types$1.string) {
         this.unexpected();
@@ -28689,66 +28719,66 @@ pp$8.parseExportDefaultDeclaration = function() {
     return declaration;
   }
 };
-pp$8.checkExport = function(exports, name2, pos) {
-  if (!exports) {
+pp$8.checkExport = function(exports$1, name2, pos) {
+  if (!exports$1) {
     return;
   }
   if (typeof name2 !== "string") {
     name2 = name2.type === "Identifier" ? name2.name : name2.value;
   }
-  if (hasOwn(exports, name2)) {
+  if (hasOwn(exports$1, name2)) {
     this.raiseRecoverable(pos, "Duplicate export '" + name2 + "'");
   }
-  exports[name2] = true;
+  exports$1[name2] = true;
 };
-pp$8.checkPatternExport = function(exports, pat) {
+pp$8.checkPatternExport = function(exports$1, pat) {
   var type = pat.type;
   if (type === "Identifier") {
-    this.checkExport(exports, pat, pat.start);
+    this.checkExport(exports$1, pat, pat.start);
   } else if (type === "ObjectPattern") {
     for (var i = 0, list = pat.properties; i < list.length; i += 1) {
       var prop = list[i];
-      this.checkPatternExport(exports, prop);
+      this.checkPatternExport(exports$1, prop);
     }
   } else if (type === "ArrayPattern") {
     for (var i$1 = 0, list$1 = pat.elements; i$1 < list$1.length; i$1 += 1) {
       var elt = list$1[i$1];
       if (elt) {
-        this.checkPatternExport(exports, elt);
+        this.checkPatternExport(exports$1, elt);
       }
     }
   } else if (type === "Property") {
-    this.checkPatternExport(exports, pat.value);
+    this.checkPatternExport(exports$1, pat.value);
   } else if (type === "AssignmentPattern") {
-    this.checkPatternExport(exports, pat.left);
+    this.checkPatternExport(exports$1, pat.left);
   } else if (type === "RestElement") {
-    this.checkPatternExport(exports, pat.argument);
+    this.checkPatternExport(exports$1, pat.argument);
   }
 };
-pp$8.checkVariableExport = function(exports, decls) {
-  if (!exports) {
+pp$8.checkVariableExport = function(exports$1, decls) {
+  if (!exports$1) {
     return;
   }
   for (var i = 0, list = decls; i < list.length; i += 1) {
     var decl = list[i];
-    this.checkPatternExport(exports, decl.id);
+    this.checkPatternExport(exports$1, decl.id);
   }
 };
 pp$8.shouldParseExportStatement = function() {
   return this.type.keyword === "var" || this.type.keyword === "const" || this.type.keyword === "class" || this.type.keyword === "function" || this.isLet() || this.isAsyncFunction();
 };
-pp$8.parseExportSpecifier = function(exports) {
+pp$8.parseExportSpecifier = function(exports$1) {
   var node = this.startNode();
   node.local = this.parseModuleExportName();
   node.exported = this.eatContextual("as") ? this.parseModuleExportName() : node.local;
   this.checkExport(
-    exports,
+    exports$1,
     node.exported,
     node.exported.start
   );
   return this.finishNode(node, "ExportSpecifier");
 };
-pp$8.parseExportSpecifiers = function(exports) {
+pp$8.parseExportSpecifiers = function(exports$1) {
   var nodes = [], first = true;
   this.expect(types$1.braceL);
   while (!this.eat(types$1.braceR)) {
@@ -28760,7 +28790,7 @@ pp$8.parseExportSpecifiers = function(exports) {
     } else {
       first = false;
     }
-    nodes.push(this.parseExportSpecifier(exports));
+    nodes.push(this.parseExportSpecifier(exports$1));
   }
   return nodes;
 };
@@ -29328,17 +29358,20 @@ pp$5.checkPropClash = function(prop, propHash, refDestructuringErrors) {
   other[kind] = true;
 };
 pp$5.parseExpression = function(forInit, refDestructuringErrors) {
-  var startPos = this.start, startLoc = this.startLoc;
-  var expr = this.parseMaybeAssign(forInit, refDestructuringErrors);
-  if (this.type === types$1.comma) {
-    var node = this.startNodeAt(startPos, startLoc);
-    node.expressions = [expr];
-    while (this.eat(types$1.comma)) {
-      node.expressions.push(this.parseMaybeAssign(forInit, refDestructuringErrors));
+  var this$1$1 = this;
+  return this.catchStackOverflow(function() {
+    var startPos = this$1$1.start, startLoc = this$1$1.startLoc;
+    var expr = this$1$1.parseMaybeAssign(forInit, refDestructuringErrors);
+    if (this$1$1.type === types$1.comma) {
+      var node = this$1$1.startNodeAt(startPos, startLoc);
+      node.expressions = [expr];
+      while (this$1$1.eat(types$1.comma)) {
+        node.expressions.push(this$1$1.parseMaybeAssign(forInit, refDestructuringErrors));
+      }
+      return this$1$1.finishNode(node, "SequenceExpression");
     }
-    return this.finishNode(node, "SequenceExpression");
-  }
-  return expr;
+    return expr;
+  });
 };
 pp$5.parseMaybeAssign = function(forInit, refDestructuringErrors, afterLeftParse) {
   if (this.isContextual("yield")) {
@@ -29410,7 +29443,7 @@ pp$5.parseMaybeConditional = function(forInit, refDestructuringErrors) {
   if (this.checkExpressionErrors(refDestructuringErrors)) {
     return expr;
   }
-  if (this.eat(types$1.question)) {
+  if (!(expr.type === "ArrowFunctionExpression" && expr.start === startPos) && this.eat(types$1.question)) {
     var node = this.startNodeAt(startPos, startLoc);
     node.test = expr;
     node.consequent = this.parseMaybeAssign();
@@ -29909,6 +29942,9 @@ pp$5.parseNew = function() {
   }
   var startPos = this.start, startLoc = this.startLoc;
   node.callee = this.parseSubscripts(this.parseExprAtom(null, false, true), startPos, startLoc, true, false);
+  if (node.callee.type === "Super") {
+    this.raiseRecoverable(startPos, "Invalid use of 'super'");
+  }
   if (this.eat(types$1.parenL)) {
     node.arguments = this.parseExprList(types$1.parenR, this.options.ecmaVersion >= 8, false);
   } else {
@@ -32661,7 +32697,7 @@ pp.readWord = function() {
   }
   return this.finishToken(type, word);
 };
-var version = "8.16.0";
+var version = "8.17.0";
 Parser2.acorn = {
   Parser: Parser2,
   version,
