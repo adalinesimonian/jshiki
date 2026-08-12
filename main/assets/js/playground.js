@@ -931,7 +931,7 @@ var require_core = __commonJS({
       }
       return mode;
     }
-    var version2 = "11.11.1";
+    var version2 = "11.11.2";
     var HTMLInjectionError = class extends Error {
       constructor(reason, html) {
         super(reason);
@@ -1245,7 +1245,10 @@ var require_core = __commonJS({
             }
           }
           if (match.type === "illegal" && lexeme === "") {
-            modeBuffer += "\n";
+            if (match.index === codeToHighlight.length) ;
+            else {
+              modeBuffer += "\n";
+            }
             return 1;
           }
           if (iterations > 1e5 && iterations > match.index * 3) {
@@ -26783,7 +26786,8 @@ function javascript2(hljs) {
       noneOf([
         ...BUILT_IN_GLOBALS,
         "super",
-        "import"
+        "import",
+        "await"
       ].map((x) => `${x}\\s*\\(`)),
       IDENT_RE$1,
       regex.lookahead(/\s*\(/)
@@ -26847,7 +26851,7 @@ function javascript2(hljs) {
     keywords: KEYWORDS$1,
     // this will be extended by TypeScript
     exports: { PARAMS_CONTAINS, CLASS_REFERENCE },
-    illegal: /#(?![$_A-z])/,
+    illegal: /#(?![$_A-Za-z])/,
     contains: [
       hljs.SHEBANG({
         label: "shebang",
@@ -26997,10 +27001,16 @@ function javascript2(hljs) {
 }
 
 // node_modules/highlight.js/es/languages/json.js
+var EXTENDED_NUMBER_RE = "([-+]?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)|NaN|[-+]?Infinity";
+var EXTENDED_NUMBER_MODE = {
+  scope: "number",
+  match: EXTENDED_NUMBER_RE,
+  relevance: 0
+};
 function json2(hljs) {
   const ATTRIBUTE = {
     className: "attr",
-    begin: /"(\\.|[^\\"\r\n])*"(?=\s*:)/,
+    begin: /(("(\\.|[^\\"\r\n])*")|('(\\.|[^\\'\r\n])*'))(?=\s*:)/,
     relevance: 1.01
   };
   const PUNCTUATION = {
@@ -27019,16 +27029,17 @@ function json2(hljs) {
   };
   return {
     name: "JSON",
-    aliases: ["jsonc"],
+    aliases: ["jsonc", "json5"],
     keywords: {
       literal: LITERALS2
     },
     contains: [
       ATTRIBUTE,
       PUNCTUATION,
+      hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
       LITERALS_MODE,
-      hljs.C_NUMBER_MODE,
+      EXTENDED_NUMBER_MODE,
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE
     ],
