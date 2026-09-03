@@ -692,31 +692,31 @@
   <h1>Accessing Data</h1>
 
 <p>You can pass expressions an object, the properties of which jshiki will treat as globals in the expression's context. In jshiki, this object is referred to as the <strong>scope</strong>.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s2">&quot;`Hello! My name&#39;s ${name.trim()}`&quot;</span><span class="p">)</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">expression</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39; Azumi &#39;</span><span class="w"> </span><span class="p">})</span>
-<span class="c1">// result =&gt; &quot;Hello! My name&#39;s Azumi&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s2">"`Hello! My name's ${name.trim()}`"</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">expression</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">' Azumi '</span><span class="w"> </span><span class="p">})</span>
+<span class="c1">// result =&gt; "Hello! My name's Azumi"</span>
 </code></pre></div>
 <p>If using <code class="highlight"><span class="nx">evaluate</span><span class="p">()</span></code>, you can pass the scope object as the value of the <code>scope</code> property on the options object:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s2">&quot;`Hello! My name&#39;s ${name.trim()}`&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39; Azumi &#39;</span><span class="w"> </span><span class="p">},</span>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s2">"`Hello! My name's ${name.trim()}`"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">' Azumi '</span><span class="w"> </span><span class="p">},</span>
 <span class="p">})</span>
-<span class="c1">// result =&gt; &quot;Hello! My name&#39;s Azumi&quot;</span>
+<span class="c1">// result =&gt; "Hello! My name's Azumi"</span>
 </code></pre></div>
 <p>Expressions cannot access any variables other than those in the scope object. They also cannot use assignment statements.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">global</span><span class="p">.</span><span class="nx">baz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;qux&#39;</span>
-<span class="kd">let</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;bar&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">global</span><span class="p">.</span><span class="nx">baz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'qux'</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'bar'</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span>
 <span class="c1">// returns undefined</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;baz = &quot;quux&quot;&#39;</span><span class="p">)</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'baz = "quux"'</span><span class="p">)</span>
 <span class="c1">// throws Error: Unsupported node type: AssignmentExpression</span>
 </code></pre></div>
 <h2 id="preventing-data-manipulation">Preventing Data Manipulation</h2>
 <p>While jshiki prevents expressions from using assignment statements, it does not prevent them from changing data using functions. For example, arrays have a <code class="highlight"><span class="nx">splice</span><span class="p">()</span></code> method that removes an element from the array. An expression could call this method and mutate the array:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'array.splice(1, 1)'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
 <span class="c1">// returns [2]</span>
 <span class="c1">// array =&gt; [1, 3]</span>
 </code></pre></div>
@@ -726,7 +726,7 @@
 <li>Block the use of function calls (the <a href="../limiting-syntax/">next section</a> will go into more detail).
     <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'array.splice(1, 1)'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">expressions</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">calls</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="p">}</span>
@@ -741,7 +741,7 @@
 <p>Make a copy of the object so that the original is unchanged if the expression calls the method in question.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'array.splice(1, 1)'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">array</span><span class="o">:</span><span class="w"> </span><span class="nx">array</span><span class="p">.</span><span class="nx">slice</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
 <span class="p">})</span>
 <span class="c1">// returns [2]</span>
@@ -752,21 +752,21 @@
 <p>Use <a href="../rules/">rules</a> to prevent expressions from accessing methods you don't want them to access.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'array.splice(1, 1)'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="c1">// requires a matching allow rule before allowing access</span>
 <span class="w">  </span><span class="nx">explicitAllow</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="c1">// allows access to `array`, but not to any properties of `array`</span>
-<span class="w">  </span><span class="nx">rules</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">allow</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;array&#39;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">  </span><span class="nx">rules</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">allow</span><span class="o">:</span><span class="w"> </span><span class="s1">'array'</span><span class="w"> </span><span class="p">}],</span>
 <span class="p">})</span>
 <span class="c1">// throws TypeError: evaluatedObject[property(...)] is not a function</span>
 
 <span class="c1">// or</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;array.splice(1, 1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'array.splice(1, 1)'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="c1">// blocks access to any property named `splice` on any object</span>
-<span class="w">  </span><span class="nx">rules</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">block</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;**.splice&#39;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">  </span><span class="nx">rules</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">block</span><span class="o">:</span><span class="w"> </span><span class="s1">'**.splice'</span><span class="w"> </span><span class="p">}],</span>
 <span class="p">})</span>
 <span class="c1">// throws TypeError: evaluatedObject[property(...)] is not a function</span>
 </code></pre></div>

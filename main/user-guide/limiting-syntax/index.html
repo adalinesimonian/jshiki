@@ -723,10 +723,10 @@
 <p>For each type of operator aside from the ternary operator, you can either use an allow list, which will only allow the operators you specify, or a block list, which will block all operators you specify.</p>
 <p>Here's an example in which we block the use of the binary <code>+</code> operator (not to be confused with the unary <code>+</code> operator, e.g. <code class="highlight"><span class="o">+</span><span class="mf">1</span></code>):</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Binary operator + is not allowed</span>
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;1 + 2&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'1 + 2'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">operators</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// blocks the binary + operator</span>
-<span class="w">    </span><span class="nx">binary</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">block</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">binary</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">block</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'+'</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">})</span>
 </code></pre></div>
@@ -734,18 +734,18 @@
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">operators</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// allows only the logical operators &amp;&amp; and ||</span>
-<span class="w">    </span><span class="nx">logical</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">allow</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;&amp;&amp;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;||&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">logical</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">allow</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'&amp;&amp;'</span><span class="p">,</span><span class="w"> </span><span class="s1">'||'</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;1 &amp;&amp; 2 || 3&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="c1">// returns 2</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'1 &amp;&amp; 2 || 3'</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="c1">// returns 2</span>
 
 <span class="c1">// throws Error: Logical operator ?? is not allowed</span>
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;null ?? 1&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">)</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'null ?? 1'</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">)</span>
 </code></pre></div>
 <p>The conditional operator takes a boolean instead since it is the only ternary operator in Javascript — <code>true</code> allows it, <code>false</code> blocks it.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Conditional/ternary operator is not allowed</span>
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;1 ? 2 : 3&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'1 ? 2 : 3'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">operators</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// blocks the ternary/conditional operator</span>
 <span class="w">    </span><span class="nx">ternary</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
@@ -763,7 +763,7 @@
 <h2 id="disallowing-syntax">Disallowing syntax</h2>
 <p>You can also block specific syntax by setting the corresponding <code>syntax</code> option to <code>false</code>. For example, you might want to disallow the use of function calls:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// throws Error: Function calls are not allowed</span>
-<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;foo()&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'foo()'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">syntax</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// blocks the use of function calls</span>
 <span class="w">    </span><span class="nx">calls</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
@@ -772,7 +772,7 @@
 </code></pre></div>
 <p>In full, the syntax options object is as follows:</p>
 <ul>
-<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">memberAccess</span></code> — Member access (e.g. <code class="highlight"><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span></code>, <code class="highlight"><span class="nx">foo</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span></code>)</li>
+<li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">memberAccess</span></code> — Member access (e.g. <code class="highlight"><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span></code>, <code class="highlight"><span class="nx">foo</span><span class="p">[</span><span class="s1">'bar'</span><span class="p">]</span></code>)</li>
 <li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">calls</span></code> — Function calls (e.g. <code class="highlight"><span class="nx">foo</span><span class="p">()</span></code>)</li>
 <li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">taggedTemplates</span></code> — Tagged template literals (e.g. <code class="highlight"><span class="nx">tag</span><span class="sb">`foo </span><span class="si">${</span><span class="nx">bar</span><span class="si">}</span><span class="sb">`</span></code>)</li>
 <li><code class="highlight"><span class="nx">syntax</span><span class="p">.</span><span class="nx">templates</span></code> — Template literals (e.g. <code class="highlight"><span class="sb">`foo </span><span class="si">${</span><span class="nx">bar</span><span class="si">}</span><span class="sb">`</span></code>)</li>

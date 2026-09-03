@@ -640,18 +640,18 @@
 <ul>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">parse</span><span class="p">()</span></code></strong> function takes an expression and returns a function that evaluates that expression.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'jshiki'</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;(5 + 7) / 3&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'(5 + 7) / 3'</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">expression</span><span class="p">()</span>
 <span class="c1">// result =&gt; 4</span>
 </code></pre></div>
 </li>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">evaluate</span><span class="p">()</span></code></strong> function takes an expression and returns the result of evaluating that expression.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'jshiki'</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">&#39;(5 + 7) / 3&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="s1">'(5 + 7) / 3'</span><span class="p">)</span>
 <span class="c1">// result =&gt; 4</span>
 </code></pre></div>
 </li>
@@ -660,18 +660,18 @@
 <ul>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">parseAsync</span><span class="p">()</span></code></strong> function creates an asynchronous expression.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'jshiki'</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parseAsync</span><span class="p">(</span><span class="s1">&#39;(await b() + 7) / 3&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">parseAsync</span><span class="p">(</span><span class="s1">'(await b() + 7) / 3'</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">expression</span><span class="p">({</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="p">})</span>
 <span class="c1">// result =&gt; 4</span>
 </code></pre></div>
 </li>
 <li>
 <p>The <strong><code class="highlight"><span class="nx">evaluateAsync</span><span class="p">()</span></code></strong> function evaluates an asynchronous expression.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;jshiki&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">jshiki</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'jshiki'</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluateAsync</span><span class="p">(</span><span class="s1">&#39;(await b() + 7) / 3&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">jshiki</span><span class="p">.</span><span class="nx">evaluateAsync</span><span class="p">(</span><span class="s1">'(await b() + 7) / 3'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="p">}</span>
 <span class="p">})</span>
 <span class="c1">// result =&gt; 4</span>
@@ -689,11 +689,11 @@
 <li>String literals (including template strings)</li>
 <li>Regex literals (<code class="highlight"><span class="sr">/foo/g</span></code>)</li>
 <li>Array literals (including sparse arrays)</li>
-<li>Object literals (<code class="highlight"><span class="p">{</span><span class="w"> </span><span class="nx">prop</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="w"> </span><span class="p">}</span></code>)</li>
+<li>Object literals (<code class="highlight"><span class="p">{</span><span class="w"> </span><span class="nx">prop</span><span class="o">:</span><span class="w"> </span><span class="s1">'value'</span><span class="w"> </span><span class="p">}</span></code>)</li>
 <li>Function calls (<code class="highlight"><span class="nx">func</span><span class="p">()</span></code>)</li>
 <li>Member access (<code class="highlight"><span class="nx">obj</span><span class="p">.</span><span class="nx">prop</span></code>)</li>
 <li>Optional chaining (<code class="highlight"><span class="nx">obj</span><span class="o">?</span><span class="p">.</span><span class="nx">prop</span><span class="o">?</span><span class="p">.()</span></code>)</li>
-<li>Nullish coalescing (<code class="highlight"><span class="nx">obj</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">&#39;default&#39;</span></code>)</li>
+<li>Nullish coalescing (<code class="highlight"><span class="nx">obj</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">'default'</span></code>)</li>
 </ul>
 <hr />
 <p>Next, we'll look at how to let expressions access data not contained in the expression itself.</p>
