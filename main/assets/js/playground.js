@@ -327,7 +327,20 @@ var require_core = __commonJS({
       const match = re && re.exec(lexeme);
       return match && match.index === 0;
     }
-    var BACKREF_RE = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
+    var BACKREF_RE = new RegExp(either(
+      /\[(?:[^\\\]]|\\.)*\]/,
+      // a character class, inside which ( and \ lose their meaning
+      /\(\?<(?![=!])[^>]+>/,
+      // a named capture group `(?<name>` (not a lookbehind `(?<=` / `(?<!`)
+      /\(\?'[^']+'/,
+      // a named capture group `(?'name'`
+      /\(\??/,
+      // an opening parenthesis, capturing or non-capturing / lookahead
+      /\\([1-9][0-9]*)/,
+      // a backreference like `\1`
+      /\\./
+      // any other escape sequence
+    ));
     function _rewriteBackreferences(regexps, { joinWith }) {
       let numCaptures = 0;
       return regexps.map((regex) => {
@@ -347,7 +360,7 @@ var require_core = __commonJS({
             out += "\\" + String(Number(match[1]) + offset2);
           } else {
             out += match[0];
-            if (match[0] === "(") {
+            if (match[0] === "(" || /^\(\?[<']/.test(match[0])) {
               numCaptures++;
             }
           }
@@ -935,7 +948,7 @@ var require_core = __commonJS({
       }
       return mode;
     }
-    var version2 = "11.11.2";
+    var version2 = "11.12.0";
     var HTMLInjectionError = class extends Error {
       constructor(reason, html) {
         super(reason);
@@ -26448,6 +26461,7 @@ var BUILT_IN_VARIABLES = [
   "localStorage",
   "sessionStorage",
   "module",
+  "self",
   "global"
   // Node.js
 ];
