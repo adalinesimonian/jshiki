@@ -22,6 +22,9 @@ jobs:
         with:
           node-version-file: 'package.json'
 
+      - name: Setup Yarn
+        uses: yarnpkg/setup-action@c9778d0717d1b46cf29f06ae5ae5ad41c1bb1c1a
+
       - name: Set release version env variables
         run: |
           export RELEASE_TAG_VERSION="$(echo "${{ github.ref }}" | grep -oP '(?<=refs/tags/v)\d+\.\d+\.\d+.*')"

@@ -18,6 +18,9 @@ jobs:
         with:
           node-version-file: 'package.json'
 
+      - name: Setup Yarn
+        uses: yarnpkg/setup-action@c9778d0717d1b46cf29f06ae5ae5ad41c1bb1c1a
+
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
